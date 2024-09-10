@@ -1,13 +1,13 @@
-/* NAME:
-   NSID:
-   Student Number:
+/* NAME: Javier Andres Tarazona Jimenez
+   NSID: elr490
+   Student Number: 11411898
 
    CMPT 332 Term 1 2018
 
    Lab 1
 
    September 10, 2018
-   Modified September 9, 2020
+   Modified September 12, 2020
 */
 
 #ifndef CMPT332_LAB1_H_

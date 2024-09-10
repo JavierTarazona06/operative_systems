@@ -1,0 +1,5 @@
+CC = gcc
+CFLAGS = -g
+CPPFLAGS = -std=gnu90 -Wall -pedantic
+OS = Linux
+MACHINE = x86_64

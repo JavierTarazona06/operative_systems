@@ -1,6 +1,6 @@
-/* NAME:
-   NSID:
-   Student Number:
+/* NAME: Javier Andres Tarazona Jimenez, Nahian Sajid
+   NSID: elr490, Zas742
+   Student Number: 11411898, 11309563
 
    CMPT 332 Term 1 2020
 

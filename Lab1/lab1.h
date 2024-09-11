@@ -1,6 +1,6 @@
-/* NAME: Javier Andres Tarazona Jimenez
-   NSID: elr490
-   Student Number: 11411898
+/* NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
+   NSID: elr490, Zas742
+   Student Number: 11411898, 11309563
 
    CMPT 332 Term 1 2018
 

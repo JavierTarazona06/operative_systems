@@ -1,12 +1,12 @@
-/* NAME:
-   NSID:
-   Student Number:
+/* NAME: Javier Andres Tarazona Jimenez
+   NSID: elr490
+   Student Number: 11411898
 
-   CMPT 332 Term 1 2020
+   CMPT 332 Term 1 2024
 
    Lab 1
 
-   September 10, 2020
+   September 12, 2024
 */
 
 #include <stdio.h>

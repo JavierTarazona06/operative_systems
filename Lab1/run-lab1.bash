@@ -1,3 +1,17 @@
+/* NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
+   NSID: elr490, Zas742
+   Student Number: 11411898, 11309563
+
+   CMPT 332 Term 1 2018
+
+   Lab 1
+
+   September 10, 2018
+   Modified September 12, 2020
+*/
+
+
+
 #!/bin/bash
 
 # Make sure at least one argument (architecture) is provided

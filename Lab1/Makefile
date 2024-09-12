@@ -49,6 +49,9 @@ LIBDR_PPC = ${LIBDR}/${ARCHIC_PPC}
 
 # Cross Compiling
 
+# Execute all
+every: sample-linux sample-linux-arm sample-linux-pcc
+
 ## x86_64
 ${OBJDR_X}/sample-linux.o: sample-linux.c lab1.h
 	mkdir -p ${OBJDR_X}
@@ -93,7 +96,6 @@ ${LIBDR_PCC}/libpcc-lib.a: ${OBJDR_PCC}/pcc-lib.o
 	
 sample-linux-pcc: ${OBJDR_PCC}/sample-pcc.o ${LIBDR_PCC}/libpcc-lib.a
 	${CC} ${CFLAGS} -o sample-linux-pcc ${OBJDR_PCC}/sample-pcc.o -L${PTHREADLB_PCC} -lpthreads -L${LIBDR_PCC} -lpcc-lib
-
 
 
 clean:

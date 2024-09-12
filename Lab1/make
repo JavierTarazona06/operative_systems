@@ -29,13 +29,9 @@ ${OBJDR}/sample-linux.o: sample-linux.c lab1.h
 ${OBJDR}/linux-lib.o: linux-lib.c lab1.h
 	${CC} ${CFLAGS} ${CPPFLAGS} -c linux-lib.c -I. -o ${OBJDR}/linux-lib.o
 
-${LIBDR}/linux-lib.a: ${OBJDR}/linux-lib.o
-	ar rc ${LIBDR}/linux-lib.a ${OBJDR}/linux-lib.o
+${LIBDR}/liblinux-lib.a: ${OBJDR}/linux-lib.o
+	ar rc ${LIBDR}/liblinux-lib.a ${OBJDR}/linux-lib.o
 	
-${BINDR}/sample-linux: ${OBJDR}/sample-linux.o ${LIBDR}/linux-lib.a
-	${CC} ${CFLAGS} -o ${BINDR}/sample-linux ${OBJDR}/sample-linux.o -L. -llinux-lib -lpthread
-	
-
 ifeq (${ARCHIC}, x86_64)
 	PTHREAD_LB := /student/cmpt332/pthreads/lib/Linuxx86_64
 endif
@@ -45,6 +41,12 @@ endif
 ifeq (${ARCHIC}, ppc)
 	PTHREAD_LB := /student/cmpt332/pthreads/lib/Linuxppc
 endif
+	
+${BINDR}/sample-linux: ${OBJDR}/sample-linux.o ${LIBDR}/liblinux-lib.a
+	${CC} ${CFLAGS} -o ${BINDR}/sample-linux ${OBJDR}/sample-linux.o -L${PTHREAD_LB} -llinux-lib -lpthread
+	
+
+
 
 clean:
 	rm -rf build/

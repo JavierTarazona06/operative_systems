@@ -1,3 +1,5 @@
+ARCHIC := ${shell uname -m}
+
 CC = gcc
 ifeq (${ARCHIC}, arm)
 	CC := arm-linux-gnueabi-gcc
@@ -5,9 +7,10 @@ endif
 ifeq (${ARCHIC}, ppc)
 	CC := powerpc-linux-gnu-gcc
 endif
+
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic
-ARCHIC := ${shell uname -m}
+
 OBJDR = build/obj/${ARCHIC}
 BINDR = build/bin/${ARCHIC}
 LIBDR = build/lib/${ARCHIC}
@@ -21,18 +24,17 @@ ${BINDR}:
 
 
 ${OBJDR}/sample-linux.o: sample-linux.c lab1.h
-	${CC} ${CFLAGS} ${CPPFLAGS} -c sample-linux.c -I. -o $@
+	${CC} ${CFLAGS} ${CPPFLAGS} -c sample-linux.c -I. -o ${OBJDR}/sample-linux.o
 
 ${OBJDR}/linux-lib.o: linux-lib.c lab1.h
-	${CC} ${CFLAGS} ${CPPFLAGS} -c linux-lib.c -I. -o $@
+	${CC} ${CFLAGS} ${CPPFLAGS} -c linux-lib.c -I. -o ${OBJDR}/linux-lib.o
 
 ${LIBDR}/linux-lib.a: ${OBJDR}/linux-lib.o
-	ar rc $@ ${OBJDR}/linux-lib.o
+	ar rc ${LIBDR}/linux-lib.a ${OBJDR}/linux-lib.o
 	
 ${BINDR}/sample-linux: ${OBJDR}/sample-linux.o ${LIBDR}/linux-lib.a
-	${CC} ${CFLAGS} -o $@ ${OBJDR}/sample-linux.o -L. -llinux-lib -lpthread
+	${CC} ${CFLAGS} -o ${BINDR}/sample-linux ${OBJDR}/sample-linux.o -L. -llinux-lib -lpthread
 	
-
 
 ifeq (${ARCHIC}, x86_64)
 	PTHREAD_LB := /student/cmpt332/pthreads/lib/Linuxx86_64

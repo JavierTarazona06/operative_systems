@@ -43,10 +43,7 @@ ifeq (${ARCHIC}, ppc)
 endif
 	
 ${BINDR}/sample-linux: ${OBJDR}/sample-linux.o ${LIBDR}/liblinux-lib.a
-	${CC} ${CFLAGS} -o ${BINDR}/sample-linux ${OBJDR}/sample-linux.o -L${PTHREAD_LB} -llinux-lib -lpthread
-	
-
-
+	${CC} ${CFLAGS} -o ${BINDR}/sample-linux ${OBJDR}/sample-linux.o -L${PTHREAD_LB} -lpthreads -L${LIBDR} -llinux-lib
 
 clean:
 	rm -rf build/

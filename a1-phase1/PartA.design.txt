@@ -1,0 +1,45 @@
+# Namme: Javier Andres Tarazona Jimenez
+# NSID: elr490
+# Student Number: 11411898
+
+Part A Design
+
+Design will be explained for each section.
+
+# Part A.1
+
+In essence the idea is to write a Windows program that creates 
+multiple threads to compute squares of positive integers in 
+parallel until a deadline without synchronization between threads.
+
+So we have:
+- Parent Thread:
+	- Created child threads
+	- Off until deadline
+	- If deadline before threads getting completed, 
+	global variable to exit.
+- Child threads:
+	- Compute square of positive integers
+	- Remains checking global variable of parent 
+	to know when to stop.
+	
+- Parameters:
+	- threads: which are child threads
+	- deadline: time in milliseconds to run threads
+	- size: Max numerical limit that squares will reach
+	
+Landing the idea, we have:
+
+1. Global variable:
+	- Must be volatile as it will be changing all the time 
+	and different parts of the code will be using it.
+	volatile bool keepRunning = true;
+	
+2. Thread Functions:
+	- Square of integers
+	- Check keepRunning. If false -> stop
+	
+3. Parent Thread:
+	- Created child threads
+	- Id deadline is reached -> set keepRunning false
+	

@@ -1,0 +1,42 @@
+# Namme: Javier Andres Tarazona Jimenez
+# NSID: elr490
+# Student Number: 11411898
+
+332-style-guidelines-team63
+
+New guidelines grouped by section will be provided.
+
+- Comments
+	- If a function is complex, it will be commented under the
+	method statement.
+	- Common words will be shortened using dot at the end.
+	- Inline documentation when required
+	
+- Errors
+	- Prevent common errors with pre-verifications
+	- Try-except to handle errors
+	
+- GIT
+	- Commits will refer the section of the assignment 
+	that is related
+	
+- Names
+	- Using snake_case for variable names
+	- Using CamelCase for classes names
+	- Use suffix _ for private variables
+	- Names will describe the purpose or functionality
+	
+- Format
+	- Indentation will be 1 tab
+	- General guidelines of each language will be respected
+	- Imports will be at the beginning. And first 
+	environment imports, then third-party and finally local.
+	
+- Coding
+	- Functions will be kept precise. If one is too large, 
+	making it difficult to read or debug it will be separated.
+	- Methods will have a single purpose: Specialization.
+	- We will try to avoid a function to modify a global feature.
+	- Catch specific exceptions
+	- We will try to minimize external dependencies. 
+	Just using what is required.

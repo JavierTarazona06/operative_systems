@@ -7,7 +7,7 @@
 New guidelines grouped by section will be provided.
 
 - Comments
-	- If a function is complex, it will be commented under the
+	- If a function is complex, it will be commented above the
 	method statement.
 	- Common words will be shortened using dot at the end.
 	- Inline documentation when required
@@ -40,3 +40,9 @@ New guidelines grouped by section will be provided.
 	- Catch specific exceptions
 	- We will try to minimize external dependencies. 
 	Just using what is required.
+	
+- Working
+	- Geany will be used in order to edit files
+	- Always perform git status before git add .
+	Then git commit with message and push origin 
+	- Always use git fetch origin before coding

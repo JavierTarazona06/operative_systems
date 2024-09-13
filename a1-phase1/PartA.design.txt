@@ -22,6 +22,9 @@ So we have:
 	- Compute square of positive integers
 	- Remains checking global variable of parent 
 	to know when to stop.
+	- Call Square function. Performs operations without
+	multiplying for filling the stack.
+	- Each call to square must be counted (the invocation).
 	
 - Parameters:
 	- threads: which are child threads
@@ -30,16 +33,77 @@ So we have:
 	
 Landing the idea, we have:
 
-1. Global variable:
+- Global variables:
 	- Must be volatile as it will be changing all the time 
 	and different parts of the code will be using it.
 	volatile bool keepRunning = true;
+	- Invocation Count of Square function
+	- threads array where thread handles will be stored
+	- threads_id array where thread id handles will be stored
+	- time_start array that stores beginning time for each thread
 	
-2. Thread Functions:
+- Thread Functions (Child):
 	- Square of integers
 	- Check keepRunning. If false -> stop
+	- Calls computeSquare function
 	
-3. Parent Thread:
-	- Created child threads
-	- Id deadline is reached -> set keepRunning false
+- Compute square function:
+	- Calls square operation and GetTickCount()
+	- Prints elapsed time and invocation count towards being completed
 	
+- Square Function:
+	- Performs algorithm:
+		if (N==0) return 0;
+		return Square(N-1) + N + N -1;
+	- Calls GetCurrentThreadId() for the invocation_count sum
+	- Counts +1 in invocation_count
+	
+- Parent Thread (Main Function):
+	- Creates child threads (CreateThread())
+	- If deadline is reached -> set keepRunning false
+	- (Not Sure Yet) Initializes critical section for invocation_count 		
+	thread-safe_access
+	- Created thread, pass complete_squares()
+	- Waits for the deadline using Sleep()
+	- Terminates threads and waits for its completion using 
+	TerminateThread() and WaitForSingleObject()
+	- (Not sure yet) Cleans up resources with 
+	DeleteCriticalSection()
+	
+- Libraries:
+	- <windows.h> for windows functions
+	- <atomic> a thread global safe state
+	- <stdio.h> input and output operations
+	- <stdlib.h> for memory, process and conversions control
+	
+	
+# Part A.2
+
+In this section, Pthreads of POSIX Threads will be used. Actually, the key differences between Win32 and Linux versions is the syntax for thread creation and the communication processes. Here we can also print the statistics for threads that have not finished when deadline is reached.
+
+Example of differences between windows and linux:
+- Creation: pthread_create()
+- Termination: pthrread_cancel()
+- Measure time: gettimeofday()
+- Here we are not creating a shared flag for the whole program. The parent will terminate thread that didn't do so by deadline.
+
+Landing:
+
+- Libraries:
+	- <unistd.h> Access to various system calls and POSIX 	
+	(Portable Operating System Interface)
+	- <sys/time.h> Provides structures and functions for 
+	manipulating time and timers.
+	- <signal.h> Provides functions for handling signals in UNIX-
+	based systems.
+	
+Main changes compared to the Windows version:
+- Threads will be terminated using pthread_cancel(). The time 
+management will be with the parent process setting an alarm with 
+alarm() at the time of the deadline. 
+
+- Signal handler (killThreads()) is invoked, cancelling all threads that over-passed deadline.
+
+- Now each thread has an invocation counter, earliest invocation_count.
+
+- Mutexes will be used

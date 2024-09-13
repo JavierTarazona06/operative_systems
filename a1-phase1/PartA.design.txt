@@ -79,13 +79,17 @@ Landing the idea, we have:
 	
 # Part A.2
 
-In this section, Pthreads of POSIX Threads will be used. Actually, the key differences between Win32 and Linux versions is the syntax for thread creation and the communication processes. Here we can also print the statistics for threads that have not finished when deadline is reached.
+In this section, Pthreads of POSIX Threads will be used. Actually, the 
+key differences between Win32 and Linux versions is the syntax for thread 
+creation and the communication processes. Here we can also print the 
+statistics for threads that have not finished when deadline is reached.
 
 Example of differences between windows and linux:
 - Creation: pthread_create()
 - Termination: pthrread_cancel()
 - Measure time: gettimeofday()
-- Here we are not creating a shared flag for the whole program. The parent will terminate thread that didn't do so by deadline.
+- Here we are not creating a shared flag for the whole program. The parent 
+will terminate thread that didn't do so by deadline.
 
 Landing:
 
@@ -102,20 +106,45 @@ Main changes compared to the Windows version:
 management will be with the parent process setting an alarm with 
 alarm() at the time of the deadline. 
 
-- Signal handler (killThreads()) is invoked, cancelling all threads that over-passed deadline.
+- Signal handler (killThreads()) is invoked, cancelling all threads 
+that over-passed deadline.
 
 - Now each thread has an invocation counter, earliest invocation_count.
 
 - Mutexes will be used as synchronization mechanisms for this 
-multi-thread program. This is for preventing the famous race conditions where a lot of threads are competing the access of shared resources (like the counter) at the same time.
+multi-thread program. This is for preventing the famous race conditions 
+where a lot of threads are competing the access of shared resources 
+(like the counter) at the same time.
 	- pthread_mutex_lock() will be used for locking the mutex. Is 
 	is already blocked, a queue will be created.
 	- pthread_mutex_unlock() will unlocking. This allow other 	
 	threads to use the resource.
 	
-- Finally, SIGALRM will be used to activate the deadline.  When the signal occurs, the function killthreads() will cancel all the threads. It prints those who were terminated.
+- Finally, SIGALRM will be used to activate the deadline.  When the 
+signal occurs, the function killthreads() will cancel all the threads. 
+It prints those who were terminated.
 
 
 # Part A.3
 
-The last section asks to implement the program with POSIX (stands for Portable Operating System Interface) Thread, that means that I could exit the threads in any way. So, as I am not expected to use 
+The last section asks to implement the program with POSIX (stands for 
+Portable Operating System Interface) Thread, that means that I could 
+exit the threads in any way. So, as I am not expected to use 
+pthread_join() for waiting threads termination, then I would exit 
+the threads during the running, when required.
+
+In other words, instead of joining them, there would 2 options. 
+1. Threads terminate by themselves
+2. Responsibility of the parent thread
+
+Function killThreads(int) would be used to terminate threads by 
+the signal handler.
+
+At the end, new changes are going to be the followinf:
+- Thread Exit: Now will be used with pthread_exit() when work is 
+completed. Thus, it won't be needed to join threads in the 
+parent thread.
+-Like the previous part, the parent thread set an alarm() on 
+deadline. Then SIGALRM invokes killThreads(). This methods would 
+terminate active threads using pthread_cancel(). Note that we will 
+use this function when deadline is exceeded too.

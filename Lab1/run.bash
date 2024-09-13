@@ -18,7 +18,7 @@ case "$SYSARCH" in
 		ARCHIC="x86_64"
 		BINA="./sample-linux"
 		;;
-	aarch64 | arm64 | arm)
+	aarch64 | arm64 | arm | armv7l | armv6l)
 		ARCHIC="arm"
 		BINA="./sample-linux-arm"
 		;;

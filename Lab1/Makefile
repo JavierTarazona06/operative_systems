@@ -102,9 +102,6 @@ sample-linux-ppc: ${OBJDR_PPC}/sample-ppc.o ${LIBDR_PPC}/libppc-lib.a
 clean:
 	rm -rf build/ sample-linux sample-linux-arm sample-linux-ppc
 	
-	
-	
-	
 #ARCHIC := ${shell uname -m}
 #CC = gcc
 #ifeq (${ARCHIC}, arm)

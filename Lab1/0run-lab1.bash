@@ -10,8 +10,6 @@
    Modified September 12, 2020
 */
 
-
-
 #!/bin/bash
 
 # Make sure at least one argument (architecture) is provided

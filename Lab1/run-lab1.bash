@@ -1,34 +1,33 @@
-/* NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
-   NSID: elr490, Zas742
-   Student Number: 11411898, 11309563
+#NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
+#NSID: elr490, Zas742
+#Student Number: 11411898, 11309563
 
-   CMPT 332 Term 1 2024
+#CMPT 332 Term 1 2024
 
-   Lab 1
+#Lab 1
 
-   September 12, 2024
-   Modified September 12, 2024
-*/
+#September 12, 2024
+#Modified September 12, 2024
 
 #!/bin/bash
 
-SYSARCH = ${uname -m}
+SYSARCH=$(uname -m)
 
-case $SYSARCH in
+case "$SYSARCH" in
 	x86_64)
-		ARCHIC = "x86_64"
-		BINA = "sample_linux"
+		ARCHIC="x86_64"
+		BINA="./sample-linux"
 		;;
 	aarch64 | arm64 | arm)
-		ARCHIC = "arm"
-		BINA = "sample_linux-arm"
+		ARCHIC="arm"
+		BINA="./sample-linux-arm"
 		;;
 	ppc64 | ppc)
-		ARCHIC = "ppc"
-		BINA = "sample_linux-ppc"
+		ARCHIC="ppc"
+		BINA="./sample-linux-ppc"
 		;;
 	*)
-		eco "Unsupported achitecture: $SYSARCH"
+		echo "Unsupported achitecture: $SYSARCH"
 		exit 1
 		;;
 esac
@@ -43,7 +42,7 @@ if [ ! -f "$BINA" ]; then
 	exit 1
 fi
 
-MYARGS = "$@"
+MYARGS="$@"
 
 $BINA $MYARGS
 

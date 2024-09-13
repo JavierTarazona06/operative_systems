@@ -106,4 +106,16 @@ alarm() at the time of the deadline.
 
 - Now each thread has an invocation counter, earliest invocation_count.
 
-- Mutexes will be used
+- Mutexes will be used as synchronization mechanisms for this 
+multi-thread program. This is for preventing the famous race conditions where a lot of threads are competing the access of shared resources (like the counter) at the same time.
+	- pthread_mutex_lock() will be used for locking the mutex. Is 
+	is already blocked, a queue will be created.
+	- pthread_mutex_unlock() will unlocking. This allow other 	
+	threads to use the resource.
+	
+- Finally, SIGALRM will be used to activate the deadline.  When the signal occurs, the function killthreads() will cancel all the threads. It prints those who were terminated.
+
+
+# Part A.3
+
+The last section asks to implement the program with POSIX (stands for Portable Operating System Interface) Thread, that means that I could exit the threads in any way. So, as I am not expected to use 

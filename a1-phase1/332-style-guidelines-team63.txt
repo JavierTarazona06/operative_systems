@@ -34,7 +34,7 @@ New guidelines grouped by section will be provided.
 	environment imports, then third-party and finally local.
 	- The order of files will be: Personal info, imports, 
 	global variables declarations, functions declarations, 
-	functions bodies, main function and generalcomments
+	functions bodies, main function and general comments
 	
 - Coding
 	- Functions will be kept precise. If one is too large, 
@@ -44,6 +44,10 @@ New guidelines grouped by section will be provided.
 	- Catch specific exceptions
 	- We will try to minimize external dependencies. 
 	Just using what is required.
+	- Code will be made from general to specifics. For example,
+	if having a function to calculate square and its handler, then
+	square functions will appear first and then its handler.
+	- Between equals there must be one space.
 	
 - Working
 	- Geany will be used in order to edit files

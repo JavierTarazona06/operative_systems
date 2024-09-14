@@ -6,17 +6,17 @@
 #include <stdlib.h>
 #include <windows.h>
 
+void check_parameters(int n_threads, double deadline, int size);
+/* Deadline is in seconds*/
+int square(int n);
 DWORD WINAPI compute_squares(LPVOID arg); 
-/*DWORD is an unsigned 32-bit integer
+/* Thread procedure method
+ * DWORD is an unsigned 32-bit integer
  * WINAPI is __stdcall, a Windows API MACRO
  * for call convention.
  * LPVOID is a void long pointer for Windows API
  * and arg is the pointer data used for complex
  * and multiple parameters to the thread.*/
-
-int square(int n);
-void check_parameters(int n_threads, double deadline, int size);
-/* Deadline is in seconds*/
 
 
 void check_parameters(int n_threads, double deadline, int size){
@@ -39,10 +39,6 @@ void check_parameters(int n_threads, double deadline, int size){
 	return 0;
 };
 
-DWORD WINAPI compute_squares(LPVOID arg){
-	
-};
-
 int square(int n){
 	if (n < 0){
 		printf("Error in procedure square: invalid parameter n.\n" );
@@ -53,6 +49,15 @@ int square(int n){
 	}	
 }
 
+DWORD WINAPI compute_squares(LPVOID arg){
+	/*Thread number and square call simulation*/
+	printf("Got to procedure compute_squares\n");
+	int thread_number = *(int *)arg;
+	for (int i = 1; i <= 200; i++){
+		square(i);
+	}
+	return  0;	
+}
 
 
 int main (int argc, char *argv[]){

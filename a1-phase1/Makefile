@@ -1,6 +1,6 @@
 #NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
 #NSID: elr490, Zas742
-#Student Number: 11411898, 11309563*/
+#Student Number: 11411898, 11309563
 
 # Base
 CC = gcc

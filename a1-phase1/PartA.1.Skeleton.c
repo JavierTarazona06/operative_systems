@@ -125,9 +125,20 @@ int main (int argc, char *argv[]){
 	
 	Sleep(deadline * 1000); /*Function time is in miliseconds*/
 	
+	keep_running = FALSE;
 	
-	return 0
+	/*Threads to finish, begor cleaning up*/
+	for (int i = 0; i < n_threads, i++){
+			WaitForSingleObject(threads[i], INFINITE);
+			CloseHandle(threads[i]);
+	}
 	
+	free(threads);
+	free(thread_ids);
+	free(invocation_count);
+	free(begin_times);
+	
+	return 0	
 }
 
 

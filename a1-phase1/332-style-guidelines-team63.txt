@@ -10,7 +10,8 @@ New guidelines grouped by section will be provided.
 	- If a function is complex, it will be commented above the
 	method statement.
 	- Common words will be shortened using dot at the end.
-	- Inline documentation when required
+	- In line documentation when required,if there are too much 
+	characters, it will be written down the code statement 
 	
 - Errors
 	- Prevent common errors with pre-verifications
@@ -31,6 +32,9 @@ New guidelines grouped by section will be provided.
 	- General guidelines of each language will be respected
 	- Imports will be at the beginning. And first 
 	environment imports, then third-party and finally local.
+	- The order of files will be: Personal info, imports, 
+	global variables declarations, functions declarations, 
+	functions bodies, main function and generalcomments
 	
 - Coding
 	- Functions will be kept precise. If one is too large, 

@@ -12,6 +12,19 @@ New guidelines grouped by section will be provided.
 	- Common words will be shortened using dot at the end.
 	- In line documentation when required,if there are too much 
 	characters, it will be written down the code statement 
+	- Any complex function description will be done under the function 
+	with one line per argument explanation as following:
+		threads[i] CreateThread(NULL, 0, compute_squares, 
+		&thread_parameters[i], 0, NULL);
+		/*Windows API function thread creation with:
+		 * NULL for security alerts
+		 * 0 default for stack size
+		 * function name
+		 * pointer to the parameter passed to the function,
+		 * 		in this case the index
+		 * 0 for flags, it will run immediately
+		 * NULL Not used. But it's a pointer to receive 
+		 * 		the identifier*/
 	
 - Errors
 	- Prevent common errors with pre-verifications

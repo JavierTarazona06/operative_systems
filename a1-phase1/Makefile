@@ -1,3 +1,5 @@
+# PLACE HOLDER UNTIL FULL MAKE FILE IS DONE
+
 CC = gcc
 CFLAGS = -Wall -pedantic -Wextra -std=gnu90
 

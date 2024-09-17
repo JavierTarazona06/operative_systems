@@ -13,7 +13,7 @@ read -p "Continue? (y/n): " confirm
 
 if [[ $confirm == "y" || $confirm == "Y" ]]; then
 	git add .
-	git commit -m $confirm
+	git commit -m "$1"
 	git push origin
 else
 	echo "Cancelled"

@@ -15,6 +15,7 @@ build/
 *.o
 *.obj
 *.log
+*.a
 *.so
 *.dylib
 *.dll

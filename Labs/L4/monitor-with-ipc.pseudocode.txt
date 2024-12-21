@@ -1,0 +1,57 @@
+Pseudocode for monitors with IPC.
+Lab 4 CMPT 332 
+Fall 2023
+
+Global data:
+Lists for each CV and an enterq and an urgentq
+Lists make it easy to debug what is going on and give you practice
+with list operations.
+
+MonEnter()
+  send message to server
+
+MonLeave()
+  send message to server
+
+MonWait (int cv)
+  send message to server  
+
+MonSignal(int cv)
+  send message to server
+
+MonServer()
+
+forever
+
+  receive message
+
+  case messagetype
+
+  ENTER:
+     if monitor occupied, add to entering queue,
+     else set monitor to occupied and reply to sender
+  LEAVE:
+     if urgentq not empty, take item off urgentq, reply
+     else if enterq not empty, take item off enterq, reply
+     else monBusy to false and  reply to thread executing leave
+  WAIT:
+
+     add to cv_waitinglist
+     if urgentq not empty, take item off urgentq, reply
+     else if enterq not empty, take item off enterq, reply
+     else set monBusy to false
+
+  SIGNAL:
+     if there is non-empty cvlist,  take first item off the
+         CV_waitinglist, add current thread to the urgentq, reply
+     add self to urgentq
+  else reply to signaller
+
+MonInit
+
+  create Server and lists;
+
+  
+
+
+  

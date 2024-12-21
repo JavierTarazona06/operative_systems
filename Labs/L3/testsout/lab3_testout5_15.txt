@@ -1,0 +1,44 @@
+Customer is waiting. Total count waiting: 0
+Customers waiting: 0
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 1
+Customer is waiting. Total count waiting: 2
+Customer is waiting. Total count waiting: 3
+Customers waiting: 3
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 3
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customers waiting: 4
+Cut hair
+get hair cut
+Customers waiting: 3
+Cut hair
+get hair cut
+Customers waiting: 2
+Cut hair
+get hair cut
+Customers waiting: 1
+Cut hair
+get hair cut
+
+exiting threads

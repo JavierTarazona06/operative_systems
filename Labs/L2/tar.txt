@@ -1,0 +1,1 @@
+tar -cvf CMPT332-elr490-lab2.tar xv6-qemu.png lab2-gdbout.txt tasks.png git-log.txt 

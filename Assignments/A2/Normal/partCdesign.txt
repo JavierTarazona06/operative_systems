@@ -1,0 +1,1771 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 2
+*/
+
+
+# For tittles look for ('#')
+
+
+- Input is
+
+
+s-chat my_port to_machine to_port
+
+port is in [30001,40001] 
+
+- Exit with "exit+5"
+- Each message is sent after pressing '\n'
+
+
+# Libraries
+
+
+#include <stdio.h>
+#include <string.h>
+#include <rtthreads.h>
+#include <sys/time.h>
+#include <list.h>
+#include <RttCommon.h>
+#include <s-chat.h>
+
+
+
+- #include <stdio.h>: C standard I/O
+- #include <string.h>: For String operations
+- #include <rtthreads.h>: To manage Real Time threads
+- #include <sys/time.h>: To get current seconds and microsends
+- #include <list.h>: To import our list functions
+- #include <RttCommon.h>: Actual RttThreads, like the timing threads
+- #include <s-chat.h>: To export/import s-chat functions
+
+# Definitions
+
+
+#define STKSIZE 65536
+#define OK 0
+#define FAIL -1
+#define KEYBOARD 0
+#define PRINT 1
+#define SEND 2
+#define RECEIVE 3
+#define EXITINSTRUCTION "exit+5\n"
+#define SIZEOFBUFFERUDP 1025
+
+
+- The stack of the threads is set to 64 KB as is common to handle the 
+amount of local variables and function calls that we are going to perform.
+
+# S-chat.h file
+
+
+/* This structure is the message for s-char, origin is the orgin machine host 
+name, content is the actual content and the seconds and microseconds 
+when sent.*/
+
+typedef struct MessageSchat {
+    char origin[256];
+    char content[256];
+    long seconds;
+    long microseconds;
+} MessageSchat;
+
+/* ----- keyBoard_manager--------------- */
+/* From keyboard_mang.c*/
+
+/*Read keyboard stores the capture of the keyboard
+and separates the message for each \n. Each buffer finishes
+with a \n or 256 chars... What happen first */
+int nonblock_keyboard();
+int read_keyboard(char *buffer_reading, int size_buffer);
+int block_keyboard();
+
+/* ----- udp_manager--------------- */
+/* From udp_mang.c*/
+
+/*Configure the socket for reading and writing, stored in tosock_read and 
+to_sock_send. It also requires the pointer to store the address
+of the machine to send data in tosend_addr. Then, the hostname of that machine 
+is required in remote_host_name. The ports are required to establish the udp
+connection*/
+int configure_udp_sock(int local_port, int remote_port, 
+const char* remote_host_name, int *tosock_send, int *tosock_read, 
+struct sockaddr_in *tosend_addr);
+
+/*After having configured the sockets, they can be nonblock to avoid issues*/
+int nonblock_udp(int sock_fd);
+
+/*Given the read socket, 
+The READ thread will call this function to check the port, and 
+if there are new messages, they are stored in buffer_reading*/
+int udp_read(int sock_fd, MessageSchat *buffer_reading);
+
+/*Given the send socket, The SEND thread will call this to send to
+the remote machine the message. The tosend_addr got in configure_udp_sock,
+will be sent here as send_addr*/
+int udp_send(int sock_fd, MessageSchat *message, 
+struct sockaddr_in send_addr);
+
+int block_udp(int sock_fd);
+
+/*Get the current machine hostname*/
+char *GetHostName();
+
+/*Given the machine hostname, it returns the IP address*/
+char *GetIP(char *hostName);
+
+
+## Global Variables:
+
+
+/*Threads ID for all the threads*/
+RttThreadId *serverPid, *keyboardPid, *printPid, *sendPid, *receivePid;
+
+/*Lists to handle incomming/send messages*/
+LIST *to_send_messages, *received_messages, *my_messages;
+
+/* Plain Messages for thread reply*/
+int *reply_message_pl;
+unsigned int *reply_message_len_pl;
+
+/*Message structure for the IPC communication
+Each message sent to the server, will have the request to know which thread
+called it and what action will be performed. The content is a string if
+more info. want to be sent, the message from the s-chat, and finally
+a flag integer finish_session to be set when the execution must be stopped.
+*/
+typedef struct MessageT{
+	int request; /*KEYBOARD, PRINT, SEND, RECEIVE*/
+	char content[256];
+	MessageSchat *schat;
+	int finish_session;
+} MessageT;
+
+/*Control*/
+int local_port;
+char *local_host_name;
+char *local_host_ip;
+char *remote_host_name;
+char *remote_host_ip;
+int remote_port;
+
+/*Sockets fd to send and read data. Just the server will write them.*/
+int *sock_send, *sock_read;
+struct sockaddr_in *send_addr;
+
+int finished[4] = {0,0,0,0};
+
+*Details*
+
+/*Lists*/
+We will have 3 lists. One to store messages to send an another for messages 
+received. There is another list that is for the message that the user have 
+written (to_send) but this will be used to print the messages on the user side.
+
+/*Control*/
+Is used to have the name of the machine, and finish_session is set by the
+keyboard/receive thread to finish the program execution when the user wants. 
+Each thread will mark if has finished with finished[4], with boolean values.
+
+/*Message for s-chat*/
+This structure has the information for the message of our application.
+It has origin (the machine that sent teh message), the actual message
+in content and the seconds and microseconds when the message was sent.
+
+/*Message structure for the IPC communication*/
+Is the message structure that will be sent/received by threads. It has 
+the request type (see file definitions), the content of 256 characters size, 
+the actual message for schat at schat and a flag to finish a session.
+This is the communication with the server.
+
+
+
+# Threads
+
+- thread_server: For the server thread, is going to be a listener. 
+At each iteration in a while true will receive the request of the 
+other threads.
+- thread_keyboard: For the thread that will listen the keyboard. 
+Once it gets an answer, it sends to the server.
+- thread_send: For the thread who will send datagrams to the UDP
+level to the destination machine. At each execution will tell 
+server that is ready. Server will reply with a message to send 
+or a wait because there are no more messages left.
+- thread_print: For the thread who will print messages received on
+screen. At each execution will signal server for messages to print. 
+If they are not, it waits and resume later (Like send thread).
+- thread_receive: For the thread who ill receive the UDP datagram
+from the destination machine. It will be listening on the 
+onfigured port. Once it gets a message it sends to the server, 
+otherwise it continue.
+- **Context Switch:** As RTT Threads have a real time scheduler 
+and non-preemptive, we had to create our own logic to pout threads 
+to sleep. The server has high priority, so it will start, when it 
+arrives to the receive function will wait until the workers present 
+a request. Then, one of the workers starts and request to the server, 
+the server will perform the required actions and then reply to the 
+aiting worker thread and be again waiting for a request. Then the 
+thread who requested continues its execution, but in order to allow 
+other workers (that have the same priority) to execute, is sleeps 
+for one second, to be at the queue of the scheduler. Later, the new 
+thread waiting on the scheduler queue, continues.
+    - I decided to use sleep, as it changes the time attributes to the 
+    future (no execution) and once awoken, the start time is reset to 
+    zero time.
+
+# Helpers
+
+
+
+/*My custom error. If there are, print and finish execution*/
+void myerror(const char *msg){
+    perror(msg);
+    exit(EXIT_FAILURE);
+}
+
+/*Create a deep copy of the Message Chat. Useful to create
+to versions of the same data.*/
+MessageSchat *copySchat(MessageSchat *sChat1){
+    MessageSchat *newSchat = (MessageSchat *)
+    RttMalloc(sizeof(MessageSchat));
+    strcpy(newSchat->origin, sChat1->origin);
+    strcpy(newSchat->content, sChat1->content);
+    newSchat->seconds = sChat1->seconds;
+    newSchat->microseconds = sChat1->microseconds;
+    return newSchat;
+}
+
+
+## Threads
+
+### 1. thr_keyboard
+
+
+RTTTHREAD thr_keyboard(){
+	/*Sends MessageT, receives an int*/
+	char buffer_reading[256];
+	int temp = 0;
+  RttTimeValue *tv;
+	MessageSchat *cur_message_chat;
+	MessageT *cur_message;
+	int* cur_message_received;
+	unsigned int *len_received;
+
+	nonblock_keyboard();
+
+	while(1){
+    /*Read from keyboard. The reults are a message or a EOF 
+    if there is not a message ready yet*/		
+		temp = read_keyboard(buffer_reading, 255);
+
+		if (buffer_reading[0] != '\0'){
+		
+			/*If there is a message captured...*/
+
+			if(strcmp(buffer_reading, EXITINSTRUCTION) == 0){
+				/*If it is equal to the exit instruction, send a 
+				message to the 
+				server with the finish_session flag in one.*/
+			
+				cur_message -> finish_session = 1;
+
+				/*The thread sends a message to the server 
+				and will wait here until reply of closing. So when 
+				signaled,
+				breaks the cyle*/
+				RttSend(*serverPid, cur_message, sizeof(MessageT), 
+				cur_message_received, len_received);	
+				if (*cur_message_received != 0) perror("KEYBOARD_SEND");
+
+				break;
+			}
+			
+			/*Here the message is not a EOF, se we are sending it to 
+			the server. We create the MessageSChat data with orgin, 
+			local hostname, 
+			the actual message in content and the current time using the
+			RTTfunction*/
+			
+			cur_message_chat = (MessageSchat *)
+			RttMalloc(sizeof(MessageSchat));
+			strcpy(cur_message_chat -> origin, local_host_name);
+			strcpy(cur_message_chat -> content, buffer_reading);
+            tv = (RttTimeValue *)RttMalloc(sizeof(RttTimeValue));
+            temp = RttGetTimeOfDay(tv);
+			cur_message_chat -> seconds = tv->seconds;
+			cur_message_chat -> microseconds = tv->microseconds;
+			
+			/*Now we encapsulate the message in the actual message 
+			of the server
+			along with the request, content, and finish flag of (we 
+			have not finished execution yet)*/			
+			
+			cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+			cur_message -> request = KEYBOARD;
+			strcpy(cur_message -> content, "KEYBOARD");
+			cur_message -> schat = cur_message_chat;
+			cur_message -> finish_session = 0;
+			
+			len_received = (unsigned int *)
+			RttMalloc(sizeof(unsigned int));
+			
+			/*Now that we have the message ready, we send it to 
+			the server.
+			We will wait here until we have a reply*/
+
+			temp = RttSend(*serverPid, cur_message, 
+			sizeof(MessageT), cur_message_received, len_received);	
+			if (temp != RTTOK) perror("KEYBOARD_SEND");
+			
+		}
+
+		temp =  RttSleep(1.5);
+		if (temp == RTTFAILED) perror("SLEEP");
+	}
+
+	block_keyboard();
+
+	finished[KEYBOARD] = 1;
+}
+
+*Details*
+
+/*Variable Declarations*/
+buffer_reading will have the current input read from keyboard, 
+temp is a control 
+variable to detect errors, tv is to get seconds and microseconds, 
+then the 
+messages for sending and receive and the variable of length for RttSend()
+
+First we are going to block the keyboard calling nonblock_keyboard(); from 
+keyboard_mang.c, the manager code of the keyboard.
+
+/*Body*/
+
+In a while loop, we will define a buffer of 256 characters to read and send
+to the server once completed or "exit" string is found.
+
+The input will be get using the function read_keyboard() and will be stored in 
+bufferredaing. Check keyboard_mang.c file.
+
+If the buffer gets "exit", means thet the execution of the program 
+will be stopped.
+Then it send a message to the server with the finiosh_session flag 
+on and breaks
+the cycle.
+
+If the result in the buffer is NULL or \0, there is no input yet, so free
+the buffer and repeat.
+
+Otherwise, Let's define the s-chat message (MessageSchat) with the 
+current 
+Machine name at origin, the content is the buffer_reading, and we 
+get the current
+time in seconds and microseconds, and we assign them so s-chat.
+
+As well, we define the message to send to server (MessageT) 
+by assigning at
+request KEYBOARD, in content "KEYBOARD", but is not important 
+and at s-chat,
+the MessageSchat constructed before.
+
+At the wend we call block_keyboard(); from 
+keyboard_mang.c, the manager code of the keyboard.
+
+
+
+### 2. thr_print
+
+receives in reply MessageSchat. sends to server MessageT
+
+
+RTTTHREAD thr_print(){
+	int temp;
+	unsigned int *len_received;
+	MessageSchat *cur_message_chat;
+	MessageT *cur_message;
+	
+	while(1){
+		/*Put the thread to sleep to send to the end of the 
+		scheduler queue. Another thread my be requesting actions.*/
+        temp =  RttSleep(1);
+        if (temp == RTTFAILED) perror("SLEEP");
+
+		cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+		cur_message -> request = PRINT;
+		strcpy(cur_message -> content, "PRINT");
+		cur_message -> finish_session = 0;
+		
+		cur_message_chat = (MessageSchat *)RttMalloc(sizeof(MessageSchat));
+		
+		len_received = (unsigned int *)RttMalloc(sizeof(unsigned int));
+
+		/*Request to the server by sending a message that means that 
+		it is ready
+		to print*/
+		temp = RttSend(*serverPid, cur_message, sizeof(MessageT), 
+		cur_message_chat, len_received);	
+		if (temp != RTTOK) perror("PRINT_SEND");
+
+		/*If there is something to print, the server will reply 
+		with a content
+		message different to a EOF*/
+		if (cur_message_chat -> content[0] == '\0'){
+
+			/*If there is a EOF, there is nothing to print, so 
+			go to sleep
+			to one seconds to let other threads to perform thei actions*/
+			temp = RttSleep(1);
+			if (temp != RTTOK) perror("PRINT_SLEEP");			
+		} else {
+		
+			/*Otherwise, it received a message to print from the server, 
+			so it prints the origin, time and actual message sent.*/
+			printf("Origin: %s | Time Sent from origin: %ld s, "
+			"%ld us\n\t%s\n\n",
+				cur_message_chat->origin, cur_message_chat->seconds,
+				cur_message_chat->microseconds, cur_message_chat->content);
+		}
+
+	}
+	
+	finished[PRINT] = 1;
+
+}
+
+**Detail**
+Thread print is going to send a message each time that is ready, once it
+receives a message, it will have the content with the S-chat message 
+or with NULL if there are no messages in the moment.
+
+If there are no messages at the moment, sleep 1 second. Otherwise, 
+print the message on screen in with our format.
+
+
+### 3. thr_send
+
+receives in reply MessageSchat. sends to server MessageT
+
+
+RTTTHREAD thr_send(){
+	int temp;
+	unsigned int *len_received;
+	MessageSchat *cur_message_chat;
+	MessageT *cur_message;
+
+	
+	while(1){
+		
+		cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+		cur_message -> request = SEND;
+		strcpy(cur_message -> content, "SEND");
+		cur_message -> finish_session = 0;
+		
+		cur_message_chat = (MessageSchat *)RttMalloc(sizeof(MessageSchat));
+		
+		len_received = (unsigned int *)RttMalloc(sizeof(unsigned int));
+		
+		/*Since the begining (and of each cycle), it will send a message
+		to the server stating that is ready to send a message to the 
+		remote machine 
+		through UDP*/
+		temp = RttSend(*serverPid, cur_message, sizeof(MessageT), 
+		cur_message_chat, len_received);	
+		if (temp != RTTOK) {
+           block_udp(*sock_send);
+            myerror("SEND_SEND");
+            RttExit();
+        }
+
+		if (cur_message_chat -> content[0] != '\0'){
+			
+			/*In the case in which the server has a message for the thread
+			to send (typed in the keyboard, it will call
+			the imported function udp_send. It will send the 
+			configured socket to send
+			the MessageSchat that will be send through the 
+			network and
+			the address information of the remote machine, that 
+			was set in
+			the configuraion of the server. For more information 
+			about the actual
+			UDP send go to udp_mang.c*/
+			
+			temp = udp_send(*sock_send, cur_message_chat, *send_addr);
+			/*if (temp != 0) myerror("UDP_SEND");*/
+			
+			/*If the message to send was the exit instruction, then
+			finish thread execution calling break*/
+			if (strcmp(cur_message_chat -> content, EXITINSTRUCTION) == 0){
+				break;
+			}
+			
+		}
+
+		/*After performing the actions, the thread must sleep 
+		for one second 
+		to make the context switching so that the next thread on 
+		the scheduler queue
+		can participate*/
+		temp =  RttSleep(1);
+		if (temp == RTTFAILED) perror("SLEEP");
+	}
+
+	/*Befor exiting, we enable the block of UDP to not have 
+	future problems*/
+  block_udp(*sock_send);
+	finished[SEND] = 1;
+
+}
+
+
+
+### 4. thr_receive
+
+receives in reply plain message int *reply_message_pl. sends to 
+server MessageT
+
+
+RTTTHREAD thr_receive(){
+	int temp;
+	MessageSchat *messageSchatReceived;
+	int* cur_message_received;
+	unsigned int *len_received;
+	MessageT *cur_message;
+
+	
+	while(1){
+		temp =  RttSleep(1);
+		if (temp == RTTFAILED) myerror("SLEEP");
+		
+		/*Allocates space to receive the promise of message 
+		received through UDP*/		
+		messageSchatReceived = (MessageSchat *)
+		RttMalloc(sizeof(MessageSchat));
+
+		/*Calls the our function udp_read giving the related socket to read
+		that was set previously and the pointer of the memory space 
+		to store the possible received message in the port.*/
+        temp = udp_read(*sock_read, messageSchatReceived);
+		if (temp != 0) myerror("UDP_READ");
+		
+		cur_message_received = (int *)RttMalloc(sizeof(int));
+		len_received = (unsigned int *)RttMalloc(sizeof(unsigned int));
+
+		/*If there is no new message of MessageSchat on the port, the function
+		will return EOF in the content of the message*/	
+		if (messageSchatReceived->content[0] != '\0'){
+		
+			/*Otherwise, the content is not an EOF, and the 
+			information must be print*/
+			
+			if(strcmp(messageSchatReceived->content, EXITINSTRUCTION) == 0){
+				/*If the received message is the exit instruction, 
+				the thread will
+				send to the server a message with the finish_session enabled
+				so that the server can terminate execution. Once it 
+				gets a reply, 
+				it finished breaking the cycle.*/
+				cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+				cur_message -> request = RECEIVE;
+				strcpy(cur_message -> content, "RECEIVE");
+				cur_message -> finish_session = 1;
+
+				RttSend(*serverPid, cur_message, sizeof(MessageT), 
+				cur_message_received, len_received);	
+				if (*cur_message_received != 0) perror("RECEIVE_SEND");
+
+				break;
+			}
+			
+			/*At this point the message was not a EOF nor an exit 
+			instruction, 
+			so the thread will send the server a common 
+			message with the MessageSchat received.*/
+			cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+			cur_message -> request = RECEIVE;
+			strcpy(cur_message -> content, "RECEIVE");
+			cur_message -> schat = messageSchatReceived;
+			cur_message -> finish_session = 0;
+			
+
+			temp = RttSend(*serverPid, cur_message, sizeof(MessageT), 
+			cur_message_received, len_received);	
+			if (temp != RTTOK) perror("RECEIVE_SEND");
+
+				
+		}
+	}
+
+    block_udp(*sock_read);
+    finished[RECEIVE] = 1;
+
+}
+
+
+
+### 5. thr_server
+
+receives MessageT, reply depends
+
+
+RTTTHREAD thr_server() {
+    /*Variable Declarations*/
+    int temp, who; /*temp for checking errors, who
+	for control*/
+	char bufclose[1];
+    /*For Server Loop*/
+    RttThreadId *requestPID, *requestPIDEXIT;
+    MessageT *message_request, *message_requestEXIT;
+    unsigned int *message_request_len, *message_request_lenEXIT;
+    MessageSchat *cur_message1PRI, *cur_message2PRI; /*s-chat 
+    messages for
+	analyze*/
+    MessageSchat *cur_messageSEND, *cur_messageEXIT, *cur_messageKEYBOARD;
+    RttTimeValue *tv;
+	
+	/*Threads Allocation*/
+	keyboardPid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+	if (keyboardPid == NULL) perror("RTTMALLOC");
+	printPid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+	if (printPid == NULL) perror("RTTMALLOC");
+	sendPid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+	if (sendPid == NULL) perror("RTTMALLOC");
+	receivePid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+	if (receivePid == NULL) perror("RTTMALLOC");
+
+    /*Base (simple) message, for replies*/
+	reply_message_pl = (int *)RttMalloc(sizeof(int));
+	*reply_message_pl = 0;
+	reply_message_len_pl = (unsigned int *)RttMalloc
+	(sizeof(unsigned int));
+	*reply_message_len_pl = sizeof(int);
+	
+	/*Create lists*/
+	to_send_messages = ListCreate();
+	my_messages = ListCreate();
+	received_messages = ListCreate();
+	
+	/*Configure UDP*/
+    sock_send = (int *)RttMalloc(sizeof(int));
+    sock_read = (int *)RttMalloc(sizeof(int));
+    send_addr = (struct sockaddr_in *)
+    RttMalloc(sizeof(struct sockaddr_in));
+	memset(send_addr, 0, sizeof(struct sockaddr_in));
+
+		/*Here we are going to configure the UDP sockets 
+		and the remnote port.
+		To do so we call configure_udp_sock and we pass the 
+		local port
+		to bind it to the read socket, the reote port and 
+		remote host name
+		to set the send_addr to the machine from which 
+		receive messages and 
+		the place to send the messages. Finally the sockets_fd will
+		be in sock_send and sock_read*/
+
+    temp = configure_udp_sock(local_port, remote_port, 
+    remote_host_name, sock_send, sock_read, send_addr);
+    if(temp != 0) myerror("SOCKET_CONFIGURE");
+    
+   /*Here we disable the blocking of the socket_fd to avoid
+   having problems or enexpected termination, 
+   if there is no traffic arround.*/
+	
+	if (nonblock_udp(*sock_send) < 0){
+		close(*sock_send);
+		myerror("NON_BLOCKSOCKET");
+	}
+
+    if (nonblock_udp(*sock_read) < 0){
+        close(*sock_read);
+        myerror("NON_BLOCKSOCKET");
+    }
+
+	/*Threads Creation*/
+	temp = RttCreate(keyboardPid, thr_keyboard, STKSIZE, "keyboard", 
+	NULL, nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(printPid, thr_print, STKSIZE, "print", NULL, 
+	nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(sendPid, thr_send, STKSIZE, "send", NULL, nowAttr, 
+	RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(receivePid, thr_receive, STKSIZE, "receive",
+	NULL, nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	/*Server Actions*/
+	while(1){
+				
+		/*Variable Allocation In Loop*/		
+		requestPID = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+		
+		message_request = (MessageT *) 
+		RttMalloc(sizeof(MessageT));
+		
+		message_request_len = (unsigned int *)RttMalloc
+		(sizeof(unsigned int));
+		*message_request_len = sizeof(MessageT);
+
+		/*Wait until a message is received*/
+		RttReceive(requestPID, message_request, 
+			message_request_len);
+		
+		/*If request is to finish a session, the flag 
+		finish_session would be
+		set to 1*/	
+
+
+
+		if (message_request -> finish_session == 1){
+			if (message_request -> request == KEYBOARD){
+			
+				/*In this case the finish session was requested 
+				by the 
+				keyboard, so it has to reply okey to keyboard, 
+				and keyboard
+				will exit alone, kill the thread to print, 
+				kill the thread RECEIVE 
+				along with enable the blocking of UDP*/
+				printf("Server finish by keyboard\n");
+				temp = RttReply(*requestPID, reply_message_pl, 
+				*reply_message_len_pl);
+				if (temp == RTTFAILED) perror("RTTReply");
+				
+				temp = RttKill (*printPid);
+				if (temp == RTTFAILED) perror("RTTKill");
+				finished[PRINT] = 1;
+				
+				printf("S-chat finished by typing exit instruction "
+				"on keyboard\n");
+				
+				temp = RttKill (*receivePid);
+				if (temp == RTTFAILED) perror("RTTKill");
+                temp = block_udp(*sock_read);
+                if (temp != 0) myerror("CLOSED_READ_UDP");
+				finished[RECEIVE] = 1;
+				
+				/*The SEND thread must be killed too, but the 
+				idea is that 
+				the thread receive the message with the exit 
+				instruction
+				so that the remote machine knows that the peer have 
+				left. So here
+				we expect to get another request from the SEND thread. 
+				As it might be 
+				sleeping we will wait in a cycle until having an answer.*/
+								
+				/*----------------------*/
+
+				requestPIDEXIT = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+
+				message_requestEXIT = (MessageT *)
+				RttMalloc(sizeof(MessageT));
+				
+				message_request_lenEXIT = (unsigned int *)RttMalloc
+				(sizeof(unsigned int));
+				*message_request_lenEXIT = sizeof(MessageT);
+
+				RttReceive(requestPIDEXIT, message_requestEXIT,
+				message_request_lenEXIT);
+
+				/*If there are other requests in queue...*/
+				while (message_requestEXIT->request != SEND){
+					requestPIDEXIT = (RttThreadId *)
+					RttMalloc(sizeof(RttThreadId));
+					message_requestEXIT = (MessageT *)
+					RttMalloc(sizeof(MessageT));
+					
+					message_request_lenEXIT = (unsigned int *)RttMalloc
+					(sizeof(unsigned int));
+					*message_request_lenEXIT = sizeof(MessageT);
+					
+					RttReceive(requestPIDEXIT, message_requestEXIT,
+					message_request_lenEXIT);
+				}
+				
+				/*Once the request of the SEND thread, we will 
+				reply with the MessageSchat with the exit instruction.*/
+
+				cur_messageEXIT = (MessageSchat *)
+				RttMalloc(sizeof(MessageSchat));
+                strcpy(cur_messageEXIT -> origin, local_host_name);
+				strcpy(cur_messageEXIT -> content, EXITINSTRUCTION);
+                tv = (RttTimeValue *)RttMalloc(sizeof(RttTimeValue));
+                temp = RttGetTimeOfDay(tv);
+                if (temp == RTTFAILED) perror("RTTTIMEVALUE");
+                cur_messageEXIT -> seconds = tv->seconds;
+                cur_messageEXIT -> microseconds = tv->microseconds;
+				
+				temp = RttReply(*requestPIDEXIT, cur_messageEXIT, 
+				sizeof(MessageSchat));
+				if (temp == RTTFAILED) perror("RTTReply");
+				
+			/* reply keyboard with okey
+			 * kill print, print finish execution
+			 * kill receive, block de udp socket related
+			 
+			 If there are still messages to be received (if no wait), 
+			 it must be from send,
+			 then, receive the message and reply to finish execution.
+							Send:
+							  send exit message to other machine
+							  exit
+			 * */	
+			}
+			if (message_request -> request == RECEIVE){
+				/*On this side, the thread who requested the termination
+				was the RECEIVE thread because the remote machine have 
+				finished 
+				operations. Here we are going to kill all the threads
+				 SEND (enabling)
+				the respecive block of the socket, KEYBOARD (enabling)
+				the respecive block of the input fd and PRINT. 
+				To finish the 
+				RECEIVE thread we can simply reply the request and it will 
+				exit alone as it knows that the session has finished.
+				*/
+				printf("Server finished by receive\n");
+
+                temp = RttKill (*sendPid);
+                if (temp == RTTFAILED) perror("RTTKill");
+                finished[SEND] = 1;
+                
+                temp = block_udp(*sock_send);
+                if (temp == RTTFAILED) perror("BLOCK_UDP");
+
+                temp = RttKill (*keyboardPid);
+                if (temp == RTTFAILED) perror("RTTKill");
+                block_keyboard();
+                finished[KEYBOARD] = 1;
+
+                temp = RttKill (*printPid);
+                if (temp == RTTFAILED) perror("RTTKill");
+                finished[PRINT] = 1;
+
+                printf("S-chat finished by typing exit instruction "
+                       "on receive\n");
+
+                temp = RttReply(*requestPID, reply_message_pl, 
+                *reply_message_len_pl);
+				if (temp == RTTFAILED) perror("RTTReply");
+				
+
+			/* reply receive with okey
+			 * kill print, print finish execution, 
+			 * kill keyboard, block keyboard,
+			 * kill send, block de udp socket related
+			 * */	
+			}
+			/*As here we are in the exit isntruction block 
+			(finish_session flag) 
+			we can terminate execution breaking the cycle.*/
+			break;
+		}
+
+
+
+
+/*In this block we have normal requests from the threads*/
+		if (message_request -> request == KEYBOARD){
+		
+			/*At the request of the KEYBOARD, we have a new message 
+			typed by
+			the local user, so we are going to add the MessageSchat
+			 and a deep copy
+			to 2 queues. The first queue is to_send_messages which
+			 has the messages
+			to be send through UDP to the rmeote machine. The list 
+			my_messages
+			is for the messages that the local user has typed and 
+			will be
+			print on screen*/
+
+			temp = ListPrepend(to_send_messages, message_request -> schat);
+			if (temp == -1) perror("LISTPREPEND");
+
+            cur_messageKEYBOARD = copySchat(message_request->schat);
+			temp = ListPrepend(my_messages, cur_messageKEYBOARD);
+			if (temp == -1) perror("LISTPREPEND");
+			
+			/*Once the messages are stored in the lists managed by 
+			the server,
+			avoiding critical section, it will reply to the KEYBOARD 
+			thread that 
+			it can continue listening to the keyboard for new messages*/
+			
+			temp = RttReply(*requestPID, reply_message_pl, 
+			*reply_message_len_pl);
+			if (temp == RTTFAILED) perror("RTTReply");
+
+			/* Keyboard has a message, so i receive the message,
+			 * I store it in the "to_send_messages" and "my_messages" 
+			 * list, and I reply
+			 * keyboard thread to continue
+			 * */
+		} else if (message_request -> request == PRINT){
+
+			/*In this block, the request was made by the PRINT thread.
+			The idea is to take the earliest message from the queues of
+			messages that have been received from the rmeote machine 
+			(received_messages) and the messages typed by the local user.
+			To do so, we are going to get the last item of both (the 
+			earliest as the
+			 latest are prepended) and we compare the times. The
+			 message with the earliest datatime will be printed and
+			 deleted from the list. We used a variable who to know 
+			 which queue has the earliest time.*/
+
+			who = 0; /*who is used to know the chosen list of the 
+			message to sent*/
+			if (ListCount(received_messages) > 0){
+				cur_message1PRI = ListLast(received_messages);
+				who = 1;
+			}
+			if (ListCount(my_messages) > 0){
+				cur_message2PRI = ListLast(my_messages);
+				if (who == 1){
+					
+					if (cur_message1PRI -> seconds > 
+					cur_message2PRI -> seconds){
+						who = 2;
+					} else if (cur_message1PRI -> seconds == 
+					cur_message2PRI -> seconds){
+						if (cur_message1PRI -> microseconds > 
+						cur_message2PRI -> microseconds){
+							who = 2;
+						}
+					}
+					
+				} else {
+					who = 2;
+				}
+			}
+
+		
+			if (who != 0){
+				/*MessageSchat that will be printed is as well deleted*/
+                if (who == 1){
+                    ListTrim(received_messages);
+					temp = RttReply(*requestPID, cur_message1PRI, 
+					sizeof(MessageSchat));
+					if (temp == RTTFAILED) perror("RTTReply");
+                } else if (who == 2){
+                    ListTrim(my_messages);
+					temp = RttReply(*requestPID, cur_message2PRI, 
+					sizeof(MessageSchat));
+					if (temp == RTTFAILED) perror("RTTReply");
+                }
+				
+			} else {
+
+				/*This block is used when there are no messages in 
+				any of the queues,
+				so the sever will reply PRINT with an EOF*/
+                RttFree(cur_message1PRI);
+				cur_message1PRI = (MessageSchat *)
+				RttMalloc(sizeof(MessageSchat));
+                cur_message1PRI -> content[0] = '\0';
+				
+				temp = RttReply(*requestPID, cur_message1PRI, 
+				sizeof(MessageSchat));
+				if (temp == RTTFAILED) perror("RTTReply");				
+			}
+			
+			who = 0;
+			/* PRINT thread is ready to print, so i check if there 
+			 * are messages
+			 * in "received_messages" or "my_messages" list.
+			 * 		If they are, I reply to the thread with the 
+			 * message with erliest time
+			 * 			I delete the message from the list
+			 * 		If they are not, I reply with null
+			 * */
+		} else if (message_request -> request == SEND){
+
+			/*In the request of SEND we need to check if there are 
+			messages
+			to be send in the queue to_send_messages (they were typed 
+			on the keyboard).
+			 */
+
+			if (ListCount(to_send_messages) > 0){
+			
+					/*If there are messages it will take the last, 
+					as the latest messages
+					are prepend. The server reply to the SEND thread 
+					with that
+					MessageSChat from the queue. The message is deleted 
+					from the list*/
+				cur_messageSEND = ListLast(to_send_messages);
+
+                temp = RttReply(*requestPID, cur_messageSEND, 
+                sizeof(MessageSchat));
+                if (temp == RTTFAILED) perror("RTTReply");
+
+                ListTrim(to_send_messages);
+			} else {
+					/*In this block, there are no messages to be sent, 
+					so
+					the content of the MessageSChat tha will be used to 
+					reply
+					to SEND will have an EOF so that it knows
+					that there is no data yet.*/
+
+                RttFree(cur_messageSEND);
+                cur_messageSEND = (MessageSchat *)
+                RttMalloc(sizeof(MessageSchat));
+                cur_messageSEND -> content[0] = '\0';
+
+                temp = RttReply(*requestPID, 
+                cur_messageSEND, sizeof(MessageSchat));
+                if (temp == RTTFAILED) perror("RTTReply");
+
+            }
+			/* SEND message is ready to send, so I check
+			 * if therea are messages in "to_send_messages".
+			 * 		If there are, I reply the thread with the 
+			 * earliest s-chat message
+			 * 			I delete the message from the list
+			 * 		If they are not, I reply with null and continue
+			 * */
+		} else if (message_request -> request == RECEIVE){
+		
+			/*Upon a receive request, there is a MessageSchat
+			at the listener port, to it will be prepedn in teh queue
+			of received_messages and the server will rpely to the 
+			thread RECEIVE
+			so that it can continue with the execution*/
+
+			temp = ListPrepend(received_messages, message_request -> 
+			schat);
+			if (temp == -1) perror("LISTPREPEND");
+			
+			temp = RttReply(*requestPID, reply_message_pl, 
+			*reply_message_len_pl);
+			if (temp == RTTFAILED) perror("RTTReply");
+			
+			/* receive thread has a message, so I receive the message,
+			 * I store it in the "received_messages" list, and I reply
+			 * thread thread to continue
+			 * */
+		}
+	}
+
+	/*Here the cycle has been broken, so it is time for 
+	the termination. If the sockets have not been closed, 
+	the block is enabled
+	and they are closed using block_udp*/
+	
+	/*Check if ports have not been closed*/
+	temp = recv(*sock_send, bufclose, sizeof(bufclose), MSG_PEEK);
+	if (temp != 0) block_udp(*sock_send);
+	
+	temp = recv(*sock_read, bufclose, sizeof(bufclose), MSG_PEEK);
+	if (temp != 0) block_udp(*sock_read);
+	
+	/*Exit to finish execution*/
+    RttExit();
+}
+
+
+
+
+*Details*
+
+/*Variable Declarations*/
+- Rtt schedule variable for future threads creation
+		/*For Server Loop*/
+		- In a while loop, the server will wait for a message
+		 using receive. 
+		But then, we need to define this information: PID of the 
+		server doing 
+		the request, the actual message and its size.
+
+/*Create a RTT schedule variable for threads*/
+- Define attrs variable from RttSchAttr structure of RTTI library 
+  and assign current starting time, no deadline and normal 
+  priority because those 4 threads are less important than the server.
+
+/*Threads Creation*/
+- All threads were created at USER level because they are not
+ direct processes 
+threads
+
+/*Variable Allocation In Loop*/		
+- In a while loop, the server will wait for a message using receive. 
+	But then, we need to allocate this information: PID of the server doing 
+	the request, the actual message and its size.
+	
+	
+/*Finish Session*/
+
+
+
+receives in reply plain message int *reply_message_pl. sends to server MessageT
+
+## mainp()
+
+
+
+int mainp(int argc, char *argv[]) {
+	/*Variable Declarations*/
+	int temp;
+	RttSchAttr 	attr_srv;
+	serverPid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+
+    if (argc != 4){
+        printf("Use the func like: %s <localPort> "
+        "<hostName> <remotePort>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    local_port = atoi(argv[1]);
+    remote_host_name = argv[2];
+    remote_port = atoi(argv[3]);
+    local_host_name = GetHostName();
+
+    local_host_ip = GetIP(local_host_name);
+    remote_host_ip = GetIP(remote_host_name);
+
+	/*Define RTT Time atribute for server*/
+	attr_srv.startingtime = RTTZEROTIME;
+	attr_srv.priority = RTTHIGH;
+	attr_srv.deadline = RTTNODEADLINE;
+
+	nowAttr.startingtime = RTTZEROTIME;
+	nowAttr.priority = RTTNORM;
+	nowAttr.deadline = RTTNODEADLINE;
+
+	/*output everything immediately (no buffer) 
+	- Useful for Real Time Processes*/
+	setbuf(stdout, 0);
+
+	/*Create Server Thread*/
+	temp = RttCreate(serverPid, (void(*)()) thr_server,STKSIZE,"Server", 
+	NULL, attr_srv, RTTUSR);
+	if (temp == RTTFAILED) perror("RttCreate");
+	
+	printf("S-Chat Started\n");
+
+	return 0;
+}
+
+*Detail Explanation*
+
+/*Variable Declarations*/
+- Temp receives results of executions, attr is required for 
+thread time information 
+and the serverPid of the server thread.
+- attr_srv Scheduling starts/PRIOR, deadline, for the server.
+
+/*Define RTT Time atribute for server*/
+- Define attrs variable for the time of server thread
+   -  Define the variable attrs of type RttSchAttr, RTTI Infrastructure
+   - Assigns starting time to the current time (RTTZEROTIME), 
+     priority as High because we want to assign the server thread 
+     as the main (RTTHIGH), and no deadline for server thread to 
+     semantically keep running.
+
+
+# UDP Functions
+
+This file will include all the functions required to perform the udp
+connection, reading and writting.
+
+## Libraries:
+
+Used for the file descriptor control options.
+#include <fcntl.h>
+
+For the C standard system calls like close()
+#include <unistd.h>
+
+C library for standard I/O functions
+#include <stdio.h>
+
+This library will be used for networking functionalities
+#include <arpa/inet.h>
+
+This library will help us in error handling
+#include <errno.h>
+
+This library will help us for string manipulation, required to get IP
+(see below - memset())
+#include <string.h>
+
+It is the Real Time Threads Interface library
+
+include <rtthreads.h>
+
+The header that we have created to link files
+#include <s-chat.h>
+
+## Functions:
+
+This funtion will be need to bind the port number. Bind, is the process
+to allocate that port number to a socket. This is taking advantage of
+the fact that the socket has an IP address and a port number
+(bound to a port). This will be used so that we can be able to receive
+data from that port.
+
+A socket will be used because it serves as an endpoint to send and
+receive data from the network.
+
+int bind_udp_sock(int port){
+
+
+Variables:
+
+Will be used to store the number realted to the socket file
+ descriptor.
+
+int sock_fd;
+
+Now we are going to use serv_add to store information about address
+family, port number and IP address in a IPv4 network using the
+struct sockaddr_in from <netinet/in.h> library.
+
+struct sockaddr_in serv_add;
+
+Now we are creating the socket using socket() function stating that
+the IP family is IPv4, general for main systems (AF_INET), the
+protocol to be used is UDP (SOCK_DGRAM) and 0 for default args not
+needed in socket() function.
+
+sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
+
+We will initialize the serv_add structure of adress information to
+set all bytes to zero. This will be using memset() where give the
+pointer of the data to affect (serv_add variable), 0 for the value
+that we are going to use to modify and the number of bytes to set
+which is the whole size of serv_add
+
+memset(&serv_add, 0, sizeof(serv_add));
+
+Now that the address information is initialized,
+
+we set the family address to be IPv4.
+
+serv_add.sin_family = AF_INET;
+
+By the moment, we are going to set the IP address from we can accept
+incoming connections to all of them using INADDR_ANY (0.0.0.0).
+Then we are replacing that address to be a specific one using
+inet_pton(IPv4, specific_ip_address, pointer of the address of the
+serv_add structure)
+
+serv_add.sin_addr.s_addr = INADDR_ANY;
+/*inet_pton(AF_INET, "ip.ip.ip.ip", &serv_add.sin_addr);*/
+
+Finally, it is time to relate the port with the bind. So in the
+serv_add structure, in the port data we will assign the geven port
+as the function argument using htons(port). htons transform from the
+port to big-endian format used for network byte order.
+
+serv_add.sin_port = htons(port);
+
+Now we cna perform the actual address assignation to the socket
+listener by using bind. Sock?fd is my socket file descriptor,
+then the serv_add that we have been customaizing before and
+finally it's size.
+
+bind(sock_fd, (struct sockaddr*)&serv_add, sizeof(serv_add));
+
+Then now we get a sock_fd file descriptor that is configured and will
+allow us to send a and receive data from IP_Address:port.
+
+/*Remember to close sock_fd*/
+return sock_fd;
+
+
+
+}
+
+This funciton will allow us to avoid blocking the udp transmission
+in our execution. First it receives the socket file descriptor (sock_fd)
+that we have configured so that we modify flags over it.
+
+int nonblock_udp(int sock_fd){
+int flags_fd;
+
+
+Now we get the flags using fcntl() with the command get and the
+file descriptor of the socket.
+
+flags_fd = fcntl(sock_fd, F_GETFL, 0);
+
+Here we perform the actual flags modification by adding the flag
+O_NONBLOCK to the file descriptor flags.
+
+fcntl(sock_fd, F_SETFL, flags_fd | O_NONBLOCK);
+
+Inj success, return 0
+return 0:
+
+
+
+}
+
+At this function we perform the actual reading of data from UDP
+transmission. We pass the socket file descriptor to get the configuration
+of the address IP and port number.
+
+char *udp_read(int sock_fd){
+
+
+This variable will be used to store the sender address information.
+
+struct sockaddr_in address;
+
+sz is to get the byte size of the message
+ssize_t sz;
+
+socklen_t address_len = sizeof(address);
+
+Define the buffer size to receive UDP packet, usually 1024 + string
+terminator character = 1025
+int buffer_size = 1025;
+char *buffer_reading = RttMalloc(buffer_size);
+
+The function recvfrom() performs the reading. Read bytes are in
+sz, the socket file descriptor configured that we are using is
+in sock_fd, the buffer_reading will receive the data,
+the sender's address will be stored in address and the length
+in address_len.
+
+sz = recvfrom(sock_fd, buffer_reading, buffer_size-1, 0,
+(struct sockaddr*)&address, &address_len);
+
+If sz is -1, it didn't read anything.
+if (sz == -1){
+
+	Here we take errno, c system, flags to check if it is because
+	there is nothing on the port.
+    if (errno == EAGAIN || errno == EWOULDBLOCK){
+
+		Then it will free the allocated buffer and exit.
+        /*There is no available input*/
+        RttFree(buffer_reading);
+        return NULL;
+
+    Otherwise, the problem is from the system and the error is
+    sent using perror(). As well the buffer memory is free and
+    we return null to exit.
+
+    } else {
+        perror("read_udp");
+        RttFree(buffer_reading);
+        return NULL;
+    }
+}
+
+Otherwise, data on UDP port receiver is found and we add the
+terminator character to standarize it as a String. Then
+we return it.
+
+buffer_reading[sz] = '\\0';
+return buffer_reading;
+
+
+
+}
+
+In this function we will enable again the blocking of
+UDP transmission by the system. We will pass the sock_fd
+that we have configured before so that the system knows.
+
+int block_udp(int sock_fd){
+int flags_fd;
+
+
+First we get the flags of that sock_fd, the socket file descriptor.
+
+flags_fd = fcntl(sock_fd, F_GETFL, 0);
+
+Here we modify its flags to enable system blocking of the UDP
+transmission.
+
+fcntl(sock_fd, F_SETFL, flags_fd & ~O_NONBLOCK);
+return 0;
+
+
+
+}
+
+## Changes in udp_mang.c file
+
+
+#include <unistd.h> /*getHostName*/
+#include <limits.h> /*max Host Name*/
+#include <netdb.h> /*Get IP*/
+
+
+### getHostName
+
+To get the host name of the current machine
+
+
+char *GetHostName(){
+    char *hostName = (char *)RttMalloc((size_t)HOST_NAME_MAX);
+    if (gethostname(hostName, (size_t)HOST_NAME_MAX) != 0){
+        myerror_u("HOSTNAME");
+    }
+    return hostName;
+}
+
+
+### GetIP
+
+
+
+Get IP address of the given host name by performing a kind of lookup
+othe rthe network. If IP, the information is in
+host entry and can be parse to chars to return.
+
+char *GetIP(char *hostName){
+    struct hostent *host_entry;
+    char *getIP;
+    char *IPstr = (char *)RttMalloc(50);
+
+    host_entry = gethostbyname(hostName);
+    if (host_entry == NULL){
+        myerror_u("GETHOSTENTRY_HostName no Found");
+        exit(EXIT_FAILURE);
+    }
+
+    getIP = inet_ntoa(*((struct in_addr*) host_entry->h_addr_list[0]));
+    strcpy(IPstr, getIP);
+    IPstr[49] = '\0';
+
+    return IPstr;
+}
+
+
+### Configure Sockets
+
+
+This function will create the sockets for reading and sending along with the 
+address to send. Therefore, we need:
+- Socket read: local_port, and pointer to save the given socket
+- Socket send: remote_port, remote_host_name
+, and pointer to save the given socket
+
+int configure_udp_sock(int local_port, int remote_port, const char* 
+remote_host_name, int *tosock_send, int *tosock_read, 
+struct sockaddr_in *tosend_addr){
+	int sock_send;
+	struct sockaddr_in send_addr;
+	struct hostent *he;
+
+    int sock_read;
+    struct sockaddr_in rcv_addr;
+    int broadcast = 1;
+
+    /*-------SEND------------*/
+    /*The socket that sends will be prepared to send to UDP data
+    grams and the address to send will be configured according the
+    machine that i want to reach. Now the socket is ready to send.*/
+	
+    if ((he = gethostbyname(remote_host_name)) == NULL) {  
+		/*get the host info*/
+        myerror_u("gethostbyname");
+    }
+	
+    if ((sock_send = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        myerror_u("socket");
+    }
+	
+	if (setsockopt(sock_send, SOL_SOCKET, SO_BROADCAST, &broadcast,
+		sizeof(broadcast)) == -1) {
+		close(sock_send);
+		myerror_u("setsockopt (SO_BROADCAST)");
+	}
+	
+    send_addr.sin_family = AF_INET;
+    send_addr.sin_port = htons(remote_port);
+    send_addr.sin_addr = *((struct in_addr *)he->h_addr);
+    memset(send_addr.sin_zero, '\0', sizeof send_addr.sin_zero);
+    
+    /*-----------READ-----------*/
+    /*First I configure the current socket and then I relate it to
+    the local address and bind it to the port that I want to be reading.
+    I allow to receive messages from any machine*/
+
+    if ((sock_read = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        myerror_u("socket_READ");
+    }
+
+    memset(&rcv_addr, 0, sizeof(rcv_addr));
+    rcv_addr.sin_family = AF_INET;
+    rcv_addr.sin_port = htons(local_port);
+    rcv_addr.sin_addr.s_addr = INADDR_ANY;
+
+    if (bind(sock_read, (struct sockaddr*)&rcv_addr, 
+    sizeof(rcv_addr)) < 0) {
+        close(sock_read);
+        myerror_u("BIND_ERROR");
+        return -1;
+    }
+    
+    /*Finally I have to put the values on the allocations
+    for the socket and the sender address*/
+
+    *tosock_send = sock_send;
+    *tosock_read = sock_read;
+    *tosend_addr = send_addr;
+    return 0;
+}
+
+
+
+### udp read
+
+
+
+In order to read from the port we only need the socket file descriptor and
+the pointer to store the retirved message os MessageSchat type.
+
+int udp_read(int sock_fd, MessageSchat *buffer_reading){
+    int sz;
+
+    struct sockaddr_in sender_addr;
+    socklen_t sender_len = sizeof(sender_addr);
+
+    sz = recvfrom(sock_fd, buffer_reading, sizeof(MessageSchat), 0,
+    (struct sockaddr*)&sender_addr, &sender_len);
+
+    if (sz == -1){
+        if (errno == EAGAIN || errno == EWOULDBLOCK){
+            /*There is no available input*/
+            return 0;
+        } else {
+            myerror_u("read_udp");
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+
+### udp send
+
+
+For this function we will need the related socket, the MessageSchat that
+you want to send and the address of the receiver that we have build
+in the configuration.
+
+int udp_send(int sock_fd, MessageSchat *message,
+ struct sockaddr_in send_addr){
+    ssize_t sent_bytes;
+    int chances = 4;
+
+    while (chances > 0){
+        sent_bytes = sendto(sock_fd, message, sizeof(MessageSchat), 0,
+                            (struct sockaddr*)&send_addr, sizeof(send_addr));
+
+		/*Here I send the packet 4 times if there are any problems,
+		After 4 times and if there are still problems, the
+		connection was not established*/
+        if (sent_bytes == -1){
+			chances--;
+			if (chances == 0){
+				myerror_u("SENDTO_FAILED");
+			}
+            return -1;
+        } else {
+			chances = 0;
+		}
+    }
+
+    return 0;
+}
+
+
+# Key Board Functions
+
+## Non-Blocking Keyboard.
+
+For this option we will use the fcntl function to change file descripto
+flags.
+To non-blocking and then reverting the changes.
+
+### File keyboard_mang.c
+
+File where the keyboard management will be performed.
+
+Libraries:
+
+- <fcntl.h> file control function to manipulate file descriptors
+(For blocking).
+- <unistd.h> It has the access to POSIK operating system API.
+Miscellaneous
+funcitons for general tasks like reding.
+- <stdio.h> C standard I/O
+- <errno.h> for managing errors
+- <stdlib.h> to use Miscellaneous of C, like read, close...
+- <rtthreads.h> to use RTTI functionalities. Like memory allocation.
+- <s-chat.h> to connect functions with main program
+
+Functions:
+
+int nonblock_keyboard(){
+
+To avoid the block of the keyboard.First we need to set standard
+input
+to non-blocking.
+
+We call the function fcntl to modify the file descriptor for input
+(STDIN_FILENO=0), with F_GETFL we get the flags that show if the
+descriptor
+is blocked or not. This flag will be stored at int flags. Third
+argument is
+ignored because the command doesn't require it.
+
+int flags_fd = fcntl(STDIN_FILENO, F_GETFL, 0);
+
+Now we use again fcntl to modify the file descriptor. F_SETFL will
+set new flags
+for the file descriptor taht we are modifyng, and with the biwise
+operation of OR,
+we are adding to the flags O_NONBLOCK to avoid future blocks.
+
+fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+
+In this way, when receiving from the keyboard, no blocking will
+occur. In that
+way, the threads while reading can perform other tasks. The program
+and keyboard
+won't be blocked.
+
+Return 0 on success.
+
+}
+
+char* read_keyboard(int size){
+
+Create the char buffer to store strings. Args is size for the amount
+of chars. that will be added to the current input.
+
+char *buffer_reading = RttMalloc(sizeof(size));
+
+Inside a While cycle, get char from the keyboard. We will use the
+variable sz that is a ssize_t data type that is signed and is used to
+represent the size of an object.
+
+It also tells us the number of bytes that are being read or written.
+Then, in
+this case sz are the bytes that have been read. While read() function
+reads
+from the filedescriptor of keyboard to the buffer that we have
+created.
+Finally,the limit of bytes that will be read is specified in the
+third argument
+that is called count of read(), and in this case it will be the
+size of my
+buffer.
+
+while(1){
+
+
+  sz = read(STDIN_FILENO, &current_in, 1);
+
+  Check if it could retrieve  an input. It couldn't when the bytes
+  read in sz
+  are -1.
+
+  if (sz == -1), the case where it couldn't find input, is going to
+  check if
+  there were no characters available of if there was an error.
+
+     If there is no characters available, we will get the system
+     global
+     variable and compare its value with EGAIN and EWOULDBLOCK,
+     which are
+     definitons that are related to not having data available to
+     read at the
+     moment in spite of a call to non-blocking I/O. If one of
+     those match, then
+     it will continue waiting.
+
+     if (erno == EGAIN || erno == EWOULDBLOCK){
+           continue;
+     }
+
+     Otherwise, we will send and error using perror, a C function
+     that will
+     allow us to perform a descriptive error message as the error
+     is not because
+     it didn't read anything.
+
+     else {
+           perror("read_keyboard");
+           RttFree(buffer_reading);
+           return NULL;
+        }
+
+  else, if it could find input, then:
+
+  else if (sz > 0){
+
+     If the input is an enter, it finish the reading:
+     if (current_in == '\\n'){
+
+        Add the termination at the end of buffer and break loop.
+
+        buffer_reading[index] = '\\0';
+        break;
+
+     Otherwise, add the character found to the buffer. But if the
+     buffer has arrived to itrs size, it add temrination character
+     and break loop.
+
+     else {
+           buffer_reading[index++] = current_in;
+           if (index >= size-1){
+              buffer_reading[index] = '\\0';
+              break;
+           }
+     }
+
+
+
+}
+
+Return the string that was read:
+
+return buffer_reading;
+}
+
+int block_keyboard(){
+
+Variable to store the current flags that has the file descriptor.
+int flags_fd;
+
+Assign the flags. Function fcntl for file descriptors will be used.
+The fd. is STDIN_FILENO, and flags are obtained with F_GETF.
+flags_fd = fcntl(STDIN_FILENO, F_GETFL, 0);
+
+Now we modify the flags to enable the keyboard blocking by
+performing a bitwise operation to delete the flag O_NONBLOCK
+that we have added.
+fcntl(STDIN_FILENO, F_SETFL, flags_fd & ~O_NONBLOCK);
+
+If success, return 0
+return 0;
+}
+
+# Others
+
+- Cross Compiling between platforms wil be done as in lab 0
+using the make file.

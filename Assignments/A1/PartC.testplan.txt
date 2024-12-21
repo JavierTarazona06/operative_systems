@@ -1,0 +1,49 @@
+   NAME: Javier Andres Tarazona Jimenez, Steven Baldwin 
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+
+PartC.testplan:
+Functionality requirements:
+	A c list library capable of making lists and adding nodes to those lists.
+    Another c script will do automatic testing as follows:
+Functions to be tested:
+	ListCreate()
+	ListFirst()
+	ListLast()
+	ListNext()
+	ListPrev()
+	ListCurrent()
+	-ListAdd()
+	-ListInsert()
+	-ListAppend()
+	-ListPrepend()
+The above functions marked with a dash are of priority as they are the 
+assignments major requirements for part c phase 2. The other functions
+above will be used to test these important functions, and will themselves
+be tested for this reason.
+
+-Edge cases to consider:
+	Using Create() to create more lists than the maximum number of lists.
+	Using Create() to make exactly the maximum number of lists.
+	Attempting to add more nodes than the maximum number of nodes.
+	Making exactly the maximum number of nodes.
+	Using listAdd() to add to the tail position.
+	Using listAdd() to add to the head position.
+	Using listInsert() to add to the tail position.
+	Using listInsert() to add to the head position.
+
+-Each test should complete in a reasonable time (essentially instantly), 
+as everything so far is expected to be in O(1) time.
+-The lists should be tested with multiple data types and should work 
+the exact same regardless of held type.
+-Passed tests should be silent, but a tally of passed tests should 
+be kept and displayed.
+
+-Our Makefile will also be tested. The library should compile for linux 
+but not for windows. The compilation will be tested on the schools linux 
+and windows machines to ensure the makefile is correctly enforcing 
+the correct machinery.

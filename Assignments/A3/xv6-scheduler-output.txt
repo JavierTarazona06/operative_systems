@@ -1,0 +1,97 @@
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+
+* Logic of the test and prove that the
+    kernel modifications were done properly
+    is at the end of the design file
+
+xv6 kernel is booting
+
+hart 1 starting
+hart 2 starting
+init: starting sh
+$ scheduler_test
+Parent process created
+Start time is: 40
+Process 0 started with share 20 and group 3.
+Process 0 to sleep 3 seconds.
+Process 0 has woken up
+Process 0 is going to compute square 14 times
+Runtime of process 0 is 3
+Process 1 started with share 6 and group 3.
+
+1 sleep  init
+2 sleep  sh
+3 sleep  scheduler_test
+4 zombie scheduler_tePst
+5 run    scheduler_test
+rocess 1 to sleep 3 seconds.
+Process 1 has woken up
+Process 1 is going to compute square 4 times
+Runtime of process 1 is 3
+
+1 sleep  init
+2 sleep  sh
+3 sleep  scheduler_test
+4 zombie scheduler_test
+5 zombie scheduler_test
+
+1 sleep  init
+2 sleep  sh
+3 sleep  scheduler_test
+4 zombie scheduler_test
+5 zombie scheduler_test
+Process 2 started with share 13 and group 3.
+Process 2 to sleep 3 seconds.
+Process 2 has woken up
+Process 2 is going to compute square 14 times
+Runtime of process 2 is 3
+
+1 sleep  init
+2 sleep  sh
+3 sleep  scheduler_test
+4 zombie scheduler_test
+5 zombie scheduler_test
+6 zombie scheduler_test
+Process 3 started with share 20 and group 3.
+Process 3 to sleep 3 seconds.
+Process 3 has woken up
+Process 3 is going to compute square 4 times
+Runtime of process 3 is 3
+
+1 sleep  init
+2 sleep  sh
+3 sleep  scheduler_test
+4 zombie scheduler_test
+5 zombie scheduler_test
+6 zombie scheduler_test
+7 zombie scheduler_test
+All processes have finished
+$
+1 sleep  init
+2 sleep  sh
+scheduler_test
+Parent process created
+Start time is: 135
+Process 0 started with share 6 and group 1.
+Process 0 to sleep 1 seconds.
+Process 0 has woken up
+Process 0 is going to compute square 5 times
+Runtime of process 0 is 2
+Process 1 started with share 13 and group 1.
+Process 1 to sleep 1 seconds.
+Process 1 has woken up
+Process 1 is going to compute square 8 times
+Runtime of process 1 is 1
+Process 2 started with share 20 and group 1.
+Process 2 to sleep 1 seconds.
+Process 2 has woken up
+Process 2 is going to compute square 18 times
+Runtime of process 2 is 1
+Process 3 started with share 6 and group 1.
+Process 3 to sleep 1 seconds.
+Process 3 has woken up
+Process 3 is going to compute square 8 times
+Runtime of process 3 is 1
+All processes have finished

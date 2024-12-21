@@ -1,0 +1,456 @@
+/*#NAME: Javier Andres Tarazona Jimenez
+#NSID: elr490
+#Student Number: 11411898
+
+#CMPT 332 Term 1 2024
+
+#Lab 6*/
+
+Search for titles and subtitles starting by #
+
+# Run the program:
+
+./BestFit <number_threads> <maxSleepTime> <maxAllocation>
+    <freeProbability> <numberofIterations>
+
+Where if the arg is 0, it with take default values:
+./BestFit 0 0 0 0 0
+ <-> ./BestFit 4 1.5 640 0.5 15
+
+The number of iterations is for all threads.
+Then, if you want each thread to iterate 5 times,
+ you should send numberofIterations = 5*number_threads
+
+# My deadlock solutions
+
+In order to avoid the deadlock I had three proposals.
+All of them were implemented.
+The solutions 1 and 2 have their
+test results in the output.txt.
+The final solution that is running is the first.
+
+If the thread could not find a space in the memory
+that is not full, because of external fragmentation...
+
+1. Try-again solution
+
+... The thread will sleep and try again later
+hoping that a new thread free enough memory for it.
+
+2. Kill Threads Solution
+
+... the thread will exit from execution.
+
+3. Increase Memory
+
+... the memory space is increased by the size
+required by the thread.
+I did not like too much this solution because the memory can
+increase until the max. of the system or
+I would have to reduce the memory space to the half
+if the occupied blocks size is less than the half.
+
+# Summary of General Requirements
+
+- Your "application" should consist of a number of threads that allocate and
+ free memory.
+- Global variables:
+    - The memory space is a global data structure shared amongst all threads
+     and should be implemented as a list of free spaces in memory (start
+     address, size). When adjacent blocks become free, they should be
+     coalesced into one block. You may hard-code (using a #define) the
+     size of the entire memory space.
+- Thread Actions:
+    - The application threads will have to use lists to keep track of
+    which memory blocks they have allocated so that they can go through
+    the list to determine which block they will free during the next
+    iteration.
+    - In a loop:
+    - randomly choose a memory size to allocate (in a contiguous block
+    - thus simulating a process arrival),
+        - If not allocated because no space available,  then the thread
+        will have to wait until memory is made available by another
+        thread free-ing one of its blocks.
+        - Thus, it calls MonWait(memAvail).
+    - sleep for a while
+    - then randomly select whether or not to free() one of its existing
+    blocks of memory that has been previously allocated.
+        - If free, signal MonSignal(memAvail)
+    - It does this for a pre-determined number of times.
+- Monitor Procedures
+    - BF-Allocate(size)
+    - Free(address)
+- Parameters for the simulation that can be set include the following:
+    - maxSleepTime,
+    - maxAllocation,
+    - freeProbability,
+    - numberOfIterations.
+- Input:
+    - ./BestFit.c <number_threads> <maxSleepTime> <maxAllocation>
+    <freeProbability> <numberofIterations>
+    - If one of the args is 0, then my program parametrs will be used:
+    ./BestFit.c 4 1.5 640 0.5 15
+
+# Files
+
+- BestFitMonitor.h that relates BestFitMonitor.c that has functions to
+allocate and free memory and the funciton that initialize the monitor
+- BestFitMonitor.c: The actual development of the header BestFitMonitor.h
+- BestFit.c
+- Monitor.c and Monitor.h are the monitor programs made before for Lab4
+
+## BestFitMonitor.h
+
+
+#ifndef FILE_H
+#define FILE_H
+
+#define FREE 0
+#define OCCUPIED 1
+
+typedef struct MemoryBlock {
+    int startaddress;
+    int size;
+    int state; /*Free or occupied*/
+} MemoryBlock;
+
+int Initialize(int iterations, int memory_size);
+int BF-Allocate(int size);
+/*Return start address of the lock
+ * or -1 if could not assign memory*/
+int Free(int address);
+/*0 for success*/
+
+
+## BestFitMonitor.c
+
+
+#include <stdio.h>
+#include <BestFitMonitor.h>
+#include <monitor.h>
+#include <list.h>
+
+/* INITIALIZATION CODE */
+#define OKtoAllocate 0
+#define numConds  1
+
+/*#define FREE 0
+#define OCCUPIED 1*/
+
+int num_iterations, memory_full, free_memory;
+
+LIST *MemorySpace;
+
+int init_memory(int size){
+    /*Given the size in int, return the
+     * memory space as a list with a
+     * memory block of the given size.*/
+
+    /*Create List for Memory space*/
+    MemorySpace = ListCreate();
+
+    /*Create a Memory Block with
+     * start address in 0 and the given size and state FREE*/
+
+    /*Append the memory block to the
+     * memory space list*/
+
+    /*Set memory full in 0*/
+    memory_full = 0;
+
+    /*Set free_memory as size*/
+    free_size = size;
+
+    return 0;
+}
+
+/* MONITOR PROCEDURES */
+int Initialize(int iterations, int memory_size)
+{
+    int temp;
+
+    /*Initialize Monitor*/
+    RttMonInit(numConds);
+
+    /*Initialize Memory*/
+    temp = init_memory(memory_size);
+    if (temp != 0) return -1;
+
+    /*Set num_iterations to the argument*/
+    num_iterations = iterations;
+
+    return 0;
+}
+
+int BF-Allocate(int size){
+    int cycles = 0;
+    int flag = 1;
+    /*Return start address of the memory block*/
+
+    while (flag) {
+        /*Enter Monitor*/
+
+        /* To avoid deadlock, if the cycles gets
+        * repeated 2 times(cycles>1), the size of the whole
+        * memory could be increased by the size of the
+        * request thread.
+            Call add_new_block(size);
+        *      */
+
+        if (memory_full) {
+            /*WaitMonitor in OKtoAllocate*/
+        }
+
+        /*Iterate memory blocks in MemorySpace,
+         * until the end of the list
+         * have an index with value -1 for no block or for the block found
+         * - best_block  Have the best block stored by each iteration
+         * if the state is free:
+         *      if the size is >= to the given size, assign current block
+         *      to best block, and best index to current index */
+
+        /*Move the list cursor back to the best block found using the best
+        index*/
+
+        /*If the best block found (best index != -1),
+         * Set flag=0 to don't repeat de cycle again
+            *  Substract from free_size, size. If Equal to zero, set
+            memory_full = 1
+         *
+             * -If size == current size, set state to occupy
+             * and set address to return equal to the startaddress.
+         *
+             * If size > current size create 1 block,
+             * one block with state occupied with size equal to current
+             size and start address the current
+             * start address and change best found block start address
+             * to be the best block start address + current size and size
+             * the best block size - that new address.
+             * - Insert the new occupied block
+             *
+         * */
+
+        /* If the best block was not found, (best_index ==-1),
+        * Iterate again (cycles++). Flag is still true.*/
+
+        reduce_iterations();
+        /*Leave Monitor*/
+    }
+
+    /*If bestindex != -1, return the new occupied block start address
+     * */
+
+    return 054548;
+}
+
+int Free(int address){
+    /*Enter to Monitor*/
+
+    /*Iterate memory blocks in MemorySpace,
+     * until the end of the list.
+     * Let an index with value -1 for no block or for the block found
+     * if the start_address is given address:
+     *      Break the for search.
+     *      Set State to free.
+     *      free_memory += found block size
+     *      memory_full = 0;
+     *
+     *      if LISTCOUNT != 1:
+     *      The list have more than one block of memory
+     *
+         *      if (index >= 1):
+         *          Move in list to prev and get left_memory_block,
+         *          If left block state is free:
+         *              set found block size += left block size
+         *              set foundblock_startaddress = left block start address
+         *              Remove left block (the cursor is move to the
+         found block)
+         *
+         *      if (index <= ListCount()-2) && (LISTCOUNT != 1):
+         *          Move in list to next and get right_memory block
+         *          If right block state is free:
+         *              set found block size += right block size
+         *              Remove right block
+         *              If index == ListCount()-2 the cursor is move to
+         the found block
+         *              Else Move the cursor using LISTPREV
+         *
+      *    /*SignalMonitor in OKtoAllocate*/
+     *
+     *      */
+
+    reduce_iterations();
+    /*Leave Monitor*/
+    return 0;
+}
+
+int add_newfree_block(int size){
+    /*call inside a monitor*/
+
+    /*
+*       - free_memory += size
+ *      - memory_full = 0
+          - get last block of memory space
+          If last block state is free:
+              - last block size += size
+          Otherwise
+    *      - Create a new memory block with
+    *          state = free
+    *          startaddress = get last block start address (ListLast) +
+    last block size
+    *          size = size
+    *      - Append the memory block to the MemorySpace
+         *      */
+    return 0;
+}
+
+int reduce_iterations(){
+    /*This should be call inside the monitor*/
+
+    /*reduce the number of iterations*/
+    num_iterations--;
+
+    /*If num_iterations =0, exit*/
+    if (num_iterations == 0){
+        printf("Iterations finished");
+        exit();
+    } else {printf("Executions left: %d", num_iterations);}
+
+    return 0;
+}
+
+
+
+## BestFit.c
+
+
+#include <stdio.h>
+#include <rtthreads.h>
+#include <RttCommon.h>
+#include <stdlib.h>
+
+#include <list.h>
+#include <BestFitMonitor.h>
+
+#define STKSIZE 65536
+
+LIST *threads_created;
+
+int number_threads, maxAllocation, numberofIterations;
+double maxSleepTime, freeProbability;
+
+void myerror(char *error_message){
+    perror("---------> %s", error_message);
+    exit();
+}
+
+int random_free(double free_probaility){
+    /* Given a free probability [0,1],
+     * return 0 for not free,
+     * 1 for free*/
+    int random_binary;
+
+    random_binary = (rand() < (free_probaility * RAND_MAX)) ? 1 : 0;
+
+    return random_binary;
+}
+
+RTTTHREAD my_thread(int *arg) {
+    int num_thread;
+    LIST *MemoryBlocksOccupied;
+    MemoryBlock *cur_block;
+
+    num_thread = *arg;
+
+    printf("Thread Number %d initialized.\n", num_thread);
+
+    while(1){
+        /*Get a random integer number for the size*/
+
+        /*Call BF-Allocate(int size)*/
+        /*Allocate a cur_memoryblock
+            * set state to occupied
+            * set size to cur_size
+            * set start_addres to the return of BF-Allocate*/
+        BF-Allocate(cur_size);
+        /*Append cur_block to MemoryBlocksOccupied*/
+
+        /*Put thread to sleep a random time
+         * from 0 to maxSleepTime seconds*/
+
+        /*Get random free number */
+
+            /*If free number:
+             *  - Get a random number between r = [0,len(MemoryBlocks
+             Occupied)]
+             *  - Get the cur_memory_block from the list in position r
+             *  - Remove from the list MemoryBlocksOccupied the cur_memory
+             _block
+             *  - Call Free(cur_memory_block -> startaddress)*/
+
+        /*Put thread to sleep a random time
+         * from 0 to maxSleepTime seconds*/
+    }
+}
+
+int mainp(int argc, char *argv[]) {
+    int temp, i, *num_thread;
+    RttSchAttr attr;
+    RttThreadId *curr_thread;
+
+    /*GET Data from input*/
+    if (argc != 6) {
+        printf("Usage is: %s <number_threads> "
+               "<maxSleepTime> <maxAllocation> "
+               "<freeProbability> <numberofIterations>\n", argv[0]);
+        myerror("Wrongs args.");
+    }
+
+    number_threads = atoi(argv[1]);
+    if (number_threads == 0) number_threads = 4;
+
+    maxSleepTime = atof(argv[2]);
+    if (maxSleepTime == 0) maxSleepTime = 1.5;
+
+    maxAllocation = atoi(argv[3]);
+    if (maxAllocation == 0) maxAllocation = 640;
+
+    freeProbability = atof(argv[4]);
+    if (freeProbability == 0.5) freeProbability = 0.5;
+
+    numberofIterations = atoi(argv[5]);
+    if (numberofIterations == 0) numberofIterations = 15;
+
+    setbuf(stdout, 0);
+    /*Set seed for random number*/
+    srand(71);
+
+    /*Initialize BestFitMonitor*/
+    Initialize(numberofIterations, maxAllocation);
+
+    /*Initialize threads list*/
+    threads_created = ListCreate();
+
+    /* Create number_threads threads and
+     * add them in thrreads_created*/
+    attr.startingtime = RTTZEROTIME;
+    attr.priority = RTTNORM;
+    attr.deadline = RTTNODEADLINE;
+
+    for (i = 0; i < number_threads, i++){
+        curr_thread = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+        num_thread = (int *)RttMalloc(sizeof(int));
+        *num_thread = i;
+
+        temp = RttCreate(curr_thread, (void(*)()) my_thread,STKSIZE,"R",
+                 num_thread,
+                 attr, RTTUSR );
+        if (temp == RTTFAILED) myerror("RttCreate");
+
+        ListAppend(threads_created, curr_thread);
+    }
+
+    printf("Threads Created!!\n");
+
+    return(0);
+}

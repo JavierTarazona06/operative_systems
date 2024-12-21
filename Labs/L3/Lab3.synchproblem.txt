@@ -1,0 +1,182 @@
+/* NAME: Javier Andres Tarazona Jimenez, Thomas Brown, Tianze Kuang
+   NSID: elr490, vwg123, wde364
+   Student Number: 11411898, 11332966, 11352826
+
+   CMPT 332 Term 1 2024
+
+   Lab 3
+*/
+
+Question To Be Solved: BarberShop (5.2)
+
+
+Index:
+
+- Overview
+- Libraries
+- Global variables
+- Functions
+- Test
+
+# Overview
+
+There is a barber that has one chair available for haircuts. 
+Besides there is a queue of n chairs for the waiting room while 
+the barber is busy. Moreover, the barber just can serve one 
+customer at a time and customers arrive 
+in a random way. However we will use a spanning differnece time of 
+0.3 seconds.
+
+In general terms, the solution works with some threads for the 
+customers and another for the barber. 5 semaphores will be used 
+to handle CriticalSection of shared resources (Mutex), Customer 
+and Barber and CustomerDone and BarberDone for when the cut 
+service is ready/done from the perspective of Customer/Barber
+
+The EXECUTABLE is called ./Lab3 n m and the test EXECUTABLE is
+./Lab3_test. Where n is the number of chairs in the shop
+and m is the number of customers that will approach the shop.
+
+# Libraries:
+
+ - <stdio.h> Standard IO for program
+ - <standards.h> Includes UBC threads base code
+ - <os.h> Includes UBC threads base code
+
+# Global variables
+
+int 
+ Semaphores:
+ - Mutex: Handle Critical Section. When resources could be shared 
+ between customers.
+ - Customer: Customer presence. In 0, there are no customers
+ - Barber: Availability of Barber. In 0 is waiting.
+ - CustomerDone: If Customer is done with hair cut. In 0 if is not
+ done yet.
+ - BarberDone: If Barber is done with the hair cut. In 0
+ if he is not done yet.
+
+ Control Variables
+ - CustomersWaiting: Count of customers that are waiting in 
+ the queue
+ - MaxQueue: The number of customers that can be in the shop 
+ (chairs in waiting room + chair of barber)
+ - customer_thr_finished: Count of customer threads that have 
+ finished
+
+
+# Functions
+
+void cutHair()
+Is called by the Customer thread
+- Print number of customers waiting
+- Sleep for 1 second to simulate hair cut
+
+void getHairCut()
+Is called by the barber thread
+- print get hair cut to vire state of the program
+- Sleep for 1 second
+
+void CustomerThread()
+- P(mutex) set to 0 cause commen resources among customer threads 
+will be modified
+	- if CustomersWaiting is equal to MaxQueue:
+	 - customer leaves if queue is filled (print state) and 
+	 increase in one customer_thr_finished.
+	 - V(mutex) that set 1 to exit from critical Section
+	 Shared resources between customer threads have been already 
+	 modified
+	 - Pexit() of the thread---------
+	- else, there is space in queue and CustomerWaiting 
+	increases in 1
+	 - print state ("Customer is waiting. Total count waiting: 
+	 %d\n", CustomersWaiting-1)
+	 * We substracted 1 as teh queue are all the count - customer 
+	 at barber chair
+- V(mutex) that set 1 to exit from critical Section. 
+Shared resources between customer threads have been already 
+modified
+
+- V(Customer) increase to express that there is a customer ready
+- P(Barber) down the barber becasue will be used
+- calls getHairCut() to have their respective cut
+
+- V(CustomerDone) increase to express that the customer has done 
+the cut and is ready to leave
+- P(BarberDone) descrease to express that waits for the barber to 
+be done and then ready for exit
+
+- P(mutex) decrease to access the Critical section (CS) as:
+	- Shared resources CustomersWaiting descreases as it has 
+	already got the hair service
+	- customer_thr_finished increases in 1 as the customer has left 
+	and the thread will exit.
+- V(mutex) as it gets out of the CS and no more shared variables 
+will be modified
+
+- Pexit() from the thread
+
+
+void BarberThread():
+- The barber will be in a while true loop doing:
+- P(customer) waits that there is a customer and decrease count 
+to use it.
+- V(Barber) express that is ready to be used for a haircuts
+- Finishes the haircut calling cutHair():
+- P(CustomerDone) wait for the customer to be done and decreses it
+- V(BarberDone) increments to express that has finished the cut
+
+- Pexit() from the thread. However, the program will not get 
+this position as it will be killed by the main thread when there 
+are no more customers.
+
+
+void MainThread(int* CustomerCount)
+Receives the CustomerCount, that is the max number of customers 
+that will approach the shop-
+- PID barberPID = Barber Thread Creation with high priority as is 
+the central thread
+- set customer_thr_finished to 0 as no customer thread has 
+finished yet (nor created)
+- For each in i in [0, CustomerCount), it creates a thread with 
+normal priority. This will be the Customerthread. With a difference 
+of 0.3 seconds.
+- Checks that all customer thread have exit the shop/service 
+by customer_thr_finished < *CustomerCount being false. If true 
+sleeps 1 second to wait for threads to finish
+- Kill the barber once that there is no CustomerThreads running.
+- Free the semaphores as they will no longer be used.
+
+void mainp(int args, char* argv[])
+- Checks that there were 3 args sent:
+./Lab3 queue+1size customersApproachShop
+- If queue size is less than 0, error. It must be positive
+- Define the Semaphores as:
+	Mutex = NewSem(1);
+	Customer = NewSem(0); /*No customers*/
+	Barber = NewSem(0); /*Barber is waiting*/
+	CustomerDone = NewSem(0); /*No customers done*/
+	BarberDone = NewSem(0); /*No cuts made by the barber*/
+- Create mainThread that will create BarberThread and 
+Customers Threads
+
+
+# Test
+Call ./Lab3_test to run 5 tests as follows:
+./Lab3 (n) (m)
+The results can be viewd in testsout/lab3_testout(n)_(m).txt
+
+Where n is the size of customers to be in the shop and m the amount of 
+customers that approach to the shop.
+
+./Lab3 5 15
+./Lab3 10 10
+./Lab3 10 7
+./Lab3 0 0 (There mus be at least one barber chair. It must print error)
+./Lab3 25 100
+
+!!!!
+Additionally, there will be a file out_test.txt.
+Those, folder and file,  are manatory for the tests because my script 
+will compare both files.
+In testout/ the desired output and out_test.txt the actual output.

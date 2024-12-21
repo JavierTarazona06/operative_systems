@@ -1,0 +1,22 @@
+   NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+
+
+
+Beginning tests for LibList.a
+Testing add function..
+Testing insert function..
+Testing append function..
+Testing prepend function..
+Testing prev function..
+Testing curr function..
+Testing multiple datatypes..
+Testing node and list maximums..
+Total tests ran: 35
+Total tests passed: 35
+

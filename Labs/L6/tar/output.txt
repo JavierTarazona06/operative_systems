@@ -1,0 +1,1488 @@
+/*#NAME: Javier Andres Tarazona Jimenez
+#NSID: elr490
+#Student Number: 11411898
+
+#CMPT 332 Term 1 2024
+
+#Lab 6*/
+
+- Here I include teh test of the 2 of my 3 deadlock solutions.
+
+1. Try-again solution
+2. Kill Threads Solution
+
+#-------------------------------------
+#---------1. Try-again solution------
+#-------------------------------------
+
+elr490@tux5:~/Desktop/cmpt332-2024-group63> ./BestFit 0 0 12000 0.85 180
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 12000
+Free Prob: 0.85
+N. Iterations: 180
+--
+init free lists
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 2859.
+Free memory is 9141
+Memory allocated of size 2859
+Executions left: 179
+Thread 0 allocated size: 2859 in address 0
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 11485.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 178
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 9950.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 177
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 10231.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 176
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.45
+Thread 3 allocated size: 10231 in address 0
+Thread 3 to slept for 0.93
+Free memory increased to 12000
+Executions left: 175
+++++++++++++++++++++ Thread 3 have free address 0 of size 10231
+Thread 3 to sleep for 0.45
+Thread Number 3 wakes up and wants to alloc 4745.
+Free memory is 7255
+Memory allocated of size 4745
+Executions left: 174
+Thread 3 allocated size: 4745 in address 0
+Thread 0 to slept for 1.10
+Free memory increased to 12000
+Executions left: 173
+++++++++++++++++++++ Thread 0 have free address 0 of size 2859
+Thread 0 to sleep for 1.26
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 1.41
+Thread 1 allocated size: 11485 in address 0
+Thread 1 to slept for 0.18
+Free memory increased to 24000
+Executions left: 172
+++++++++++++++++++++ Thread 1 have free address 0 of size 11485
+Thread 1 to sleep for 0.47
+Thread Number 1 wakes up and wants to alloc 9527.
+Free memory is 14473
+Memory allocated of size 9527
+Executions left: 171
+Thread 1 allocated size: 9527 in address 0
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.45
+Thread 2 allocated size: 9950 in address 0
+Thread 3 to slept for 1.17
+Free memory increased to 24000
+Executions left: 170
+++++++++++++++++++++ Thread 3 have free address 0 of size 4745
+Thread 3 to sleep for 0.92
+Thread Number 3 wakes up and wants to alloc 7073.
+Free memory is 16927
+Memory allocated of size 7073
+Executions left: 169
+Thread 3 allocated size: 7073 in address 0
+Thread 3 to slept for 0.20
+Free memory increased to 24000
+Executions left: 168
+++++++++++++++++++++ Thread 3 have free address 0 of size 7073
+Thread 3 to sleep for 0.21
+Thread Number 3 wakes up and wants to alloc 18.
+Free memory is 23982
+Memory allocated of size 18
+Executions left: 167
+Thread 3 allocated size: 18 in address 0
+Thread Number 0 wakes up and wants to alloc 8117.
+Free memory is 15865
+Memory allocated of size 8117
+Executions left: 166
+Thread 0 allocated size: 8117 in address 18
+Thread 0 to slept for 0.01
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 0.40
+Thread Number 0 wakes up and wants to alloc 8142.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 165
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.85
+Thread 0 allocated size: 8142 in address 0
+Thread 1 to slept for 1.07
+Free memory increased to 15883
+Executions left: 164
+++++++++++++++++++++ Thread 1 have free address 0 of size 9527
+Thread 1 to sleep for 0.48
+Thread Number 1 wakes up and wants to alloc 10451.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 163
+Thread 2 to slept for 1.30
+Free memory increased to 15901
+Executions left: 162
+++++++++++++++++++++ Thread 2 have free address 0 of size 9950
+Thread 2 to sleep for 0.03
+Thread Number 2 wakes up and wants to alloc 4994.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 161
+Thread 3 to slept for 1.46
+Free memory increased to 15919
+Executions left: 160
+++++++++++++++++++++ Thread 3 have free address 0 of size 18
+Thread 3 to sleep for 0.83
+Thread Number 3 wakes up and wants to alloc 10890.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 159
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.00
+Thread 3 allocated size: 10890 in address 0
+Thread 0 to slept for 1.32
+Free memory increased to 15937
+Executions left: 158
+++++++++++++++++++++ Thread 0 have free address 0 of size 8142
+Thread 0 to sleep for 0.06
+Thread Number 0 wakes up and wants to alloc 9681.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 157
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.45
+Thread 0 allocated size: 9681 in address 0
+Thread 0 to slept for 0.27
+Free memory increased to 15955
+Executions left: 156
+++++++++++++++++++++ Thread 0 have free address 0 of size 9681
+Thread 0 to sleep for 0.39
+Thread Number 0 wakes up and wants to alloc 8370.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 155
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.33
+Thread 0 allocated size: 8370 in address 0
+Thread 0 to slept for 0.79
+Free memory increased to 24072
+Executions left: 154
+++++++++++++++++++++ Thread 0 have free address 18 of size 8117
+Thread 0 to sleep for 0.61
+Thread Number 0 wakes up and wants to alloc 1164.
+Free memory is 22908
+Memory allocated of size 1164
+Executions left: 153
+Thread 0 allocated size: 1164 in address 8135
+Thread 0 to slept for 0.98
+Free memory increased to 24072
+Executions left: 152
+++++++++++++++++++++ Thread 0 have free address 8135 of size 1164
+Thread 0 to sleep for 0.82
+Thread Number 0 wakes up and wants to alloc 4558.
+Free memory is 19514
+Memory allocated of size 4558
+Executions left: 151
+Thread 0 allocated size: 4558 in address 0
+Thread 0 to slept for 0.10
+Free memory increased to 24072
+Executions left: 150
+++++++++++++++++++++ Thread 0 have free address 0 of size 4558
+Thread 0 to sleep for 1.35
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 1.35
+Thread 1 allocated size: 10451 in address 0
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.25
+Thread 2 allocated size: 4994 in address 0
+Thread 3 to slept for 1.36
+Free memory increased to 33371
+Executions left: 149
+++++++++++++++++++++ Thread 3 have free address 0 of size 10890
+Thread 3 to sleep for 1.22
+Thread Number 0 wakes up and wants to alloc 10798.
+Free memory is 22573
+Memory allocated of size 10798
+Executions left: 148
+Thread 0 allocated size: 10798 in address 0
+Thread 1 to slept for 1.35
+Free memory increased to 33371
+Executions left: 147
+++++++++++++++++++++ Thread 1 have free address 0 of size 10451
+Thread 1 to sleep for 1.50
+Thread 2 to slept for 1.22
+Free memory increased to 45371
+Executions left: 146
+++++++++++++++++++++ Thread 2 have free address 0 of size 4994
+Thread 2 to sleep for 0.11
+Thread Number 2 wakes up and wants to alloc 6867.
+Free memory is 38504
+Memory allocated of size 6867
+Executions left: 145
+Thread 2 allocated size: 6867 in address 0
+Thread Number 3 wakes up and wants to alloc 7356.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 144
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.12
+Thread 3 allocated size: 7356 in address 0
+Thread 3 to slept for 0.55
+Free memory increased to 45371
+Executions left: 143
+++++++++++++++++++++ Thread 3 have free address 0 of size 7356
+Thread 3 to sleep for 1.16
+Thread 0 to slept for 1.38
+Free memory increased to 57371
+Executions left: 142
+++++++++++++++++++++ Thread 0 have free address 0 of size 10798
+Thread 0 to sleep for 0.75
+Thread Number 0 wakes up and wants to alloc 1347.
+Free memory is 56024
+Memory allocated of size 1347
+Executions left: 141
+Thread 0 allocated size: 1347 in address 0
+Thread 0 to slept for 0.09
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 0.66
+Thread Number 0 wakes up and wants to alloc 6240.
+Free memory is 49784
+Memory allocated of size 6240
+Executions left: 140
+Thread 0 allocated size: 6240 in address 1347
+Thread 0 to slept for 0.40
+Free memory increased to 51131
+Executions left: 139
+++++++++++++++++++++ Thread 0 have free address 0 of size 8370
+Thread 0 to sleep for 0.12
+Thread Number 0 wakes up and wants to alloc 5900.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 138
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.94
+Thread 0 allocated size: 5900 in address 0
+Thread Number 1 wakes up and wants to alloc 5049.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 137
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.82
+Thread 1 allocated size: 5049 in address 0
+Thread 1 to slept for 0.26
+Free memory increased to 52478
+Executions left: 136
+++++++++++++++++++++ Thread 1 have free address 0 of size 5049
+Thread 1 to sleep for 1.13
+Thread 2 to slept for 1.26
+Free memory increased to 53825
+Executions left: 135
+++++++++++++++++++++ Thread 2 have free address 0 of size 6867
+Thread 2 to sleep for 0.91
+Thread Number 2 wakes up and wants to alloc 7473.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 134
+Thread Number 3 wakes up and wants to alloc 10931.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 133
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.51
+Thread 3 allocated size: 10931 in address 0
+Thread 3 to slept for 0.47
+Free memory increased to 55172
+Executions left: 132
+++++++++++++++++++++ Thread 3 have free address 0 of size 10931
+Thread 3 to sleep for 0.49
+Thread Number 3 wakes up and wants to alloc 4653.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 131
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.92
+Thread 3 allocated size: 4653 in address 0
+Thread 0 to slept for 1.34
+Free memory increased to 56519
+Executions left: 130
+++++++++++++++++++++ Thread 0 have free address 0 of size 1347
+Thread 0 to sleep for 0.20
+Thread Number 0 wakes up and wants to alloc 11552.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 129
+Thread Number 1 wakes up and wants to alloc 11707.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 128
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.42
+Thread 1 allocated size: 11707 in address 0
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.16
+Thread 2 allocated size: 7473 in address 0
+Thread 2 to slept for 0.40
++++++++++++++ Thread 2 not sent to free
+Thread 2 to sleep for 1.26
+Thread 3 to slept for 1.05
+Free memory increased to 57866
+Executions left: 127
+++++++++++++++++++++ Thread 3 have free address 0 of size 4653
+Thread 3 to sleep for 0.01
+Thread Number 3 wakes up and wants to alloc 2035.
+Free memory is 55831
+Memory allocated of size 2035
+Executions left: 126
+Thread 3 allocated size: 2035 in address 7587
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 1.30
+Thread 0 allocated size: 11552 in address 0
+Thread 1 to slept for 1.42
+Free memory increased to 57178
+Executions left: 125
+++++++++++++++++++++ Thread 1 have free address 0 of size 11707
+Thread 1 to sleep for 0.55
+Thread Number 1 wakes up and wants to alloc 7576.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 124
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.58
+Thread 1 allocated size: 7576 in address 0
+Thread 1 to slept for 0.08
+Free memory increased to 58525
+Executions left: 123
+++++++++++++++++++++ Thread 1 have free address 0 of size 7576
+Thread 1 to sleep for 0.91
+Thread Number 1 wakes up and wants to alloc 5536.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 122
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.03
+Thread 1 allocated size: 5536 in address 0
+Thread Number 2 wakes up and wants to alloc 182.
+Free memory is 58343
+Memory allocated of size 182
+Executions left: 121
+Thread 2 allocated size: 182 in address 9622
+Thread 3 to slept for 1.49
+Free memory increased to 60378
+Executions left: 120
+++++++++++++++++++++ Thread 3 have free address 7587 of size 2035
+Thread 3 to sleep for 1.29
+Thread 0 to slept for 1.14
+Free memory increased to 61725
+Executions left: 119
+++++++++++++++++++++ Thread 0 have free address 0 of size 11552
+Thread 0 to sleep for 0.50
+Thread Number 0 wakes up and wants to alloc 1594.
+Free memory is 60131
+Memory allocated of size 1594
+Executions left: 118
+Thread 0 allocated size: 1594 in address 9804
+Thread 0 to slept for 0.82
+Free memory increased to 66371
+Executions left: 117
+++++++++++++++++++++ Thread 0 have free address 1347 of size 6240
+Thread 0 to sleep for 0.58
+Thread Number 0 wakes up and wants to alloc 11371.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 116
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.30
+Thread 0 allocated size: 11371 in address 0
+Thread 0 to slept for 0.60
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 0.29
+Thread Number 0 wakes up and wants to alloc 928.
+Free memory is 65443
+Memory allocated of size 928
+Executions left: 115
+Thread 0 allocated size: 928 in address 0
+Thread 0 to slept for 0.10
+Free memory increased to 66371
+Executions left: 114
+++++++++++++++++++++ Thread 0 have free address 0 of size 11371
+Thread 0 to sleep for 0.20
+Thread Number 0 wakes up and wants to alloc 8635.
+Free memory is 57736
+Memory allocated of size 8635
+Executions left: 113
+Thread 0 allocated size: 8635 in address 0
+Thread 0 to slept for 0.88
+Free memory increased to 66371
+Executions left: 112
+++++++++++++++++++++ Thread 0 have free address 0 of size 928
+Thread 0 to sleep for 0.29
+Thread Number 0 wakes up and wants to alloc 3297.
+Free memory is 63074
+Memory allocated of size 3297
+Executions left: 111
+Thread 0 allocated size: 3297 in address 0
+Thread 1 to slept for 1.01
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.28
+Thread Number 1 wakes up and wants to alloc 9804.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 110
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 1.00
+Thread 1 allocated size: 9804 in address 0
+Thread 2 to slept for 1.08
+Free memory increased to 63256
+Executions left: 109
+++++++++++++++++++++ Thread 2 have free address 9622 of size 182
+Thread 2 to sleep for 0.78
+Thread Number 2 wakes up and wants to alloc 10206.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 108
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 0.08
+Thread 2 allocated size: 10206 in address 0
+Thread 2 to slept for 0.10
+Free memory increased to 66553
+Executions left: 107
+++++++++++++++++++++ Thread 2 have free address 0 of size 10206
+Thread 2 to sleep for 0.68
+Thread Number 2 wakes up and wants to alloc 9940.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 106
+Thread Number 3 wakes up and wants to alloc 4892.
+Free memory is 61661
+Memory allocated of size 4892
+Executions left: 105
+Thread 3 allocated size: 4892 in address 0
+Thread 3 to slept for 0.61
+Free memory increased to 66553
+Executions left: 104
+++++++++++++++++++++ Thread 3 have free address 0 of size 4892
+Thread 3 to sleep for 0.72
+Thread Number 3 wakes up and wants to alloc 8468.
+Free memory is 58085
+Memory allocated of size 8468
+Executions left: 103
+Thread 3 allocated size: 8468 in address 0
+Thread 3 to slept for 0.81
+Free memory increased to 66553
+Executions left: 102
+++++++++++++++++++++ Thread 3 have free address 0 of size 8468
+Thread 3 to sleep for 0.18
+Thread Number 3 wakes up and wants to alloc 8046.
+Free memory is 58507
+Memory allocated of size 8046
+Executions left: 101
+Thread 3 allocated size: 8046 in address 0
+Thread 3 to slept for 0.12
+Free memory increased to 66553
+Executions left: 100
+++++++++++++++++++++ Thread 3 have free address 0 of size 8046
+Thread 3 to sleep for 1.48
+Thread 0 to slept for 1.36
+Free memory increased to 76357
+Executions left: 99
+++++++++++++++++++++ Thread 0 have free address 0 of size 3297
+Thread 0 to sleep for 0.93
+Thread Number 0 wakes up and wants to alloc 1523.
+Free memory is 74834
+Memory allocated of size 1523
+Executions left: 98
+Thread 0 allocated size: 1523 in address 0
+Thread 0 to slept for 0.46
+Free memory increased to 76428
+Executions left: 97
+++++++++++++++++++++ Thread 0 have free address 9804 of size 1594
+Thread 0 to sleep for 1.24
+Thread 1 to slept for 1.38
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.17
+Thread Number 1 wakes up and wants to alloc 4649.
+Free memory is 71779
+Memory allocated of size 4649
+Executions left: 96
+Thread 1 allocated size: 4649 in address 1523
+Thread 1 to slept for 0.54
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.53
+Thread Number 1 wakes up and wants to alloc 4924.
+Free memory is 66855
+Memory allocated of size 4924
+Executions left: 95
+Thread 1 allocated size: 4924 in address 6172
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.50
+Thread 2 allocated size: 9940 in address 0
+Thread 2 to slept for 0.31
+Free memory increased to 68378
+Executions left: 94
+++++++++++++++++++++ Thread 2 have free address 0 of size 9940
+Thread 2 to sleep for 0.32
+Thread Number 2 wakes up and wants to alloc 6174.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 93
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 0.16
+Thread 2 allocated size: 6174 in address 0
+Thread Number 3 wakes up and wants to alloc 4810.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 92
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.45
+Thread 3 allocated size: 4810 in address 0
+Thread Number 0 wakes up and wants to alloc 856.
+Free memory is 67522
+Memory allocated of size 856
+Executions left: 91
+Thread 0 allocated size: 856 in address 0
+Thread 0 to slept for 0.57
+Free memory increased to 68378
+Executions left: 90
+++++++++++++++++++++ Thread 0 have free address 0 of size 8635
+Thread 0 to sleep for 0.55
+Thread Number 0 wakes up and wants to alloc 617.
+Free memory is 67761
+Memory allocated of size 617
+Executions left: 89
+Thread 0 allocated size: 617 in address 0
+Thread 0 to slept for 0.06
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 0.29
+Thread Number 0 wakes up and wants to alloc 10487.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 88
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.15
+Thread 0 allocated size: 10487 in address 0
+Thread 0 to slept for 0.38
+Free memory increased to 68378
+Executions left: 87
+++++++++++++++++++++ Thread 0 have free address 0 of size 1523
+Thread 0 to sleep for 0.54
+Thread Number 0 wakes up and wants to alloc 8263.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 86
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.59
+Thread 0 allocated size: 8263 in address 0
+Thread 0 to slept for 0.41
+Free memory increased to 69901
+Executions left: 85
+++++++++++++++++++++ Thread 0 have free address 0 of size 8263
+Thread 0 to sleep for 0.28
+Thread Number 0 wakes up and wants to alloc 11868.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 84
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.58
+Thread 0 allocated size: 11868 in address 0
+Thread 0 to slept for 0.44
+Free memory increased to 71424
+Executions left: 83
+++++++++++++++++++++ Thread 0 have free address 0 of size 5900
+Thread 0 to sleep for 0.60
+Thread Number 0 wakes up and wants to alloc 11053.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 82
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.53
+Thread 0 allocated size: 11053 in address 0
+Thread 1 to slept for 1.37
+Free memory increased to 76073
+Executions left: 81
+++++++++++++++++++++ Thread 1 have free address 1523 of size 4649
+Thread 1 to sleep for 0.12
+Thread Number 1 wakes up and wants to alloc 5300.
+Free memory is 70773
+Memory allocated of size 5300
+Executions left: 80
+Thread 1 allocated size: 5300 in address 0
+Thread 1 to slept for 0.66
+Free memory increased to 76073
+Executions left: 79
+++++++++++++++++++++ Thread 1 have free address 0 of size 5300
+Thread 1 to sleep for 0.71
+Thread Number 1 wakes up and wants to alloc 2989.
+Free memory is 73084
+Memory allocated of size 2989
+Executions left: 78
+Thread 1 allocated size: 2989 in address 0
+Thread 1 to slept for 0.29
+Free memory increased to 78008
+Executions left: 77
+++++++++++++++++++++ Thread 1 have free address 6172 of size 4924
+Thread 1 to sleep for 0.66
+Thread Number 1 wakes up and wants to alloc 11721.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 76
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.86
+Thread 1 allocated size: 11721 in address 0
+Thread 2 to slept for 1.13
+Free memory increased to 80997
+Executions left: 75
+++++++++++++++++++++ Thread 2 have free address 0 of size 6174
+Thread 2 to sleep for 0.12
+Thread Number 2 wakes up and wants to alloc 9778.
+Free memory is 71219
+Memory allocated of size 9778
+Executions left: 74
+Thread 2 allocated size: 9778 in address 0
+Thread 2 to slept for 0.23
+Free memory increased to 80997
+Executions left: 73
+++++++++++++++++++++ Thread 2 have free address 0 of size 7473
+Thread 2 to sleep for 0.81
+Thread Number 2 wakes up and wants to alloc 735.
+Free memory is 80262
+Memory allocated of size 735
+Executions left: 72
+Thread 2 allocated size: 735 in address 0
+Thread 3 to slept for 1.31
+Free memory increased to 80997
+Executions left: 71
+++++++++++++++++++++ Thread 3 have free address 0 of size 4810
+Thread 3 to sleep for 0.79
+Thread Number 3 wakes up and wants to alloc 4167.
+Free memory is 76830
+Memory allocated of size 4167
+Executions left: 70
+Thread 3 allocated size: 4167 in address 0
+Thread 3 to slept for 0.98
++++++++++++++ Thread 3 not sent to free
+Thread 3 to sleep for 1.12
+Thread 0 to slept for 1.05
+Free memory increased to 80997
+Executions left: 69
+++++++++++++++++++++ Thread 0 have free address 0 of size 856
+Thread 0 to sleep for 0.28
+Thread Number 0 wakes up and wants to alloc 10272.
+Free memory is 70725
+Memory allocated of size 10272
+Executions left: 68
+Thread 0 allocated size: 10272 in address 0
+Thread 0 to slept for 0.94
+Free memory increased to 80997
+Executions left: 67
+++++++++++++++++++++ Thread 0 have free address 0 of size 10272
+Thread 0 to sleep for 1.23
+Thread 1 to slept for 1.21
+Free memory increased to 92395
+Executions left: 66
+++++++++++++++++++++ Thread 1 have free address 0 of size 9804
+Thread 1 to sleep for 0.39
+Thread Number 1 wakes up and wants to alloc 384.
+Free memory is 92011
+Memory allocated of size 384
+Executions left: 65
+Thread 1 allocated size: 384 in address 0
+Thread 2 to slept for 1.40
+Free memory increased to 92395
+Executions left: 64
+++++++++++++++++++++ Thread 2 have free address 0 of size 735
+Thread 2 to sleep for 1.02
+Thread Number 3 wakes up and wants to alloc 11564.
+Free memory is 80831
+Memory allocated of size 11564
+Executions left: 63
+Thread 3 allocated size: 11564 in address 0
+Thread Number 0 wakes up and wants to alloc 1197.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 62
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 0.61
+Thread 0 allocated size: 1197 in address 0
+Thread 0 to slept for 0.14
+Free memory increased to 92395
+Executions left: 61
+++++++++++++++++++++ Thread 0 have free address 0 of size 10487
+Thread 0 to sleep for 0.05
+Thread Number 0 wakes up and wants to alloc 11093.
+Free memory is 81302
+Memory allocated of size 11093
+Executions left: 60
+Thread 0 allocated size: 11093 in address 0
+Thread 1 to slept for 1.07
+Free memory increased to 92395
+Executions left: 59
+++++++++++++++++++++ Thread 1 have free address 0 of size 384
+Thread 1 to sleep for 0.85
+Thread Number 1 wakes up and wants to alloc 8664.
+Free memory is 83731
+Memory allocated of size 8664
+Executions left: 58
+Thread 1 allocated size: 8664 in address 0
+Thread Number 2 wakes up and wants to alloc 5105.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 57
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 0.25
+Thread 2 allocated size: 5105 in address 0
+Thread 3 to slept for 1.50
+Free memory increased to 92395
+Executions left: 56
+++++++++++++++++++++ Thread 3 have free address 0 of size 4167
+Thread 3 to sleep for 0.80
+Thread Number 3 wakes up and wants to alloc 4987.
+Free memory is 87408
+Memory allocated of size 4987
+Executions left: 55
+Thread 3 allocated size: 4987 in address 0
+Thread 3 to slept for 0.92
+Free memory increased to 92395
+Executions left: 54
+++++++++++++++++++++ Thread 3 have free address 0 of size 4987
+Thread 3 to sleep for 1.31
+Thread 0 to slept for 1.37
+Free memory increased to 104395
+Executions left: 53
+++++++++++++++++++++ Thread 0 have free address 0 of size 11093
+Thread 0 to sleep for 1.41
+Thread 1 to slept for 1.03
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.92
+Thread Number 1 wakes up and wants to alloc 5731.
+Free memory is 98664
+Memory allocated of size 5731
+Executions left: 52
+Thread 1 allocated size: 5731 in address 0
+Thread 2 to slept for 1.31
+Free memory increased to 104395
+Executions left: 51
+++++++++++++++++++++ Thread 2 have free address 0 of size 5105
+Thread 2 to sleep for 0.13
+Thread Number 2 wakes up and wants to alloc 4985.
+Free memory is 99410
+Memory allocated of size 4985
+Executions left: 50
+Thread 2 allocated size: 4985 in address 0
+Thread 2 to slept for 0.67
+Free memory increased to 104395
+Executions left: 49
+++++++++++++++++++++ Thread 2 have free address 0 of size 4985
+Thread 2 to sleep for 0.54
+Thread Number 2 wakes up and wants to alloc 2893.
+Free memory is 101502
+Memory allocated of size 2893
+Executions left: 48
+Thread 2 allocated size: 2893 in address 0
+Thread Number 3 wakes up and wants to alloc 8799.
+Free memory is 92703
+Memory allocated of size 8799
+Executions left: 47
+Thread 3 allocated size: 8799 in address 2893
+Thread 3 to slept for 0.33
+Free memory increased to 95596
+Executions left: 46
+++++++++++++++++++++ Thread 3 have free address 0 of size 11564
+Thread 3 to sleep for 0.58
+Thread Number 3 wakes up and wants to alloc 7697.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 45
+Thread Number 0 wakes up and wants to alloc 1893.
+Free memory is 93703
+Memory allocated of size 1893
+Executions left: 44
+Thread 0 allocated size: 1893 in address 0
+Thread 1 to slept for 1.49
+Free memory increased to 95596
+Executions left: 43
+++++++++++++++++++++ Thread 1 have free address 0 of size 2989
+Thread 1 to sleep for 1.30
+Thread 2 to slept for 1.14
++++++++++++++ Thread 2 not sent to free
+Thread 2 to sleep for 1.01
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 1.03
+Thread 3 allocated size: 7697 in address 0
+Thread 3 to slept for 0.51
++++++++++++++ Thread 3 not sent to free
+Thread 3 to sleep for 0.91
+Thread Number 3 wakes up and wants to alloc 7541.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 42
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.79
+Thread 3 allocated size: 7541 in address 0
+Thread 0 to slept for 1.29
+Free memory increased to 98489
+Executions left: 41
+++++++++++++++++++++ Thread 0 have free address 0 of size 617
+Thread 0 to sleep for 0.26
+Thread Number 0 wakes up and wants to alloc 10140.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 40
+Thread Number 1 wakes up and wants to alloc 11626.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 39
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 0.80
+Thread 1 allocated size: 11626 in address 0
+Thread 1 to slept for 0.95
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.31
+Thread Number 1 wakes up and wants to alloc 10632.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 38
+Thread Number 2 wakes up and wants to alloc 6666.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 37
+Thread 3 to slept for 1.03
+Free memory increased to 101382
+Executions left: 36
+++++++++++++++++++++ Thread 3 have free address 0 of size 7541
+Thread 3 to sleep for 0.27
+Thread Number 3 wakes up and wants to alloc 10355.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 35
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.01
+Thread 3 allocated size: 10355 in address 0
+Thread 3 to slept for 0.05
+Free memory increased to 110181
+Executions left: 34
+++++++++++++++++++++ Thread 3 have free address 2893 of size 8799
+Thread 3 to sleep for 1.35
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 1.22
+Thread 0 allocated size: 10140 in address 0
+Thread 0 to slept for 0.83
+Free memory increased to 121873
+Executions left: 33
+++++++++++++++++++++ Thread 0 have free address 0 of size 10140
+Thread 0 to sleep for 0.70
+Thread Number 0 wakes up and wants to alloc 11477.
+Free memory is 110396
+Memory allocated of size 11477
+Executions left: 32
+Thread 0 allocated size: 11477 in address 0
+Thread 0 to slept for 0.86
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 1.16
+(Avoid Deadlock) Thread 1 didn't find memory so is put to slept for 1.36
+Thread 1 allocated size: 10632 in address 0
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.28
+Thread 2 allocated size: 6666 in address 0
+Thread Number 3 wakes up and wants to alloc 7999.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 31
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.47
+Thread 3 allocated size: 7999 in address 0
+Thread Number 0 wakes up and wants to alloc 7976.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 30
+Thread 1 to slept for 1.35
+Free memory increased to 121873
+Executions left: 29
+++++++++++++++++++++ Thread 1 have free address 0 of size 10632
+Thread 1 to sleep for 0.09
+Thread Number 1 wakes up and wants to alloc 7060.
+Free memory is 114813
+Memory allocated of size 7060
+Executions left: 28
+Thread 1 allocated size: 7060 in address 0
+Thread 1 to slept for 0.68
+Free memory increased to 121873
+Executions left: 27
+++++++++++++++++++++ Thread 1 have free address 0 of size 11721
+Thread 1 to sleep for 0.87
+Thread Number 1 wakes up and wants to alloc 4103.
+Free memory is 117770
+Memory allocated of size 4103
+Executions left: 26
+Thread 1 allocated size: 4103 in address 0
+Thread 2 to slept for 1.46
+Free memory increased to 121873
+Executions left: 25
+++++++++++++++++++++ Thread 2 have free address 0 of size 2893
+Thread 2 to sleep for 1.34
+Thread 3 to slept for 1.19
++++++++++++++ Thread 3 not sent to free
+Thread 3 to sleep for 0.17
+Thread Number 3 wakes up and wants to alloc 11680.
+Free memory is 110193
+Memory allocated of size 11680
+Executions left: 24
+Thread 3 allocated size: 11680 in address 0
+Thread 3 to slept for 0.78
+Free memory increased to 121873
+Executions left: 23
+++++++++++++++++++++ Thread 3 have free address 0 of size 11680
+Thread 3 to sleep for 1.47
+(Avoid Deadlock) Thread 0 didn't find memory so is put to slept for 1.27
+Thread 0 allocated size: 7976 in address 0
+Thread 1 to slept for 1.28
+Free memory increased to 133873
+Executions left: 22
+++++++++++++++++++++ Thread 1 have free address 0 of size 7060
+Thread 1 to sleep for 0.67
+Thread Number 1 wakes up and wants to alloc 3822.
+Free memory is 130051
+Memory allocated of size 3822
+Executions left: 21
+Thread 1 allocated size: 3822 in address 0
+Thread Number 2 wakes up and wants to alloc 11405.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 20
+Thread Number 3 wakes up and wants to alloc 5248.
+Free memory is 124803
+Memory allocated of size 5248
+Executions left: 19
+Thread 3 allocated size: 5248 in address 3822
+Thread 0 to slept for 1.01
+Free memory increased to 128625
+Executions left: 18
+++++++++++++++++++++ Thread 0 have free address 0 of size 7976
+Thread 0 to sleep for 0.75
+Thread Number 0 wakes up and wants to alloc 1599.
+Free memory is 127026
+Memory allocated of size 1599
+Executions left: 17
+Thread 0 allocated size: 1599 in address 9070
+Thread 0 to slept for 0.00
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 0.32
+Thread Number 0 wakes up and wants to alloc 2762.
+Free memory is 124264
+Memory allocated of size 2762
+Executions left: 16
+Thread 0 allocated size: 2762 in address 0
+Thread 0 to slept for 0.80
+Free memory increased to 127026
+Executions left: 15
+++++++++++++++++++++ Thread 0 have free address 0 of size 2762
+Thread 0 to sleep for 1.38
+Thread 1 to slept for 1.43
+Free memory increased to 130848
+Executions left: 14
+++++++++++++++++++++ Thread 1 have free address 0 of size 11626
+Thread 1 to sleep for 1.32
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 1.24
+Thread 2 allocated size: 11405 in address 0
+Thread 3 to slept for 1.43
+Free memory increased to 134670
+Executions left: 13
+++++++++++++++++++++ Thread 3 have free address 0 of size 10355
+Thread 3 to sleep for 0.81
+Thread Number 3 wakes up and wants to alloc 12000.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 12
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.58
+Thread 3 allocated size: 12000 in address 0
+Thread 3 to slept for 0.32
++++++++++++++ Thread 3 not sent to free
+Thread 3 to sleep for 0.54
+Thread Number 3 wakes up and wants to alloc 5544.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 11
+(Avoid Deadlock) Thread 3 didn't find memory so is put to slept for 0.56
+Thread 3 allocated size: 5544 in address 0
+Thread 3 to slept for 0.47
+Free memory increased to 139918
+Executions left: 10
+++++++++++++++++++++ Thread 3 have free address 3822 of size 5248
+Thread 3 to sleep for 0.09
+Thread Number 3 wakes up and wants to alloc 1031.
+Free memory is 138887
+Memory allocated of size 1031
+Executions left: 9
+Thread 3 allocated size: 1031 in address 10669
+Thread Number 0 wakes up and wants to alloc 6700.
+Free memory is 132187
+Memory allocated of size 6700
+Executions left: 8
+Thread 0 allocated size: 6700 in address 0
+Thread 0 to slept for 0.76
+Free memory increased to 138887
+Executions left: 7
+++++++++++++++++++++ Thread 0 have free address 0 of size 1197
+Thread 0 to sleep for 0.69
+Thread Number 0 wakes up and wants to alloc 10472.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 6
+Thread Number 1 wakes up and wants to alloc 8834.
+Free memory is 130053
+Memory allocated of size 8834
+Executions left: 5
+Thread 1 allocated size: 8834 in address 0
+Thread 1 to slept for 0.50
+Free memory increased to 138887
+Executions left: 4
+++++++++++++++++++++ Thread 1 have free address 0 of size 5536
+Thread 1 to sleep for 0.25
+Thread Number 1 wakes up and wants to alloc 1605.
+Free memory is 137282
+Memory allocated of size 1605
+Executions left: 3
+Thread 1 allocated size: 1605 in address 0
+Thread 2 to slept for 1.42
+Free memory increased to 138887
+Executions left: 2
+++++++++++++++++++++ Thread 2 have free address 0 of size 11405
+Thread 2 to sleep for 0.29
+Thread Number 2 wakes up and wants to alloc 11525.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 1
+(Avoid Deadlock) Thread 2 didn't find memory so is put to slept for 0.54
+Thread 2 allocated size: 11525 in address 0
+Thread 2 to slept for 0.86
++++++++++++++ Thread 2 not sent to free
+Thread 2 to sleep for 0.33
+Thread Number 2 wakes up and wants to alloc 11497.
+Could not allocate memory, there are no adjacent free blocks enough
+Iterations finished
+Final memory Size : 12000
+
+
+
+#-------------------------------------
+#-------2. Kill Threads Solution------
+#-------------------------------------
+
+Script started on 2024-10-30 14:16:30-06:00 [TERM="xterm" TTY="/dev/pts/51" COLUMNS="140" LINES="36"]
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> exitcleargit fetch origin[6Pstatusmake clean./BestFit 0 0 0 0 80make[Kgit pull originmake[K./BestFit 0 0 0 0 80[10Pmake cleangit statusfetch originclear[K[1Pexit[Kexitcleargit fetch origin[6Pstatusmake clean./BestFit 0 0 0 0 80[K[K0
+[?2004l
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 640
+Free Prob: 0.50
+N. Iterations: 15
+--
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 166.
+Free memory is 474
+Memory allocated of size 166
+Executions left: 14
+Thread 0 allocated size: 166 in address 0
+Thread 0 to slept for 0.01
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 1.48
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 397.
+Free memory is 77
+Memory allocated of size 397
+Executions left: 13
+Thread 1 allocated size: 397 in address 166
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 377.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 12
+-------------------------------------Thread will be killed
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 127.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 11
+-------------------------------------Thread will be killed
+Thread Number 0 wakes up and wants to alloc 379.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 10
+-------------------------------------Thread will be killed
+Thread 1 to slept for 1.50
++++++++++++++ Thread 1 not sent to free
+Thread 1 to sleep for 0.04
+Thread Number 1 wakes up and wants to alloc 553.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 9
+-------------------------------------Thread will be killed
+Execution finished by killing threads (Deadlock solution)
+Memory size was: 640
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> ./BestFit 0 0 0 0 0[K80
+[?2004l
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 640
+Free Prob: 0.50
+N. Iterations: 80
+--
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 235.
+Free memory is 405
+Memory allocated of size 235
+Executions left: 79
+Thread 0 allocated size: 235 in address 0
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 576.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 78
+-------------------------------------Thread will be killed
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 88.
+Free memory is 317
+Memory allocated of size 88
+Executions left: 77
+Thread 2 allocated size: 88 in address 235
+Thread 2 to slept for 0.31
+Free memory increased to 405
+Executions left: 76
+++++++++++++++++++++ Thread 2 have free address 235 of size 88
+Thread 2 to sleep for 0.49
+Thread Number 2 wakes up and wants to alloc 306.
+Free memory is 99
+Memory allocated of size 306
+Executions left: 75
+Thread 2 allocated size: 306 in address 235
+Thread 2 to slept for 0.42
++++++++++++++ Thread 2 not sent to free
+Thread 2 to sleep for 0.01
+Thread Number 2 wakes up and wants to alloc 604.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 74
+-------------------------------------Thread will be killed
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 614.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 73
+-------------------------------------Thread will be killed
+Thread 0 to slept for 1.47
+Free memory increased to 334
+Executions left: 72
+++++++++++++++++++++ Thread 0 have free address 0 of size 235
+Thread 0 to sleep for 1.47
+Thread Number 0 wakes up and wants to alloc 423.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 71
+-------------------------------------Thread will be killed
+Execution finished by killing threads (Deadlock solution)
+Memory size was: 640
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> ./BestFit 0 0 0 0 80
+[K[K[K[K[K[K1200 0.85 180
+[?2004l
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 1200
+Free Prob: 0.85
+N. Iterations: 180
+--
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 38.
+Free memory is 1162
+Memory allocated of size 38
+Executions left: 179
+Thread 0 allocated size: 38 in address 0
+Thread 0 to slept for 0.20
+Free memory increased to 1200
+Executions left: 178
+++++++++++++++++++++ Thread 0 have free address 0 of size 38
+Thread 0 to sleep for 1.39
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 499.
+Free memory is 701
+Memory allocated of size 499
+Executions left: 177
+Thread 1 allocated size: 499 in address 0
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 1128.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 176
+-------------------------------------Thread will be killed
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 1197.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 175
+-------------------------------------Thread will be killed
+Thread Number 0 wakes up and wants to alloc 192.
+Free memory is 509
+Memory allocated of size 192
+Executions left: 174
+Thread 0 allocated size: 192 in address 499
+Thread 1 to slept for 1.44
+Free memory increased to 1008
+Executions left: 173
+++++++++++++++++++++ Thread 1 have free address 0 of size 499
+Thread 1 to sleep for 0.90
+Thread Number 1 wakes up and wants to alloc 7.
+Free memory is 1001
+Memory allocated of size 7
+Executions left: 172
+Thread 1 allocated size: 7 in address 691
+Thread 1 to slept for 0.26
+Free memory increased to 1008
+Executions left: 171
+++++++++++++++++++++ Thread 1 have free address 691 of size 7
+Thread 1 to sleep for 0.73
+Thread Number 1 wakes up and wants to alloc 139.
+Free memory is 869
+Memory allocated of size 139
+Executions left: 170
+Thread 1 allocated size: 139 in address 691
+Thread 1 to slept for 0.94
+Free memory increased to 1008
+Executions left: 169
+++++++++++++++++++++ Thread 1 have free address 691 of size 139
+Thread 1 to sleep for 0.49
+Thread Number 1 wakes up and wants to alloc 333.
+Free memory is 675
+Memory allocated of size 333
+Executions left: 168
+Thread 1 allocated size: 333 in address 691
+Thread 0 to slept for 1.26
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 1.09
+Thread 1 to slept for 1.02
+Free memory increased to 1008
+Executions left: 167
+++++++++++++++++++++ Thread 1 have free address 691 of size 333
+Thread 1 to sleep for 1.37
+Thread Number 0 wakes up and wants to alloc 128.
+Free memory is 880
+Memory allocated of size 128
+Executions left: 166
+Thread 0 allocated size: 128 in address 691
+Thread Number 1 wakes up and wants to alloc 1104.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 165
+-------------------------------------Thread will be killed
+Thread 0 to slept for 1.25
++++++++++++++ Thread 0 not sent to free
+Thread 0 to sleep for 1.14
+Thread Number 0 wakes up and wants to alloc 402.
+Free memory is 478
+Memory allocated of size 402
+Executions left: 164
+Thread 0 allocated size: 402 in address 0
+Thread 0 to slept for 1.34
+Free memory increased to 880
+Executions left: 163
+++++++++++++++++++++ Thread 0 have free address 0 of size 402
+Thread 0 to sleep for 0.68
+Thread Number 0 wakes up and wants to alloc 248.
+Free memory is 632
+Memory allocated of size 248
+Executions left: 162
+Thread 0 allocated size: 248 in address 819
+Thread 0 to slept for 1.22
+Free memory increased to 760
+Executions left: 161
+++++++++++++++++++++ Thread 0 have free address 691 of size 128
+Thread 0 to sleep for 0.73
+Thread Number 0 wakes up and wants to alloc 405.
+Free memory is 355
+Memory allocated of size 405
+Executions left: 160
+Thread 0 allocated size: 405 in address 0
+Thread 0 to slept for 1.29
+Free memory increased to 603
+Executions left: 159
+++++++++++++++++++++ Thread 0 have free address 819 of size 248
+Thread 0 to sleep for 1.29
+Thread Number 0 wakes up and wants to alloc 817.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 158
+-------------------------------------Thread will be killed
+Execution finished by killing threads (Deadlock solution)
+Memory size was: 1200
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> ./BestFit 0 0 1200 0.85 180
+[?2004l
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 1200
+Free Prob: 0.85
+N. Iterations: 180
+--
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 745.
+Free memory is 455
+Memory allocated of size 745
+Executions left: 179
+Thread 0 allocated size: 745 in address 0
+Thread 0 to slept for 0.27
+Free memory increased to 1200
+Executions left: 178
+++++++++++++++++++++ Thread 0 have free address 0 of size 745
+Thread 0 to sleep for 0.30
+Thread Number 0 wakes up and wants to alloc 100.
+Free memory is 1100
+Memory allocated of size 100
+Executions left: 177
+Thread 0 allocated size: 100 in address 0
+Thread 0 to slept for 0.66
+Free memory increased to 1200
+Executions left: 176
+++++++++++++++++++++ Thread 0 have free address 0 of size 100
+Thread 0 to sleep for 0.75
+Thread Number 0 wakes up and wants to alloc 1077.
+Free memory is 123
+Memory allocated of size 1077
+Executions left: 175
+Thread 0 allocated size: 1077 in address 0
+Thread 0 to slept for 0.25
+Free memory increased to 1200
+Executions left: 174
+++++++++++++++++++++ Thread 0 have free address 0 of size 1077
+Thread 0 to sleep for 0.88
+Thread Number 0 wakes up and wants to alloc 738.
+Free memory is 462
+Memory allocated of size 738
+Executions left: 173
+Thread 0 allocated size: 738 in address 0
+Thread 0 to slept for 0.57
+Free memory increased to 1200
+Executions left: 172
+++++++++++++++++++++ Thread 0 have free address 0 of size 738
+Thread 0 to sleep for 0.43
+Thread Number 0 wakes up and wants to alloc 218.
+Free memory is 982
+Memory allocated of size 218
+Executions left: 171
+Thread 0 allocated size: 218 in address 0
+Thread 0 to slept for 0.68
+Free memory increased to 1200
+Executions left: 170
+++++++++++++++++++++ Thread 0 have free address 0 of size 218
+Thread 0 to sleep for 0.34
+Thread Number 0 wakes up and wants to alloc 138.
+Free memory is 1062
+Memory allocated of size 138
+Executions left: 169
+Thread 0 allocated size: 138 in address 0
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 21.
+Free memory is 1041
+Memory allocated of size 21
+Executions left: 168
+Thread 1 allocated size: 21 in address 138
+Thread 1 to slept for 0.29
+Free memory increased to 1062
+Executions left: 167
+++++++++++++++++++++ Thread 1 have free address 138 of size 21
+Thread 1 to sleep for 1.29
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 988.
+Free memory is 74
+Memory allocated of size 988
+Executions left: 166
+Thread 2 allocated size: 988 in address 138
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 539.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 165
+-------------------------------------Thread will be killed
+Thread 0 to slept for 1.13
+Free memory increased to 212
+Executions left: 164
+++++++++++++++++++++ Thread 0 have free address 0 of size 138
+Thread 0 to sleep for 1.30
+Thread Number 1 wakes up and wants to alloc 492.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 163
+-------------------------------------Thread will be killed
+Thread 2 to slept for 1.28
+Free memory increased to 1200
+Executions left: 162
+++++++++++++++++++++ Thread 2 have free address 138 of size 988
+Thread 2 to sleep for 0.07
+Thread Number 2 wakes up and wants to alloc 338.
+Free memory is 862
+Memory allocated of size 338
+Executions left: 161
+Thread 2 allocated size: 338 in address 0
+Thread 2 to slept for 0.58
+Free memory increased to 1200
+Executions left: 160
+++++++++++++++++++++ Thread 2 have free address 0 of size 338
+Thread 2 to sleep for 0.94
+Thread Number 2 wakes up and wants to alloc 1063.
+Free memory is 137
+Memory allocated of size 1063
+Executions left: 159
+Thread 2 allocated size: 1063 in address 0
+Thread Number 0 wakes up and wants to alloc 462.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 158
+-------------------------------------Thread will be killed
+Thread 2 to slept for 1.01
++++++++++++++ Thread 2 not sent to free
+Thread 2 to sleep for 0.92
+Thread Number 2 wakes up and wants to alloc 835.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 157
+-------------------------------------Thread will be killed
+Execution finished by killing threads (Deadlock solution)
+Memory size was: 1200
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> ./BestFit 0 0 1200 0.85 180
+[?2004l
+Received:
+N.Threads: 4
+MaxSleepTime: 1.50
+MaxAlloc: 1200
+Free Prob: 0.85
+N. Iterations: 180
+--
+Monitor Initialized
+Memory space created
+BestFitMonitor Initialized
+Threads Created!!
+Starting Program Execution...
+Thread Number 0 initialized.
+Thread Number 0 wakes up and wants to alloc 565.
+Free memory is 635
+Memory allocated of size 565
+Executions left: 179
+Thread 0 allocated size: 565 in address 0
+Thread Number 1 initialized.
+Thread Number 1 wakes up and wants to alloc 39.
+Free memory is 596
+Memory allocated of size 39
+Executions left: 178
+Thread 1 allocated size: 39 in address 565
+Thread Number 2 initialized.
+Thread Number 2 wakes up and wants to alloc 843.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 177
+-------------------------------------Thread will be killed
+Thread Number 3 initialized.
+Thread Number 3 wakes up and wants to alloc 974.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 176
+-------------------------------------Thread will be killed
+Thread 0 to slept for 1.25
+Free memory increased to 1161
+Executions left: 175
+++++++++++++++++++++ Thread 0 have free address 0 of size 565
+Thread 0 to sleep for 0.01
+Thread Number 0 wakes up and wants to alloc 55.
+Free memory is 1106
+Memory allocated of size 55
+Executions left: 174
+Thread 0 allocated size: 55 in address 604
+Thread 0 to slept for 0.73
+Free memory increased to 1161
+Executions left: 173
+++++++++++++++++++++ Thread 0 have free address 604 of size 55
+Thread 0 to sleep for 0.58
+Thread Number 0 wakes up and wants to alloc 277.
+Free memory is 884
+Memory allocated of size 277
+Executions left: 172
+Thread 0 allocated size: 277 in address 604
+Thread 0 to slept for 0.12
+Free memory increased to 1161
+Executions left: 171
+++++++++++++++++++++ Thread 0 have free address 604 of size 277
+Thread 0 to sleep for 0.59
+Thread Number 0 wakes up and wants to alloc 1093.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 170
+-------------------------------------Thread will be killed
+Thread 1 to slept for 1.28
+Free memory increased to 1200
+Executions left: 169
+++++++++++++++++++++ Thread 1 have free address 565 of size 39
+Thread 1 to sleep for 0.44
+Thread Number 1 wakes up and wants to alloc 367.
+Free memory is 833
+Memory allocated of size 367
+Executions left: 168
+Thread 1 allocated size: 367 in address 604
+Thread 1 to slept for 0.23
+Free memory increased to 1200
+Executions left: 167
+++++++++++++++++++++ Thread 1 have free address 604 of size 367
+Thread 1 to sleep for 1.01
+Thread Number 1 wakes up and wants to alloc 961.
+Free memory is 239
+Memory allocated of size 961
+Executions left: 166
+Thread 1 allocated size: 961 in address 0
+Thread 1 to slept for 1.38
+Free memory increased to 1200
+Executions left: 165
+++++++++++++++++++++ Thread 1 have free address 0 of size 961
+Thread 1 to sleep for 1.13
+Thread Number 1 wakes up and wants to alloc 712.
+Free memory is 488
+Memory allocated of size 712
+Executions left: 164
+Thread 1 allocated size: 712 in address 0
+Thread 1 to slept for 0.02
+Free memory increased to 1200
+Executions left: 163
+++++++++++++++++++++ Thread 1 have free address 0 of size 712
+Thread 1 to sleep for 0.60
+Thread Number 1 wakes up and wants to alloc 1027.
+Could not allocate memory, there are no adjacent free blocks enough
+Executions left: 162
+-------------------------------------Thread will be killed
+Execution finished by killing threads (Deadlock solution)
+Memory size was: 1200
+[?2004helr490@tux5:~/Desktop/cmpt332-2024-group63> [?2004l
+
+exit
+
+Script done on 2024-10-30 14:17:39-06:00 [COMMAND_EXIT_CODE="0"]

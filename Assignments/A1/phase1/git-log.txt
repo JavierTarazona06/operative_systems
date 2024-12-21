@@ -1,0 +1,717 @@
+#NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
+#NSID: elr490, Zas742
+#Student Number: 11411898, 11309563
+
+commit 2ab6cccaba77778e07288b0292135c9709316135
+Merge: e101e68 d98a11e
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Mon Sep 16 00:41:42 2024 -0600
+
+    Merge branch 'draft-elr490' into 'Assignment1'
+    
+    Add new file
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!9
+
+commit d98a11e1886993ea8fe8e035ccd56b2ffa2944e8
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Mon Sep 16 00:29:48 2024 -0600
+
+    Repo improved
+
+commit 0034b490bbf7c1a89340ec649f6bbcc8d97fef39
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Mon Sep 16 00:25:52 2024 -0600
+
+    Make file typo fixed
+
+commit 1bad9e5e04302ab37bbae94ed1c1b0547d39e60d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Mon Sep 16 00:21:40 2024 -0600
+
+    Makefile typo fixed
+
+commit 44203687f21d46aec17f6c2a9f6b157a9b37b7f1
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Mon Sep 16 00:16:48 2024 -0600
+
+    Make file cross compiling and OS detection, part c .c files improved for the assignment guidelines
+
+commit 8c2a44056d73031cf128f395283f468ca224f198
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sun Sep 15 23:18:31 2024 -0600
+
+    Finished design part C, repo organized by deleting files
+
+commit 3493ffe1a639413c5ebbae43c917b426d127bb86
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sun Sep 15 23:07:53 2024 -0600
+
+    Part C design updated for best clarity 2
+
+commit 784226d2e31f606817f58fa1d8f95b3e2a183163
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sun Sep 15 22:57:30 2024 -0600
+
+    Part C design updated for best clarity
+
+commit 684ad08712e055746a11c78780606f93ca3710e1
+Merge: 8bbf8c0 2b18a08
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sun Sep 15 22:06:46 2024 -0600
+
+    Merge from zas-742
+
+commit 2b18a085c88c87dc4a74d53ae22dfd01f88e65f7
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 20:52:53 2024 -0600
+
+    changed the whole design plan
+
+commit 8bbf8c04b7f5be838006c58294c81eb58bf2e65e
+Merge: 72165e7 80ad544
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sun Sep 15 19:36:23 2024 -0600
+
+    Merge branch 'draft-zas742' into 'draft-elr490'
+    
+    Add new file
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!8
+
+commit 80ad544930cabb007525937c88d0e0c3f0f7718d
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 12:03:21 2024 -0600
+
+    more typos
+
+commit 4d13de717f465b6157a7befbdb338def1ec344d0
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 12:00:30 2024 -0600
+
+    finished Function and fixed typo
+
+commit 00f9d6f0720307d73d355d9d9ef5a5d4227119ac
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:56:15 2024 -0600
+
+    used assignment question  "You are to implement the following list manipulation routines: "
+
+commit 0d4c70251a19bb94e6404638ab091736301b2c57
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:49:07 2024 -0600
+
+    Add new file added type def for struct node and list
+
+commit 8d74cf81da13ffbc1f64c2af7fbbe613c163b393
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:42:56 2024 -0600
+
+    Update list_adders.c
+
+commit dd48b5e27eb18a5f4ea60534316e8e2b2c52ffba
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:41:37 2024 -0600
+
+    Update Makefile
+
+commit 421daead7f33d40fd338fdebd45474f37fb17c3c
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:39:36 2024 -0600
+
+    type in make file
+
+commit ae5f69873d12ff150676ab0768b931096c5a2c14
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:37:47 2024 -0600
+
+    Update Makefile added the part a where it only does windows and rest on linux
+
+commit 9c5a8a4e45271b604e9bfe441c660e8366399381
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:35:32 2024 -0600
+
+    Update list_adders.c
+
+commit d1229285a604526e7c2351731387d5619b69cc4d
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:35:29 2024 -0600
+
+    Update list_movers.c
+
+commit 6ee1836096e2c631d3452283f5617b7ad955c688
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:35:25 2024 -0600
+
+    Update mytestlist.c
+
+commit 8395d23677b1c032d175999314c0835eeb6b9208
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:35:21 2024 -0600
+
+    Update list_removers.c
+
+commit 891e2d87c4fd108ce11afce78f234980af7e9d0c
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:29:51 2024 -0600
+
+    just copied and pasted phase a to make phase c and then changed files
+
+commit 1abd70cb3fe44536209c1c570d148d8220d9167e
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:27:54 2024 -0600
+
+    Update finished list_removers.c SKELETON
+
+commit a70b588588280b1bf4a1cf2757ab759dacdca27d
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:21:15 2024 -0600
+
+    created the mytest list that includes tests for list add, first, last, prev, remove, free
+
+commit feee76606f91592b39e60f6d56582eae73606d97
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:12:34 2024 -0600
+
+    updated make file to add part c
+
+commit 35f6e14799163ffb64e302d3065ccecbaa391b87
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:08:31 2024 -0600
+
+    Update list_adders.c added list prepend and append
+
+commit c854c7dfc1eafdce9b2f5499c09250b591178914
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:05:56 2024 -0600
+
+    made skeleton for list remove and free
+
+commit 244cbf2b669f266f8a8e2572443a546bb7fe0ce4
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:04:30 2024 -0600
+
+    Delete list_removers.c
+
+commit 51964f75641ae855ab6656d42c9e8566260faae9
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 11:03:23 2024 -0600
+
+    finished skeleton code for list first last next prev
+
+commit c3c0ebab6f5bb6177d32b0555ef8c596d6a7aa5f
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 10:58:53 2024 -0600
+
+    made the design
+
+commit d5455f5a7db65d8401bfd8aaa3137b71a333cd22
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 10:52:10 2024 -0600
+
+    Add new file
+
+commit c3614aee98eb84fcf04a61b319bf5818c07a3376
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sun Sep 15 10:44:05 2024 -0600
+
+    Add new file
+    created code for list add and list create skeleton
+    had placeholder
+
+commit e1298b134fd2b2c455a4b1ea8306f1fc280edd97
+Merge: e53a65a e101e68
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sun Sep 15 10:36:08 2024 -0600
+
+    Merge branch 'Assignment1' into 'draft-zas742'
+    
+    Assignment1
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!7
+
+commit e101e682093975f9fb11ac735955babbcd68883a
+Merge: 9f4fdb7 72165e7
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sun Sep 15 10:35:16 2024 -0600
+
+    Merge branch 'draft-elr490' into 'Assignment1'
+    
+    Repo organization
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!6
+
+commit 72165e7a2f28fe11b7d32feca232cf70dc24fa9f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sun Sep 15 10:14:00 2024 -0600
+
+    Repo organization
+
+commit 9f4fdb7e750c757165e095122e2dfd5708200a17
+Merge: be51090 83aa21d
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sat Sep 14 23:44:37 2024 -0600
+
+    Merge branch 'draft-elr490' into 'Assignment1'
+    
+    Draft elr490
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!5
+
+commit 83aa21df5afd2b1513fcf52b9f6c2fe9909f47bf
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 23:43:38 2024 -0600
+
+    Both names on guidelines
+
+commit 32a9033b97607ae9562508aa433dcd271978a067
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 23:42:14 2024 -0600
+
+    Part A1 design improved, more info
+
+commit d0578b002708c8cc12e8d28e5cdb17bef11ee4e3
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 23:19:24 2024 -0600
+
+    PartB bash version check and parameters integrity completed
+
+commit dfb0fc5c50e1f0d21f5af9c8b406c270ff8b6112
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 23:02:59 2024 -0600
+
+    Part B bash name
+
+commit 0d0da6acc7fe7cda7ab8636833ba377cddf4072d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 23:01:42 2024 -0600
+
+    Part B input sample
+
+commit 13bedb4830672ed875d844aded4ff73c220fc4c5
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:59:35 2024 -0600
+
+    Part B bash quit performance 3
+
+commit e69d8e256d568025377db41611e19d24358e6444
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:56:32 2024 -0600
+
+    Part B bash quit performance 2
+
+commit 5883dbf8db891350675b94d4b88bec2e2c77654d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:50:05 2024 -0600
+
+    Part B bash quit performance 1
+
+commit c91e790bbd5d03142ff71ba84cec61f4b974410c
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:44:44 2024 -0600
+
+    Part B bash quit performance
+
+commit 4b2197009205da08368f1999f26f4633f5785e31
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:33:21 2024 -0600
+
+    Part B bash syntax errors
+
+commit 1e023028127ed20dd871996eb46b6bfbbcde1137
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 22:15:35 2024 -0600
+
+    Part A.1 Skeleton debuging prints deleted and part b bash finished
+
+commit aa9600489a62cbd6754c0fbc8c18b95f5045cf67
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 20:38:19 2024 -0600
+
+    PartA1 skeleton logic errors size of begin times and debugin prints
+
+commit 6420ecaa3a6203b38c87e05be9784286965d3189
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 20:31:08 2024 -0600
+
+    PartA1 skeleton logic errors size of begin times and debugin prints
+
+commit 84b3017f813d03954d6309d3736d22e00919319e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 20:21:20 2024 -0600
+
+    PartA.1 Makefile syntax errors
+
+commit 9b9e1ef6eb443634fcedb5b2c9988bce53ff8c3f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 20:11:06 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 7
+
+commit f56cd20501ff0fd52becb585de260d85cf86703c
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:42:23 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 7
+
+commit 58a5cee4a240efdc7b23be4b0edce03253797112
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:31:38 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 5
+
+commit 29e0aff3775ddadb3f3022907dbb90c0c7796d95
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:23:07 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 5
+
+commit ce435927f3f4875a1b023fa9c309de976734b63f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:20:33 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 3
+
+commit 91140cebbb362ff3ec7b2fced0cf98e8858f90bd
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:13:16 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 3
+
+commit 9c29422ad2629177d0690065238e4c57dc4e9059
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:09:13 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved 2
+
+commit 018dd543a26ffad01e944e0ce0679d7f54ca576a
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 19:02:14 2024 -0600
+
+    PartA.1 Skeleton syntx errors solved
+
+commit e53a65a2dc9c144d34b7fa164dffdd60a92b1549
+Merge: 9f5747d be51090
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sat Sep 14 18:12:04 2024 -0600
+
+    Merge branch 'Assignment1' into 'draft-zas742'
+    
+    Organizing repo
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!4
+
+commit be51090b17bb0fa1416ef5c38b5c0f29950f4d31
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:49:49 2024 -0600
+
+    Organizing repo
+
+commit 9f5747d415fc47b9312593f4f759cf442d380526
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:24:55 2024 -0600
+
+    c-phase1 folder added
+
+commit 3bced56f75b5cd6f0912d70b42ac8a1d03a755bb
+Merge: 774ef5f d879148
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:24:15 2024 -0600
+
+    Resolving conflicts
+
+commit 774ef5fe2bc9cf8cee51b028cdba329d8dd98e1f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:16:17 2024 -0600
+
+    Part A.1 Skeleton script finished
+
+commit 2525bfad6b14497a0f54c71e09f251f62d83b239
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 16:55:48 2024 -0600
+
+    Part A.1 Skeleton script finished
+
+commit 934a82e2b265517ab1592715bd19435ac336ab2d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 16:47:10 2024 -0600
+
+    Part A.1 Skeleton changes in global variables and main function
+
+commit 6e745384871f5d1f9d3dc16a34b94e2416a5fa84
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 15:40:10 2024 -0600
+
+    Part A1 skelenton functions but main
+
+commit 46c3e7c2583a6fed218eacff02f2af0c58d8b960
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 15:27:08 2024 -0600
+
+    Part A.1 Check parameters function in sketelton body
+
+commit d879148b56cd3c156c16b2fbfdd350616348d701
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:19:31 2024 -0600
+
+    Update list.h added implement the following list manipulation routines:
+
+commit 0d5353d93725517bc240ea1fb15eda33ee7aacfd
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:13:11 2024 -0600
+
+    Update Makefile
+
+commit 006bd3a16c009f991839d365f2e1ea82375b5581
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:10:06 2024 -0600
+
+    Add new file
+
+commit b2826619dc946011593cff4a41f1cd502c00a174
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:08:29 2024 -0600
+
+    Add new file
+
+commit cb58d11c88289b88c0175873c0f8db24133dc1fc
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:08:14 2024 -0600
+
+    Add new file
+
+commit 53c0479c850e9ce5b79a0e79f7c0527fb39fc0dc
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:07:59 2024 -0600
+
+    Add new file
+
+commit 2eab13aaf4c38d2be7e92005ac6bb5553b97bef6
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:07:41 2024 -0600
+
+    Add new file
+
+commit eae088fd440da77f57839fdc71cb93f8b337b58f
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:05:58 2024 -0600
+
+    Update PartC.design.txt
+
+commit 8b41edb19ae19bc1125dea0f75ea459dbc593e0b
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:50:08 2024 -0600
+
+    Add new file
+
+commit 2734846c1cdf00aed7a509c9ada0d5ad908ce82b
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:41:11 2024 -0600
+
+    Update PartA.design.txt
+
+commit 258146b6574819da3346cc97c70fc02ecacc788e
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:41:01 2024 -0600
+
+    Update PartA.1.Skeleton.c
+
+commit 1beb2478d5dfc8bf082f5178bf3a166057ba43f5
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 02:14:07 2024 -0600
+
+    Skeleton A1 main function declarations
+
+commit 4d7d2f0e98dd67ab519bbf1e7a664aee323ca8bb
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 01:43:45 2024 -0600
+
+    Part A design
+
+commit d4837bb79f72cb11cb0fa90ed5c0d7c36ebfba1a
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 01:17:28 2024 -0600
+
+    Part A.2 design
+
+commit 5d1dfe2b329c8ea57c366c267a9b72639077708e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 00:38:57 2024 -0600
+
+    Finishing Guidelines
+
+commit 11e32a2edc14239ec8190a2882e681f15138f80b
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 23:13:45 2024 -0600
+
+    Guidelines completed and PartA Design requirements
+
+commit fb7d72cc9b28218fc2efa5e9ae7d23bcf06779a5
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 21:14:58 2024 -0600
+
+    Clean main branch
+
+commit a2c2f657f43b7b25eb54fa32eaef9aa176ea6e96
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 20:43:50 2024 -0600
+
+    Cleaning repo
+
+commit c9c735d33b4b27856a29b37bdfa64e6a993a0151
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 19:31:34 2024 -0600
+
+    Rename run bash
+
+commit e2a7f0d006eea8a2e85c495b9c5e2ed3e7207961
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 19:24:32 2024 -0600
+
+    In bash file, fir typos, cyntax corrected
+
+commit ead1846eed6154bc119d2823256f6e0c94a1cd5e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 18:53:59 2024 -0600
+
+    Bash creation: get sys.. archic, set binary depending on it, assuring format and call binary
+
+commit 83ea95a4f20b23539dba750fa8c482d2d5c9da87
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 18:32:19 2024 -0600
+
+    Improving repo organization
+
+commit 82c736baa96f34d833efd36e9d58721b5de04212
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:59:43 2024 -0600
+
+    Update run-lab1.bash
+
+commit 1fecfef7e2ddfe7d6507ca03bcae232a7aa54435
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:39:23 2024 -0600
+
+    Add new file
+
+commit 6e6e689b85e99b6baeea3478eedb556d8a0486b5
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:48 2024 -0600
+
+    Update linux-lib.c
+
+commit e497c55ebf9d3a394c7e9e83240d2c469df75f6c
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:37 2024 -0600
+
+    Update lab1.h
+
+commit 20befea3fcc16f4530f5a54ecf0067f4730a4e36
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:24 2024 -0600
+
+    Update Makefile
+
+commit bacb420a4ff3cd0c3d113e77ec96f66a316fb4b0
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 14:04:01 2024 -0600
+
+    Fix Typo errors and vm-verification added
+
+commit 3f2aecafe2eaeaaa83604d5d8d9bd054842b58aa
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 12:25:04 2024 -0600
+
+    Include all targets
+
+commit 74b66e4fa8e5fca55f1d6bed775306804911a0a6
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 12:10:53 2024 -0600
+
+    Standards and os headers search flag in make file
+
+commit 722e01860858511e5d8620e45c564445c57ae3de
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 11:42:20 2024 -0600
+
+    Cross compiling for all systems
+
+commit 8420b1f466ad1360c311e24bc5723fc18c70b797
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:28:37 2024 -0600
+
+    Personal info on tar files
+
+commit 64d317d0b6937b304dee83638060c578922ca2a9
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:26:18 2024 -0600
+
+    Included linux libs and statict lib in executable
+
+commit a665b90b62fa1d2503d20f721b4dfed2a22ad724
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:08:21 2024 -0600
+
+    Target pthread lib in executable sample linux
+
+commit 6e40a2eb521170a944810b4f4e23bd47f31ac8f5
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Thu Sep 12 07:34:37 2024 -0600
+
+    File organization
+
+commit f2ce0ce9d0a4b5e3f91176258c8a4d04482aab8b
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Sep 11 17:14:28 2024 -0600
+
+    Created makefile with get architec, set build folder, link files and get thread of system
+
+commit efd968c734f5d277872778599e3d135f890a3a41
+Merge: 5cebaff d617a96
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Sep 11 14:34:49 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+    Javier Local Up to date
+
+commit 5cebaff3c4bcbf5a2a3375a17afbef5a135d8944
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 12:10:19 2024 -0600
+
+    Lab1 amke file
+
+commit d617a962fea0bf7eccf09cc48b6a2ff41d89cf2a
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Tue Sep 10 11:03:04 2024 -0600
+
+    Update linux-lib.c
+
+commit 57239a28ed05060fdd350d705565bfab52056ed5
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Tue Sep 10 11:02:20 2024 -0600
+
+    Update lab1.h
+
+commit 60afba61790d915fd8fab4218f473ea23bd9ba67
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:55:24 2024 -0600
+
+    Base files
+
+commit 0e2a66d3ead27824f22f08ed286cc1cc63cae22d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:52:06 2024 -0600
+
+    Base files
+
+commit dc13102916272669d52ca31cae46e6c6337ff6cd
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:51:21 2024 -0600
+
+    Base files
+
+commit ed96f3516c03fe378ed8ea8e5b542e249237616d
+Author: Dwight Makaroff (dwm138) <makaroff@cs.usask.ca>
+Date:   Mon Sep 9 07:49:24 2024 -0600
+
+    Initial commit

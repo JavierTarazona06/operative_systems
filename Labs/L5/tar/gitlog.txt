@@ -1,0 +1,73 @@
+/* Tianze Kuang wde364 11352826
+ * Javier Tarazona elr490 11411898
+ * Steven Baldwin sjb956 11300210
+ * Thomas Brown vwg123 11332966
+ * Lab 5 - CMPT332
+ */
+
+commit 48f0a60dbda2f536b64a387622acd0b74461b6e1
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:30:48 2024 -0600
+
+    fixed compiler warning in sim
+
+commit 4e86affc43e5d3ded80db3e4460397361c356f68
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:25:47 2024 -0600
+
+    working sim, forgot to break
+    in next_proc
+
+commit 2a00bea13c2729e78e9740b5afcffefdae116b09
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:13:19 2024 -0600
+
+    update gitignore
+
+commit 07bb7391bc990c094e419d845175994bb8cc197c
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:12:44 2024 -0600
+
+    inital sim impl no test
+
+commit a2b34fb89102b12e26d476e5d4df5ec24200cd90
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:12:28 2024 -0600
+
+    a1 libList added
+
+commit 8d629deeee17f36206f29093accdf47a7a4b9482
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:12:04 2024 -0600
+
+    make file add group name
+
+commit 76114591cb8726db02d610287c5ed83b0b7896a3
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 13:10:21 2024 -0600
+
+    inital make tmpl
+
+commit 69388f72213393bc89c08968877a63824c0c55ba
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 15 12:08:31 2024 -0600
+
+    update ignore
+
+commit cb2513021d37f0e2f62e9e73be2568538a8cd51a
+Author: Tianze Kuang (David/wde364) <wde364@mail.usask.ca>
+Date:   Wed Oct 9 16:47:20 2024 -0600
+
+    Update Ck.sh
+
+commit b05dbdfbfe3a4676c2cec93b58fd90da79eea391
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 8 12:13:57 2024 -0600
+
+    update gitignore
+
+commit 09422e7006dd86c4f6f27914cb30aa85678368a5
+Author: Tianze Kuang <wde364@usask.ca>
+Date:   Tue Oct 1 19:53:34 2024 -0600
+
+    new main

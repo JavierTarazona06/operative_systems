@@ -1,0 +1,214 @@
+NAMEs: Javier Andres Tarazona Jimenez
+NSIDs: elr490
+Student Numbers: 11411898
+
+
+commit b33dbdb6e41685e591d6e15e30e93d3bd01aa40c
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 16:56:52 2024 -0600
+
+    Improving file
+
+commit 57fd257e281c8cae8067e755539fbdc379489280
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 16:47:44 2024 -0600
+
+    Comments
+
+commit 7e884d2b0fb12e81c8a033a078a2d08f6f11977e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 16:33:23 2024 -0600
+
+    Output For the lab
+
+commit c1d05072ed8bf74d7cb1d71e7ba7cf9aa6977daf
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 15:27:17 2024 -0600
+
+    Delete ´prints that are not need
+
+commit f6285c0562889eb1de3179beb094f20d4cc8cf9d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 15:16:53 2024 -0600
+
+    Modify Open: Check not follow and symlink 4 - Fix bugs 2
+
+commit f784dd0b046615a71c61d47ab28f90f2a3594794
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:55:44 2024 -0600
+
+    Modify Open: Check not follow and symlink 4 - Fix bugs 1
+
+commit 8bab9eee8dde3d5f441dc4afc3f1c8f042bc7cea
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:54:59 2024 -0600
+
+    Modify Open: Check not follow and symlink 4 - Fix bugs
+
+commit 5c717afc625c29c6cd998bc94a3e0b834dc1085e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:53:56 2024 -0600
+
+    Modify Open: Check not follow and symlink 3
+
+commit 0a133ec222ad288d55d813efd908de933756303b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:52:55 2024 -0600
+
+    Modify Open: Check not follow and symlink 2
+
+commit f2f8dec358c367b8669461e92d6a5fb013cfef6a
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:48:18 2024 -0600
+
+    Modify Open: Check not follow and symlink 1
+
+commit e451935d9f1dba546e514c54dc5929177ab50496
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 13:28:00 2024 -0600
+
+    Modify Open: Check not follow and symlink
+
+commit 8f166674500af09e3fe8b738631e494b461485b6
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:58:00 2024 -0600
+
+    Symlink implementation and create modification 8 test 4
+
+commit 80d4fa0dc943e13ec2f69a02228eb72f37c01cc1
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:56:57 2024 -0600
+
+    Symlink implementation and create modification 8 test 3
+
+commit 36924df3b1b63e51bcf53cdbb09e52b21942c70b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:55:56 2024 -0600
+
+    Symlink implementation and create modification 8 test 2
+
+commit bb8fe863f70e5467b3120dd6fae86e54a3285665
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:55:15 2024 -0600
+
+    Symlink implementation and create modification 8 test 1
+
+commit 4bbe02def5ddbc1bfa710eed57baf4b350ee4a27
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:54:29 2024 -0600
+
+    Symlink implementation and create modification 8 test
+
+commit 16dce32768a924435496c158f5b9a5981623599f
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:44:37 2024 -0600
+
+    Symlink implementation and create modification 7
+
+commit 1b3952d817e2eb52645ae465a1faebbc9ddb821b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 12:43:09 2024 -0600
+
+    Symlink implementation and create modification 6
+
+commit 0f097e2c58776f06a2572abc465124afec4d9681
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:53:01 2024 -0600
+
+    Symlink implementation and create modification 5
+
+commit fde4545aea668b389fce56b6c6fe4d03f03a3c95
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:52:21 2024 -0600
+
+    Symlink implementation and create modification 4
+
+commit 4448430a1f9e3168375fe8346cecd804606f705b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:51:08 2024 -0600
+
+    Symlink implementation and create modification 3
+
+commit ff6697705686bf51024ed43825ad9e11f859bfe6
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:45:41 2024 -0600
+
+    Symlink implementation and create modification 2
+
+commit f6a14acc35b119507099467b9041bd5715893ca6
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:44:37 2024 -0600
+
+    Symlink implementation and create modification 1
+
+commit 5931dbbb854aea4243d2d55c98c43998b0685ee1
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 02:41:07 2024 -0600
+
+    Symlink implementation and create modification
+
+commit e11922f3f3c83b778ed77b61de362840914a3953
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 01:20:50 2024 -0600
+
+    Print args from symlink system call 1
+
+commit 340cdbf0703be17af1681bfeef62843fb41f8f86
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 01:19:04 2024 -0600
+
+    Print args from symlink system call
+
+commit 8db010069031a567e97a70783e81e358e9f9f9ac
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 01:04:04 2024 -0600
+
+    Add Symlinktests 3
+
+commit 268e21a99049898223cbfd63f5149644642315ba
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:58:52 2024 -0600
+
+    Add Symlinktests 2
+
+commit 1c118da1c6a299da1553d97f18f31d1f4496b19e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:57:12 2024 -0600
+
+    Add Symlinktests 1
+
+commit 8a2aeb00c3963d1d41add8dfcabe7b6bee298d92
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:55:00 2024 -0600
+
+    Add Symlinktests
+
+commit b00fd14e0ed916deadf01193d63db38adc3c9bcb
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:54:42 2024 -0600
+
+    Add O_NOFOLLOW Flag
+
+commit 10d3814d3630367802dbf56ae47925dc5ffd90a1
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:33:57 2024 -0600
+
+    Add SYMLINK Type
+
+commit bf404f6bd71a1f2f0035b869eeaf6c34bc0030f4
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:32:42 2024 -0600
+
+    Add symlink to Kenrel and user call in XV6
+
+commit 1af47b3c1386f92dff98402cc2ccc5a2975ace9e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Thu Nov 21 00:29:10 2024 -0600
+
+    Our Base files
+
+commit e7883cb84400921b9e07dc9583aae450d08e5a50
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Nov 21 00:21:07 2024 -0600
+
+    Initial Commit of XV6

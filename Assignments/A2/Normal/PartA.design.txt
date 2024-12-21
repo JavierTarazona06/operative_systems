@@ -1,0 +1,125 @@
+  NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+  NSID: elr490, sjb956
+  Student Number: 11411898, 11300210
+
+# Analysis
+
+# Logic
+
+We modify thread create to assign it a state and a stack/stack pointer 
+information.
+
+Then, we modify thread_schedule
+
+## Thread Create
+
+
+struct thread {
+  char       stack[STACK_SIZE]; /* the thread's stack */
+  int        state;             /* FREE, RUNNING, RUNNABLE */
+};
+
+
+
+void
+thread_create(void (*func)())
+{
+  struct thread *t;
+
+  for (t = all_thread; t < all_thread + MAX_THREAD; t++) {
+    if (t->state == FREE) break;
+  }
+  t->state = RUNNABLE;
+
+  /*We have to add the pointer of the function
+  to the thread stack. So we have modified the thread structure
+  to add a stack pointer.
+
+  - Initialize the stack pointer in 0
+  - Put the pointer of the function in the stack
+  - Move the stack pointer the size of the function pointer*/
+
+	/*We need the return address, the space for the actual function and
+	a function pointer*/
+
+  /* CMPT 332 GROUP 63 Change, fall 2024 */
+
+}
+
+
+## Thread Schedule
+
+The idea is t iterate over the list of all the threads. if a thread is 
+runnable, it calls it.
+
+We are going to create an struct called thread_context where we are 
+going to use to store/load the address of returning (to continue 
+execution when a function returns), the stack pointer that has the
+pointer of the thread stack and the frame pointer which is the base 
+of the stack frame (the bottom).
+
+We are going to modify the extern void thread_switch(uint64, uint64); 
+to handle the thread_context structure that we have created so that 
+we can replace the registers between the new that is being loaded and 
+the old that would be saved.
+
+
+void
+thread_schedule(void)
+{
+  struct thread *t, *next_thread;
+
+  /* Find another runnable thread. */
+  next_thread = 0;
+  t = current_thread + 1;
+  for(int i = 0; i < MAX_THREAD; i++){
+    if(t >= all_thread + MAX_THREAD)
+      t = all_thread;
+    if(t->state == RUNNABLE) {
+      next_thread = t;
+      break;
+    }
+    t = t + 1;
+  }
+
+  if (next_thread == 0) {
+    printf("thread_schedule: no runnable threads\n");
+    exit(-1);
+  }
+
+  if (current_thread != next_thread) {         /* switch threads?  */
+    next_thread->state = RUNNING;
+    t = current_thread;
+    current_thread = next_thread;
+    /* YOUR CODE HERE
+     * Invoke thread_switch to switch from t to next_thread:
+     * thread_switch(??, ??);
+     */
+  } else
+    next_thread = 0;
+}
+
+
+# Part A: Threads/Synchronization in xv6
+
+- [ ]  xv6-synch.diff: a diff file listing all the changes to the 
+kernel you made for this assignment (As in A1).
+- [ ]  tarball of your kernel source, without the git details 
+(named xv6-A2.tar)
+- [ ]  Design document in PartA.design.txt. Brief description of
+the implementation of thread implementation and mutex locks and 
+enough explanation for your synchronization tests.
+- [ ]  Test execution of your modified kernel in  xv6-kernel-output.txt. 
+This will include runs of the producer-consumer problem.
+
+# Thread stucture:
+
+In each thread we will store the return address $ra, and the stack.
+ The stack will be defined by the stack frame $s0 and the stack pointer 
+ $sp.
+
+# Context switching:
+
+The actual context switching will be done by a function written in 
+assembly called thread_switch. It will save the old threads $ra, $s0, 
+and $sp, and load the new ones.

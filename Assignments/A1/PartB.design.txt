@@ -1,0 +1,40 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+*/
+
+Part B Design
+
+In this bash script will be handled partA1, partA2, partA3 and partA4 
+(pending implementation) as args. Each selection will flow on a menu or 
+batch reading that will receive 3 integers (number of threads, time in 
+seconds as deadline and size) to run the assigned program of squares 
+calculation.
+
+So first, we will validate the input params to be positive integers and 
+OS System will be checked to be Windows for PartA1. Also, it will 
+support a manually method to insert args with a menu with an option to 
+quit the program and also reading from a file in batch.
+
+Functions that will be implemented:
+- check_pos:
+	- Check if the args passed is a positive integer.
+	- It will checked with REGEX patterns.
+	
+- menu():
+	- Available if args will be sent manually and executes program 
+	according to versions partA1, partA2 and partA3 (partA4 pending).
+	- CHecks that no more than 3 params are sent
+	
+
+The main program:
+	- The first argument will be the version.
+		- If version partA1, Windows compatibility will be checked.
+		- If version is partA2 or partA3, Linux compatibility 
+		will be checked
+	- The second argument is the path of the input.txt file for batch 
+	processing or nothing to proceed to the menu.

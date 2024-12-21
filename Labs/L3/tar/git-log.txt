@@ -1,0 +1,573 @@
+   NAME: Javier Andres Tarazona Jimenez
+   NSID: elr490
+   Student Number: 11411898
+
+   CMPT 332 Term 1 2024
+
+   Lab 3
+
+commit 796a11dda8193256ac839ec9b82a666f9a2b8bd7
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 18:57:27 2024 -0600
+
+    Make files unix
+
+commit 79ffb70ccffa995f4800f5460b5254cff565b2ab
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 18:53:01 2024 -0600
+
+    Publish bash made public, for personal contorl of files
+
+commit c0d33575d19fd285e29a57639af151331dae446f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 18:52:20 2024 -0600
+
+    Part 1 detailed name of the executables
+
+commit 23bfc6b5b305b00bed04368cf83c6c9f6f13f708
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 18:36:37 2024 -0600
+
+    Part 2 VM penguin.txt script of installation and script.txt updated with new disable options
+
+commit 0fa63fcc01bb1555f19c41c42960d561219e6414
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 15:51:05 2024 -0600
+
+    Repo Organization
+
+commit 6df9801f3df789a85b83da21d20ceabbc698045d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 15:47:27 2024 -0600
+
+    Git log.txt addition
+
+commit 59e75715e5048c57a39e006b6b0265f3d53773b0
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Wed Oct 2 13:11:09 2024 -0600
+
+    Part 1 Team names on the files
+
+commit 92dcafdc82a7508dbda4fa87d930f98f3eb1bda9
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Wed Oct 2 13:08:02 2024 -0600
+
+    Part 1 Write test results at lab3.test.results.txt and detail in test 0 0
+
+commit ec7431ac479203f9c78761bc8062583e4dd82838
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Wed Oct 2 12:45:51 2024 -0600
+
+    Part1 names in test script
+
+commit d6c6c9abc2f0a260fef128e8f4e6a6a1a61a6e11
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 01:59:43 2024 -0600
+
+    Part1 Makefil delete Lab3_test
+
+commit 04fa0d48cc334051a002d5eb2fbb9b018d42a0c8
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 01:58:22 2024 -0600
+
+    Part1 Additional files clarification (testsout/ and out_test.txt)
+
+commit 2215ad685f4a955829d6fe8b5ca02375328e9180
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 01:54:55 2024 -0600
+
+    Part1 Included text cases in design, improve test.c for different cases (5), created bash file for calling lab3 program or lab3test program, stored result of tests in testsout
+
+commit e36c7b60d632f874cc7e5d1a3d26a9fcaa94444d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 01:09:21 2024 -0600
+
+    Test part1 Lab3 finished. Solve typos
+
+commit 87b46f0cdb4a551d91549009b675b1412299d967
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Oct 2 01:08:33 2024 -0600
+
+    Test part1 Lab3 finished. Call LAb3 executable and assert coentent
+
+commit 2e880ee27e83c813f6d3983d9eb61c11c97adc6a
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:57:23 2024 -0600
+
+    Part1 Lab3.test scripr organization
+
+commit 5d526633c41c3db92f9f1cfa8f589ef15e1ed25c
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:54:48 2024 -0600
+
+    Part 1Lab3.test compare files with the with idea od output of ./Lab3 and predefined out in a textfile
+
+commit dd339194048c72772b1fc7adec1c8eea4a31bd54
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:27:56 2024 -0600
+
+    Part1 lab3.txt detailed description
+
+commit c1a5cb97d57b61cbe58cae746db0daf2f296c508
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:21:57 2024 -0600
+
+    Part 1 Lab3 txt organization
+
+commit 6ece96e0d6fce5cd841acda467f08efffa197b59
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:15:39 2024 -0600
+
+    Part1 Lab3script.c with cleaned print
+
+commit b6fdfd9d8fca4477c76661dec5bcabc35479ee39
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:11:30 2024 -0600
+
+    Part 1 Lab3.c script organization
+
+commit 21644f1d5389e1ff3f11c2b648530d66e2a26503
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:10:17 2024 -0600
+
+    Part 1 Lab3.c script organization
+
+commit 58a10528147388e0741cae42982b980af61b49f7
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:06:48 2024 -0600
+
+    Part1 script Lab3.c organization
+
+commit 9e87442bdab0ca07e7dd457014660c0b78ce8906
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 23:00:53 2024 -0600
+
+    Part1 Design Docuemntation finished with all functions
+
+commit 9ac811ea731404b4de81538887bae4bf0dac2d9d
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Oct 1 22:25:42 2024 -0600
+
+    Part1 Overview, Libraries, GlobalVariables and First functions documentation
+
+commit 03782ec5477dfd2f56344470b5fd9c0dd5c72baa
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 20:45:09 2024 -0600
+
+    Part2 test results
+
+commit 767f13a09e2a876593a1bff3914648d4e5e51251
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 19:47:32 2024 -0600
+
+    Part1 kill just the barber thread after waiting all customers to finish
+
+commit 1acaf9239a467673330af152d76ed882c09592ee
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 18:28:24 2024 -0600
+
+    Part1 in script.c improve queue management and while loop in barber for waiting customers, repo organization
+
+commit 290b42335279fd22d5933e7c4dca475f03cd3463
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 18:27:30 2024 -0600
+
+    Part1 in script.c improve queue management and while loop in barber for waiting customers
+
+commit 44cef8e05b076f55ed607f0664462b9d68ca0e9e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 18:03:44 2024 -0600
+
+    Part2 Finish writting 10 options that will be discarded from linux kernel installation
+
+commit a5244ed93849d7271c472db51f24f4c5e59b4968
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 14:14:48 2024 -0600
+
+    Part1 Initializing semaphores
+
+commit 9a1de722999c5e8d9f6ed35092fb20d069bd19f6
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 14:07:38 2024 -0600
+
+    Part1 Fixing errors at Lab3synch problem.c for typos, bad definitions for Malloc, and UBC syntax makefile improved with dir. creation
+
+commit 74aa812e1195830dbc896b16109db6c9ecad3d12
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 13:59:13 2024 -0600
+
+    Part1 Finished .c implementation of the barber problem by handling customer performance on arriving and leavinf and settin all semaphores. Make file also crated for execu. Lab3 from the .c script
+
+commit 874aad1228000153dd8a3cabb3e76cab526846e8
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 13:36:41 2024 -0600
+
+    Part1 Base deisgn and code in C using UBC threads, smeaphores declared and customer-barber logic
+
+commit c51ea225008f7e0698a4b3d215287edadafdeca1
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 13:36:16 2024 -0600
+
+    Part1 Base deisgn and code in C using UBC threads, smeaphores declared and customer-barber logic
+
+commit b61125c20ecb44c50e54f713dabea615976abb28
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 12:56:47 2024 -0600
+
+    Part2 5 first options thta will be discarded rom linux kernel installation
+
+commit 472e91d397900d9ec5b2660a80fb25dd9b76a4a4
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 12:31:59 2024 -0600
+
+    Part2 knernelconfig txt 5 first options that will be discarded form kenrel configuration
+
+commit 82e2952c13c9fa7416aa6828d6bb7dd058a77087
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Oct 1 11:30:38 2024 -0600
+
+    publish.bash
+
+commit a6caa2c322f9190762cfc9027712144d0e192fed
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 17 12:54:55 2024 -0600
+
+    Git upload commits bash. Checked
+
+commit fb5f055f1fa16afd4a60ee0a6d3bcd16a9fa9b49
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 17 12:46:02 2024 -0600
+
+    y
+
+commit 961c56c427f3be178218bb9e44d4df72ac97f8b6
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 18:14:07 2024 -0600
+
+    Deleting all from main
+
+commit 3e8e503fc9eb6277870fb51adc4d04684aab581b
+Merge: fb7d72c be51090
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Sat Sep 14 17:51:59 2024 -0600
+
+    Merge branch 'draft-elr490' into 'main'
+    
+    Draft elr490
+    
+    See merge request cmpt332-fall2024/cmpt332-2024-group63!3
+
+commit be51090b17bb0fa1416ef5c38b5c0f29950f4d31
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:49:49 2024 -0600
+
+    Organizing repo
+
+commit 9f5747d415fc47b9312593f4f759cf442d380526
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:24:55 2024 -0600
+
+    c-phase1 folder added
+
+commit 3bced56f75b5cd6f0912d70b42ac8a1d03a755bb
+Merge: 774ef5f d879148
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:24:15 2024 -0600
+
+    Resolving conflicts
+
+commit 774ef5fe2bc9cf8cee51b028cdba329d8dd98e1f
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 17:16:17 2024 -0600
+
+    Part A.1 Skeleton script finished
+
+commit 2525bfad6b14497a0f54c71e09f251f62d83b239
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 16:55:48 2024 -0600
+
+    Part A.1 Skeleton script finished
+
+commit 934a82e2b265517ab1592715bd19435ac336ab2d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 16:47:10 2024 -0600
+
+    Part A.1 Skeleton changes in global variables and main function
+
+commit 6e745384871f5d1f9d3dc16a34b94e2416a5fa84
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 15:40:10 2024 -0600
+
+    Part A1 skelenton functions but main
+
+commit 46c3e7c2583a6fed218eacff02f2af0c58d8b960
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Sat Sep 14 15:27:08 2024 -0600
+
+    Part A.1 Check parameters function in sketelton body
+
+commit d879148b56cd3c156c16b2fbfdd350616348d701
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:19:31 2024 -0600
+
+    Update list.h added implement the following list manipulation routines:
+
+commit 0d5353d93725517bc240ea1fb15eda33ee7aacfd
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:13:11 2024 -0600
+
+    Update Makefile
+
+commit 006bd3a16c009f991839d365f2e1ea82375b5581
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:10:06 2024 -0600
+
+    Add new file
+
+commit b2826619dc946011593cff4a41f1cd502c00a174
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:08:29 2024 -0600
+
+    Add new file
+
+commit cb58d11c88289b88c0175873c0f8db24133dc1fc
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:08:14 2024 -0600
+
+    Add new file
+
+commit 53c0479c850e9ce5b79a0e79f7c0527fb39fc0dc
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:07:59 2024 -0600
+
+    Add new file
+
+commit 2eab13aaf4c38d2be7e92005ac6bb5553b97bef6
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:07:41 2024 -0600
+
+    Add new file
+
+commit eae088fd440da77f57839fdc71cb93f8b337b58f
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 13:05:58 2024 -0600
+
+    Update PartC.design.txt
+
+commit 8b41edb19ae19bc1125dea0f75ea459dbc593e0b
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:50:08 2024 -0600
+
+    Add new file
+
+commit 2734846c1cdf00aed7a509c9ada0d5ad908ce82b
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:41:11 2024 -0600
+
+    Update PartA.design.txt
+
+commit 258146b6574819da3346cc97c70fc02ecacc788e
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Sat Sep 14 12:41:01 2024 -0600
+
+    Update PartA.1.Skeleton.c
+
+commit 1beb2478d5dfc8bf082f5178bf3a166057ba43f5
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 02:14:07 2024 -0600
+
+    Skeleton A1 main function declarations
+
+commit 4d7d2f0e98dd67ab519bbf1e7a664aee323ca8bb
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 01:43:45 2024 -0600
+
+    Part A design
+
+commit d4837bb79f72cb11cb0fa90ed5c0d7c36ebfba1a
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 01:17:28 2024 -0600
+
+    Part A.2 design
+
+commit 5d1dfe2b329c8ea57c366c267a9b72639077708e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Fri Sep 13 00:38:57 2024 -0600
+
+    Finishing Guidelines
+
+commit 11e32a2edc14239ec8190a2882e681f15138f80b
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 23:13:45 2024 -0600
+
+    Guidelines completed and PartA Design requirements
+
+commit fb7d72cc9b28218fc2efa5e9ae7d23bcf06779a5
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 21:14:58 2024 -0600
+
+    Clean main branch
+
+commit a2c2f657f43b7b25eb54fa32eaef9aa176ea6e96
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 20:43:50 2024 -0600
+
+    Cleaning repo
+
+commit c9c735d33b4b27856a29b37bdfa64e6a993a0151
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 19:31:34 2024 -0600
+
+    Rename run bash
+
+commit e2a7f0d006eea8a2e85c495b9c5e2ed3e7207961
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 19:24:32 2024 -0600
+
+    In bash file, fir typos, cyntax corrected
+
+commit ead1846eed6154bc119d2823256f6e0c94a1cd5e
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 18:53:59 2024 -0600
+
+    Bash creation: get sys.. archic, set binary depending on it, assuring format and call binary
+
+commit 83ea95a4f20b23539dba750fa8c482d2d5c9da87
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 18:32:19 2024 -0600
+
+    Improving repo organization
+
+commit 82c736baa96f34d833efd36e9d58721b5de04212
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:59:43 2024 -0600
+
+    Update run-lab1.bash
+
+commit 1fecfef7e2ddfe7d6507ca03bcae232a7aa54435
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:39:23 2024 -0600
+
+    Add new file
+
+commit 6e6e689b85e99b6baeea3478eedb556d8a0486b5
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:48 2024 -0600
+
+    Update linux-lib.c
+
+commit e497c55ebf9d3a394c7e9e83240d2c469df75f6c
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:37 2024 -0600
+
+    Update lab1.h
+
+commit 20befea3fcc16f4530f5a54ecf0067f4730a4e36
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Thu Sep 12 16:35:24 2024 -0600
+
+    Update Makefile
+
+commit bacb420a4ff3cd0c3d113e77ec96f66a316fb4b0
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 14:04:01 2024 -0600
+
+    Fix Typo errors and vm-verification added
+
+commit 3f2aecafe2eaeaaa83604d5d8d9bd054842b58aa
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 12:25:04 2024 -0600
+
+    Include all targets
+
+commit 74b66e4fa8e5fca55f1d6bed775306804911a0a6
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 12:10:53 2024 -0600
+
+    Standards and os headers search flag in make file
+
+commit 722e01860858511e5d8620e45c564445c57ae3de
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 11:42:20 2024 -0600
+
+    Cross compiling for all systems
+
+commit 8420b1f466ad1360c311e24bc5723fc18c70b797
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:28:37 2024 -0600
+
+    Personal info on tar files
+
+commit 64d317d0b6937b304dee83638060c578922ca2a9
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:26:18 2024 -0600
+
+    Included linux libs and statict lib in executable
+
+commit a665b90b62fa1d2503d20f721b4dfed2a22ad724
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Thu Sep 12 09:08:21 2024 -0600
+
+    Target pthread lib in executable sample linux
+
+commit 6e40a2eb521170a944810b4f4e23bd47f31ac8f5
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Thu Sep 12 07:34:37 2024 -0600
+
+    File organization
+
+commit f2ce0ce9d0a4b5e3f91176258c8a4d04482aab8b
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Sep 11 17:14:28 2024 -0600
+
+    Created makefile with get architec, set build folder, link files and get thread of system
+
+commit efd968c734f5d277872778599e3d135f890a3a41
+Merge: 5cebaff d617a96
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Wed Sep 11 14:34:49 2024 -0600
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+    Javier Local Up to date
+
+commit 5cebaff3c4bcbf5a2a3375a17afbef5a135d8944
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 12:10:19 2024 -0600
+
+    Lab1 amke file
+
+commit d617a962fea0bf7eccf09cc48b6a2ff41d89cf2a
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Tue Sep 10 11:03:04 2024 -0600
+
+    Update linux-lib.c
+
+commit 57239a28ed05060fdd350d705565bfab52056ed5
+Author: Nahian Sajid (zas742) <zas742@mail.usask.ca>
+Date:   Tue Sep 10 11:02:20 2024 -0600
+
+    Update lab1.h
+
+commit 60afba61790d915fd8fab4218f473ea23bd9ba67
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:55:24 2024 -0600
+
+    Base files
+
+commit 0e2a66d3ead27824f22f08ed286cc1cc63cae22d
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:52:06 2024 -0600
+
+    Base files
+
+commit dc13102916272669d52ca31cae46e6c6337ff6cd
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Sep 10 10:51:21 2024 -0600
+
+    Base files
+
+commit ed96f3516c03fe378ed8ea8e5b542e249237616d
+Author: Dwight Makaroff (dwm138) <makaroff@cs.usask.ca>
+Date:   Mon Sep 9 07:49:24 2024 -0600
+
+    Initial commit

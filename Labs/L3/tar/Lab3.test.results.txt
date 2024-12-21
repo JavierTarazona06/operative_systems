@@ -1,0 +1,423 @@
+/* NAME: Javier Andres Tarazona Jimenez, Thomas Brown, Tianze Kuang, 
+   NSID: elr490, vwg123, wde364
+   Student Number: 11411898, 11332966, 11352826
+
+   CMPT 332 Term 1 2024
+
+   Lab 3
+*/
+
+Test Results for:
+
+Call ./Lab3_test to run 5 tests as follows:
+./Lab3 (n) (m)
+
+Where n is the size of customers to be in the shop and m the amount of 
+customers that approach to the shop.
+
+./Lab3 5 15 : Test Passed
+
+Customer is waiting. Total count waiting: 0
+Customers waiting: 0
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 1
+Customer is waiting. Total count waiting: 2
+Customer is waiting. Total count waiting: 3
+Customers waiting: 3
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 3
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 4
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 4
+Customers waiting: 4
+Cut hair
+get hair cut
+Customers waiting: 3
+Cut hair
+get hair cut
+Customers waiting: 2
+Cut hair
+get hair cut
+Customers waiting: 1
+Cut hair
+get hair cut
+
+exiting threads
+
+
+./Lab3 10 10 : Test Passed
+
+Customer is waiting. Total count waiting: 0
+Customers waiting: 0
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 1
+Customer is waiting. Total count waiting: 2
+Customer is waiting. Total count waiting: 3
+Customers waiting: 3
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 3
+Customer is waiting. Total count waiting: 4
+Customer is waiting. Total count waiting: 5
+Customers waiting: 5
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 5
+Customer is waiting. Total count waiting: 6
+Customer is waiting. Total count waiting: 7
+Customers waiting: 7
+Cut hair
+get hair cut
+Customers waiting: 6
+Cut hair
+get hair cut
+Customers waiting: 5
+Cut hair
+get hair cut
+Customers waiting: 4
+Cut hair
+get hair cut
+Customers waiting: 3
+Cut hair
+get hair cut
+Customers waiting: 2
+Cut hair
+get hair cut
+Customers waiting: 1
+Cut hair
+get hair cut
+
+exiting threads
+
+
+./Lab3 10 7 : Test Passed
+
+Customer is waiting. Total count waiting: 0
+Customers waiting: 0
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 1
+Customer is waiting. Total count waiting: 2
+Customer is waiting. Total count waiting: 3
+Customers waiting: 3
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 3
+Customer is waiting. Total count waiting: 4
+Customer is waiting. Total count waiting: 5
+Customers waiting: 5
+Cut hair
+get hair cut
+Customers waiting: 4
+Cut hair
+get hair cut
+Customers waiting: 3
+Cut hair
+get hair cut
+Customers waiting: 2
+Cut hair
+get hair cut
+Customers waiting: 1
+Cut hair
+get hair cut
+
+exiting threads
+
+
+
+./Lab3 0 0 : Test Passed
+
+invalid number maxqueue
+
+exiting threads
+
+
+
+./Lab3 25 100 : Test Passed
+
+Customer is waiting. Total count waiting: 0
+Customers waiting: 0
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 1
+Customer is waiting. Total count waiting: 2
+Customer is waiting. Total count waiting: 3
+Customers waiting: 3
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 3
+Customer is waiting. Total count waiting: 4
+Customer is waiting. Total count waiting: 5
+Customers waiting: 5
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 5
+Customer is waiting. Total count waiting: 6
+Customer is waiting. Total count waiting: 7
+Customers waiting: 7
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 7
+Customer is waiting. Total count waiting: 8
+Customer is waiting. Total count waiting: 9
+Customers waiting: 9
+Cut hair
+Customer is waiting. Total count waiting: 10
+get hair cut
+Customer is waiting. Total count waiting: 10
+Customer is waiting. Total count waiting: 11
+Customer is waiting. Total count waiting: 12
+Customers waiting: 12
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 12
+Customer is waiting. Total count waiting: 13
+Customer is waiting. Total count waiting: 14
+Customers waiting: 14
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 14
+Customer is waiting. Total count waiting: 15
+Customer is waiting. Total count waiting: 16
+Customers waiting: 16
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 16
+Customer is waiting. Total count waiting: 17
+Customer is waiting. Total count waiting: 18
+Customers waiting: 18
+Cut hair
+Customer is waiting. Total count waiting: 19
+get hair cut
+Customer is waiting. Total count waiting: 19
+Customer is waiting. Total count waiting: 20
+Customer is waiting. Total count waiting: 21
+Customers waiting: 21
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 21
+Customer is waiting. Total count waiting: 22
+Customer is waiting. Total count waiting: 23
+Customers waiting: 23
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 23
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+Customer left because queue is filled
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customer is waiting. Total count waiting: 24
+Customer left because queue is filled
+Customers waiting: 24
+Cut hair
+get hair cut
+Customers waiting: 23
+Cut hair
+get hair cut
+Customers waiting: 22
+Cut hair
+get hair cut
+Customers waiting: 21
+Cut hair
+get hair cut
+Customers waiting: 20
+Cut hair
+get hair cut
+Customers waiting: 19
+Cut hair
+get hair cut
+Customers waiting: 18
+Cut hair
+get hair cut
+Customers waiting: 17
+Cut hair
+get hair cut
+Customers waiting: 16
+Cut hair
+get hair cut
+Customers waiting: 15
+Cut hair
+get hair cut
+Customers waiting: 14
+Cut hair
+get hair cut
+Customers waiting: 13
+Cut hair
+get hair cut
+Customers waiting: 12
+Cut hair
+get hair cut
+Customers waiting: 11
+Cut hair
+get hair cut
+Customers waiting: 10
+Cut hair
+get hair cut
+Customers waiting: 9
+Cut hair
+get hair cut
+Customers waiting: 8
+Cut hair
+get hair cut
+Customers waiting: 7
+Cut hair
+get hair cut
+Customers waiting: 6
+Cut hair
+get hair cut
+Customers waiting: 5
+Cut hair
+get hair cut
+Customers waiting: 4
+Cut hair
+get hair cut
+Customers waiting: 3
+Cut hair
+get hair cut
+Customers waiting: 2
+Cut hair
+get hair cut
+Customers waiting: 1
+Cut hair
+get hair cut
+
+exiting threads

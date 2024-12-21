@@ -1,0 +1,55 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+*/
+
+# Part C: List Library
+
+In the two parts of the assignment the aim of this part is to make a list 
+library that controls the nodes with item as one node. One of the main 
+difficulties is to exclude the dynamic memory allocation so well be using 
+static arrays. In other words all objects have to be crated from pre-located 
+memory to ensure that we do not call malloc after a object has been 
+initialized. 
+
+In this part we are working with lists that contain a sequence of nodes, a 
+reference to the head, and tail, and also a cursor. The cursor will have to 
+be monitored to stay in bounds of the array as i have decided functions will 
+assume its correctness. A static array will be used, that is why we have to 
+monitor the memory limits carefully for we have a maximum number of lists 
+and a maximum number of nodes. The nodes will have to be doubly linked as
+the lists cursor must be able to traverse both ways with ListNext() and
+ListPrev().
+
+To ensure that the lists and the nodes do not exceed their maximums, we
+will be keeping a count of them as two global ints.
+
+Each function in this library must run in O(1)time, other than ListSearch(),
+and ListFree(). That solidifies the doubly-linked requirement.
+
+The ListCreate() function is used to create a new list. If all lists are 
+already in use, the function will return NULL.
+
+We will develop build functions such as listAdd, which inserts a new item 
+and places the new item in the next position of the current node, then makes 
+that new item the current one.
+
+listInsert() will insert item before the current node, and listRemove() will 
+remove the current node from the list and return the removed item.
+
+A search function will be built into the library and should be able to take
+in a function that determines if an item in the list matches what the
+function is searching for. For this functions as arguments will have to
+be used. The search function will take in another function that compares
+two void* arguments.
+
+The goal summary is to build a list library in c that uses only a set amount
+of memory and imposes a limit on the number of allowed user created lists 
+and nodes. The stretch goal is to add upon this by having the program detect
+when it is nearly out of space, and reallocate.
+
+- This section (part c) will be mainly done by sjb956 - 

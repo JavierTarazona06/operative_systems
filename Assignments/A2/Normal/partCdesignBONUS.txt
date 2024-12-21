@@ -1,0 +1,343 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 2
+*/
+
+
+# For tittles look for ('#')
+
+
+# Idea
+
+The idea is to insert in console the number of machines 
+
+that will participate with the current machine.
+
+For each machine the host name and port is provided.
+
+The difference is that we will have a list of peer
+
+each with a socket to send data, a hostname, an ip:port, and
+
+a send_addr. So now, we only need to modify the thread SEND
+
+to send the message to all the peers. As well when we are closing, 
+
+we need to enable blocking and close all sockets.
+
+We had to separate the socket configuration. Before just one 
+
+function performed the socket set for read and send. Now
+
+just one function will provide one read socket, while
+
+the other will retrieve a send socket. In that “atomic” way
+
+is easier to handle special cases like this one.
+
+# Changes
+
+## mainp()
+
+
+int mainp(int argc, char *argv[]) {
+	/*Variable Declarations*/
+	int temp, i;
+	RttSchAttr 	attr_srv;
+	peer *cur_peer;
+
+	/*Minimum 3 arguemnts, the program, the local port and
+	the number of peers to connecr with*/
+    if (argc < 3){
+        printf("Use the func like: %s <localPort> <number_of_peers>"
+			"<peer1Name> <remotePort1>... \n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    
+	serverPid = (RttThreadId *)RttMalloc(sizeof(RttThreadId));
+	
+	local_port = atoi(argv[1]);
+	number_peers = atoi(argv[2]);
+	
+	local_host_name = GetHostName();
+	local_host_ip = GetIP(local_host_name);
+    
+    /*Here we create the list of all the peers*/
+    peer_list = ListCreate();
+    
+    /*For each peer, we allocate memory, 
+    we get the hostname and port and then the IP. 
+    The socket and send_addr will be set by the server*/
+    for (i = 0; i < number_peers; i++) {
+		cur_peer = (peer *)RttMalloc(sizeof(peer));
+        printf("Received peer %d\n", i+1);
+        cur_peer->host_name = argv[(2*i)+3];
+        cur_peer->port = atoi(argv[(2*i)+4]);
+        cur_peer->ip = GetIP(cur_peer->host_name);
+        ListAdd(peer_list, cur_peer);
+    }
+    
+...
+}
+
+
+
+## server thread
+
+
+RTTTHREAD thr_server() {
+    /*Variable Declarations*/
+    int temp, who, i; /*temp for checking errors, who
+	for control*/
+	char bufclose[1];
+    /*For Server Loop*/
+    RttThreadId *requestPID, *requestPIDEXIT;
+    MessageT *message_request, *message_requestEXIT;
+    unsigned int *message_request_len, *message_request_lenEXIT;
+    MessageSchat *cur_message1PRI, *cur_message2PRI; /*s-chat messages for
+	analyze*/
+    MessageSchat *cur_messageSEND, *cur_messageEXIT, *cur_messageKEYBOARD;
+    RttTimeValue *tv;
+    peer *cur_peer;
+    int *sock_send;
+	struct sockaddr_in *send_addr;
+
+...
+
+	/*Configure UDP to read*/
+	sock_read = (int *)RttMalloc(sizeof(int));
+	temp = configure_udp_sock_receive(local_port, sock_read);
+	if(temp != 0) myerror("SOCKET_CONFIGURE_READ");
+
+	if (nonblock_udp(*sock_read) < 0){
+        close(*sock_read);
+        myerror("NON_BLOCKSOCKET_READ");
+    }
+
+	/*Configure UDP to send*/
+	/*We are going to iterate over
+	the pper list and for each we will call 
+	configure_udp_sock_send
+	to create the peer socket */
+	ListFirst(peer_list);
+	for (i=0; i<number_peers; i++){
+		
+		cur_peer = ListCurr(peer_list);
+		if (i<number_peers-1) ListNext(peer_list);
+		
+		sock_send = (int *)RttMalloc(sizeof(int));
+		send_addr = (struct sockaddr_in *)
+		RttMalloc(sizeof(struct sockaddr_in));
+		memset(send_addr, 0, sizeof(struct sockaddr_in));
+
+		temp = configure_udp_sock_send(cur_peer->port, 
+			cur_peer->host_name, sock_send, 
+			send_addr);
+		if(temp != 0) myerror("SOCKET_CONFIGURE_SEND");
+		
+		cur_peer->socket_send = *sock_send;
+		cur_peer->send_addr = *send_addr;
+		
+		if (nonblock_udp(*sock_send) < 0){
+			close(*sock_send);
+			myerror("NON_BLOCKSOCKET_SEND");
+		}
+	}
+
+	/*Threads Creation*/
+	temp = RttCreate(keyboardPid, thr_keyboard, STKSIZE, "keyboard", 
+	NULL, nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(printPid, thr_print, STKSIZE, "print", NULL, 
+	nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(sendPid, thr_send, STKSIZE, "send", NULL, nowAttr, 
+	RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+	
+	temp = RttCreate(receivePid, thr_receive, STKSIZE, "receive",
+	NULL, nowAttr, RTTUSR);
+	if(temp == RTTFAILED) perror("RTTCREATE");
+
+	/*Server Actions*/
+	while(1){
+
+...
+
+	/*Check if ports have not been closed
+	by iterating all the peer list*/
+	ListFirst(peer_list);
+	for (i=0; i<number_peers; i++){
+		cur_peer = ListCurr(peer_list);
+		if (i<number_peers-1) ListNext(peer_list);
+		
+		temp = recv(cur_peer->socket_send, bufclose, 
+		sizeof(bufclose), MSG_PEEK);
+		if (temp != 0) block_udp(cur_peer->socket_send);
+	}
+
+...
+	
+    RttExit();
+}
+
+
+## Send Thread
+
+
+
+/* The main difference here is that now we 
+are sending the same message to
+all the registered peers*/
+RTTTHREAD thr_send(){
+	int temp, i;
+	unsigned int *len_received;
+	MessageSchat *cur_message_chat;
+	MessageT *cur_message;
+	peer *cur_peer;
+
+	
+	while(1){
+
+		cur_message = (MessageT *)RttMalloc(sizeof(MessageT));
+		cur_message -> request = SEND;
+		strcpy(cur_message -> content, "SEND");
+		cur_message -> finish_session = 0;
+		
+		cur_message_chat = (MessageSchat *)RttMalloc(sizeof(MessageSchat));
+		
+		len_received = (unsigned int *)RttMalloc(sizeof(unsigned int));
+		
+		temp = RttSend(*serverPid, cur_message, sizeof(MessageT), 
+		cur_message_chat, len_received);	
+		if (temp != RTTOK) {
+            myerror("SEND_SEND");
+        }
+
+		if (cur_message_chat -> content[0] != '\0'){
+			
+			/*printf("Send: Origin: %s | Time: %ld s, %ld us\n\t%s\n\n",
+				cur_message_chat->origin, cur_message_chat->seconds,
+				cur_message_chat->microseconds, cur_message_chat->content);*/
+			
+			ListFirst(peer_list);
+			for (i=0; i<number_peers; i++){
+				cur_peer = ListCurr(peer_list);
+				if (i<number_peers-1) ListNext(peer_list);
+				
+				temp = udp_send(cur_peer->socket_send,
+					cur_message_chat, cur_peer->send_addr);
+				/*if (temp != 0) myerror("UDP_SEND");*/
+			}
+			
+	
+			if (strcmp(cur_message_chat -> content, EXITINSTRUCTION) == 0){
+				break;
+			}
+			
+		}
+
+		temp =  RttSleep(1);
+		if (temp == RTTFAILED) perror("SLEEP");
+	}
+	/*When sneding if fail, interrupr connection because
+	 * there is no way to estaclis it. Try 4 times
+	 * 
+	 * Receives exit instruction, to finish execution*/
+
+	ListFirst(peer_list);
+	for (i=0; i<number_peers; i++){
+		cur_peer = ListCurr(peer_list);
+		if (i<number_peers-1) ListNext(peer_list);
+		
+		block_udp(cur_peer->socket_send);
+	}
+	finished[SEND] = 1;
+
+}
+
+
+# Changes in udp_mang.c
+
+Now udp_mangbonus.c, where we actually just 
+
+divided the previous function to configure 
+
+sockets in two independent
+
+functions.
+
+
+/*Here is the function that creates the
+socket just to send
+data*/
+
+int configure_udp_sock_send(int remote_port, const char* 
+remote_host_name, int *tosock_send, struct sockaddr_in *tosend_addr){
+	int sock_send;
+	struct sockaddr_in send_addr;
+	struct hostent *he;
+	
+	int broadcast = 1;
+
+    /*-------SEND------------*/
+	
+    if ((he = gethostbyname(remote_host_name)) == NULL) {  
+		/*get the host info*/
+        myerror_u("gethostbyname");
+    }
+	
+    if ((sock_send = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        myerror_u("socket");
+    }
+	
+	if (setsockopt(sock_send, SOL_SOCKET, SO_BROADCAST, &broadcast,
+		sizeof(broadcast)) == -1) {
+		close(sock_send);
+		myerror_u("setsockopt (SO_BROADCAST)");
+	}
+	
+    send_addr.sin_family = AF_INET;
+    send_addr.sin_port = htons(remote_port);
+    send_addr.sin_addr = *((struct in_addr *)he->h_addr);
+    memset(send_addr.sin_zero, '\0', sizeof send_addr.sin_zero);
+
+    *tosock_send = sock_send;
+    *tosend_addr = send_addr;
+    return 0;
+}
+
+
+
+int configure_udp_sock_receive(int local_port, int *tosock_read){
+    int sock_read;
+    struct sockaddr_in rcv_addr;
+    
+    /*-----------READ-----------*/
+
+    if ((sock_read = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+        myerror_u("socket_READ");
+    }
+
+    memset(&rcv_addr, 0, sizeof(rcv_addr));
+    rcv_addr.sin_family = AF_INET;
+    rcv_addr.sin_port = htons(local_port);
+    rcv_addr.sin_addr.s_addr = INADDR_ANY;
+
+    if (bind(sock_read, (struct sockaddr*)&rcv_addr, 
+    sizeof(rcv_addr)) < 0) {
+        close(sock_read);
+        myerror_u("BIND_ERROR");
+        return -1;
+    }
+
+    *tosock_read = sock_read;
+    return 0;
+}
+

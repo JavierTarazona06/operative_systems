@@ -1,0 +1,372 @@
+#NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+#NSID: elr490, sjb956
+#Student Number: 11411898, 11300210
+
+Test Plan for Part A:
+
+Objective: For each part, test will be used to check the function of
+multithreading from a Windows OS and Linux using UBC Threads and POSIX.
+
+# Part A1:
+
+Execution Environment:
+   - Operating System: Windows
+   - Environment (Terminal): MSYS2 NT - x86_64
+   - Compiler: gcc
+   - Running Script partB.bash
+
+Use Cases (Features to be implemented):
+
+Using the following format:
+- Title
+	- Description
+	- Input
+	- Desired Output
+	- Exceptions
+
+1. No params
+	- Send command ./partB.bash without arguemnts
+	- ./partB.bash
+	- Error - No version was given
+	- N. A.
+	
+2. Not Windows
+	- Try partA1 on a linux machine
+	- ./partb.bash partA1
+	- Error - partA1 is just for windows
+	- Run on a Linux Machine.
+	
+3. Basic params - Example
+	- Send example 4 3 200
+	- ./partB.bash partA1
+		- 4 3 200
+	- 0 20300
+		- For arround 0 seconds and 20300 counts 4 times for 4 threads.
+	- N.A
+
+4. Bad arguments
+	- Send arguments that are no positive integers
+	- ./partB.bash partA1
+		- -5 7 a
+	- Error - <Arguemnt> Invalid/Not a positive Integer
+	- N.A
+	
+5. Exit menu
+	- Test closing PartB menu.
+	- ./partB.bash partA1
+		- q
+	- "The program closes"
+	- N.A
+	
+6. Try for a input.txt file
+	- Send an input.txt file to the bash script
+	- ./partB.bash partA1 < inputfile.txt
+		- inputfile.txt: 
+			1 1 1
+			2 1 1
+			2 3 200
+			4 1 1
+			4 2 5
+			4 2 100
+			4 3 100
+			4 10 100
+			4 40 200
+			4 30 500
+			1 2 100000
+			4 2 100000
+			1 2 100000
+			4 3 200
+			5 1 600
+	- Desired Output:
+		0
+		2
+		0
+		0
+		2
+		2
+		203020300
+		20300
+		0
+		2
+		0
+		2
+		0
+		2
+		0
+		2
+		0
+		20
+		0
+		20
+		0
+		20
+		0
+		20
+		0
+		...
+	- N.A
+	
+7. Great Numbers
+	- Send a great size for args.
+	- ./partB.bash partA1
+		- 200 30 2100000000
+	- For each thread (200):
+		Time near to 30.02953
+		Counts arround 48049103 or less because the deadline 
+		kills threads i process.
+	- N.A
+	
+# Part A2:
+
+Execution Environment:
+   - Operating System: Linux x86_64
+   - Compiler: gcc
+   - Running Script partB.bash
+
+Use Cases (Features to be implemented):
+
+1. No params
+	- Send command ./partB.bash without arguemnts
+	- ./partB.bash
+	- Error - No version was given
+	- N. A.
+	
+2. Basic params - Example
+	- Send example 4 3 200
+	- ./partB.bash partA2
+		- 4 3 200
+	- 0 20300
+		- For arround 0 seconds and 20300 counts 4 times for 4 threads.
+	- N.A
+
+
+3. Bad arguments
+	- Send arguments that are no positive integers
+	- ./partB.bash partA2
+		- 5 7 a
+	- a
+	Error - Size argument is not positive
+	- N.A
+	
+4. Exit menu
+	- Test closing PartB menu.
+	- ./partB.bash partA2
+		- q
+	- "The program closes"
+	- N.A
+	
+5. Try for a input.txt file
+	- Send an input.txt file to the bash script
+	- ./partB.bash partA2 < inputfile.txt
+		- inputfile.txt: 
+			1 1 1
+			2 1 1
+			2 3 200
+			4 1 1
+			4 2 5
+			4 2 100
+			4 3 100
+			4 10 100
+			4 40 200
+			4 30 500
+			1 2 100000
+			4 2 100000
+			1 2 100000
+			4 3 200
+			5 1 600
+	- Desired Output:
+		0.00007
+		2
+
+		exiting threads
+		0.00008
+		2
+		0.00014
+		2
+
+		exiting threads
+		0.00102
+		20300
+		0.00218
+		20300
+
+		exiting threads
+		0.00008
+		2
+		0.00012
+		2
+		0.00013
+		2
+		0.00014
+		2
+
+		exiting threads
+		...
+	- N.a
+
+6. Great Numbers
+	- Send a great size for args.
+	- ./partB.bash partA2
+		- 200 30 2000000000
+	- For each thread (200):
+		Time near to 30.02953
+		Counts arround 48049103 or less because the deadline 
+		kills threads i process.
+	- N.A
+
+# Part A3
+
+Execution Environment:
+   - Operating System: Linux x86_64
+   - Compiler: gcc
+   - Running Script partB.bash
+
+Use Cases (Features to be implemented):
+
+1. No params
+	- Send command ./partB.bash without arguemnts
+	- ./partB.bash
+	- Error - No version was given
+	- N. A.
+	
+2. Basic params - Example
+	- Send example 4 3 200
+	- ./partB.bash partA3
+		- 4 3 200
+	- 0 20300
+		- For arround 0 seconds and 20300 counts 4 times for 4 threads.
+	- N.A
+
+
+3. Bad arguments
+	- Send arguments that are no positive integers
+	- ./partB.bash partA3
+		- -5 7 a
+	- -5
+	Error - N threads argument is not positive
+	- N.A
+	
+4. Exit menu
+	- Test closing PartB menu.
+	- ./partB.bash partA3
+		- q
+	- "The program closes"
+	- N.A
+
+
+5. Try for a input.txt file
+	- Send an input.txt file to the bash script
+	- ./partB.bash partA3 < inputfile.txt
+		- inputfile.txt: 
+			1 1 1
+			2 1 1
+			2 3 200
+			4 1 1
+			4 2 5
+			4 2 100
+			4 3 100
+			4 10 100
+			4 40 200
+			4 30 500
+			1 2 100000
+			4 2 100000
+			1 2 100000
+			4 3 200
+			5 1 600
+	- Desired Output: Something like...
+			0.00017
+			2
+			0.00023
+			2
+			0.00016
+			2
+			0.00332
+			20300
+			0.00353
+			20300
+			0.00010
+			0.00012
+			2
+			2
+			0.00014
+			2
+			0.00010
+			2
+			0.00023
+			0.00020
+			20
+			20
+			0.00020
+			20
+			0.00021
+			20
+			0.00114
+			5150
+			0.00119
+			5150
+			0.00093
+			5150
+			0.00096
+			5150
+			0.00086
+			5150
+			0.00110
+			5150
+			0.00154
+			5150
+			0.00158
+			5150
+			0.00083
+			5150
+			0.00086
+			5150
+			0.00118
+			5150
+			0.00103
+			5150
+			0.00290
+			20300
+			0.00332
+			20300
+			0.00314
+			20300
+			0.00288
+			20300
+			0.00794
+			125750
+			0.00813
+			125750
+			0.00817
+			125750
+			0.00914
+			125750
+			0.00061
+			20300
+			0.00061
+			20300
+			0.00134
+			20300
+			0.00138
+			20300
+			0.01116
+			180900
+			0.01133
+			180900
+			0.01141
+			180900
+			0.01155
+			180900
+			0.01366
+			180900
+	- N.A
+	
+6. Great Numbers
+	- Send a great size for args.
+	- ./partB.bash partA3
+		- 200 30 2000000000
+	- For each thread (200):
+		Time near to 30.02953
+		Counts arround 48049103 or less because the deadline 
+		kills threads i process.
+	- N.A
+

@@ -1,0 +1,51 @@
+# Archivos de compilación
+cmake-build-debug/
+cmake-build-release/
+cmake-build-*/  # Cualquier carpeta de compilación CMake
+build/
+
+# Archivos de configuración de CLion y otras IDE
+.idea/
+*.iml
+.bin/
+
+# Archivos de ejecución o binarios
+*.exe
+*.out
+*.o
+*.obj
+*.log
+*.a
+*.so
+*.dylib
+*.dll
+
+# Archivos temporales o de sistema
+*.tmp
+*.temp
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# Archivos de dependencias
+.clion/
+
+# Dependencias gestionadas por el sistema de paquetes
+__pycache__/
+*.pyc
+*.pyo
+*.class
+*.jar
+
+# Archivos del sistema de control de versiones (si no usas otros)
+.vscode/
+
+# Common binary file extensions
+*.exe
+*.o
+*.bin
+*.dll
+*.class
+*.so
+*.dylib

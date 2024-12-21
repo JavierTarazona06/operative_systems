@@ -1,0 +1,341 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+*/
+
+Part A Design
+
+Design will be explained for each section.
+
+# Part A.1
+
+In essence the idea is to write a Windows program that creates 
+multiple threads to compute squares of positive integers in 
+parallel until a deadline without synchronization between threads.
+
+So we have:
+- Parent Thread:
+	- Created child threads
+	- Off until deadline
+	- If deadline before threads getting completed, 
+	global variable to exit.
+	
+- Child threads:
+	- Compute square of positive integers
+	- Remains checking global variable of parent 
+	to know when to stop.
+	- Call Square function. Performs operations without
+	multiplying for filling the stack.
+	- Each call to square must be counted (the invocation).
+	
+- Parameters:
+	- threads: which are child threads
+	- deadline: time in milliseconds to run threads
+	- size: Max numerical limit that squares will reach
+	
+Landing the idea, we have:
+
+- Global variables:
+	- keep_running = 1; to stop threads when deadline, set to 0
+	- unsigned long int Invocation Count of Square function
+	- HANDLE *threads array where thread handles will be stored
+	- DWORD *threads_ids array where thread id handles will be stored
+	- SYSTEMTIME begin_times array that stores beginning time for each 
+	thread
+	- SYSTEMTIME End times will be added in Part A2
+	- n_threads is the number of threads
+    - int thread_finished to keep track of threads being finished
+	
+- int check_parameters:
+    - args: int n_threads, int deadline, DWORD size
+    - check n_threads >= 1
+    - check deadline >= 0
+    - check size >= 1
+	
+- Square Function (General for all the program):
+    - args: N number
+	- Performs algorithm:
+		if (N==0) return 0;
+		return Square(N-1) + N + N -1;
+	
+- SysTime2Sec function: Converts from System Time to miliseconds;
+	- Receive address of the variable SYSTEMTIME.
+	- Perform a cumulative sum by adding data from the structure 
+	SYSTEMTIME:
+	milliseconds = wHour * 3600 * 1000 + wMinute * 60 * 1000 
+	+ wSecond * 1000 + wMilliseconds
+	
+	
+- Compute square function:
+	- Checks keep_running variable
+	- Calls square(n) from n=1 until size or keep_running=0
+    - Gets the thread current thread ID using GetCurrentThreadId(); 
+    and with a for checks each item from threads_ids[index] that store 
+    all the IDs. If match with GetCurrentThreadId(), index will be used 
+    to access the time stored at begin_times[index] and the 
+    invocation_count[index]
+    (This is necessary because the ID assignation is not integer 
+    incremental)
+	- Prints elapsed time and invocation count towards 
+	being completed
+		- As the time is get with GetSystemTime(), it must be
+		converted to miliseconds to Windows API SYSTEMTIME 
+		data type. Call SysTime2Sec.
+        - Substracts begi_time from final_time
+    - Increase count of threads finished
+	
+- Parent Thread (Main Function):
+	- Checks arguments
+	- Creates dynamically memory allocation for threads 
+	information arrays
+	- Creates child threads (CreateThread())
+		- For each: Initializes invocation count in 0 and stores at 
+		current index position, gets 
+		beginning time and stores at current index position, creates 
+		thread and allocates 
+		on the array and calls compute_square. The ID will be stored at 
+		threads[index].
+	- Use of sleep for parent thread (deadline)
+	- If deadline is reached -> set keepRunning = 0
+    - If the number of thread_finished is less than n_threads. It sleeps 
+    0.5 to wait, becasue keep_running has already been set to 0, and 
+    check the condition again using while loop
+	
+- Libraries:
+	- <windows.h> for windows functions
+	- <stdio.h> input and output operations
+	- <stdlib.h> for memory, process and conversions control
+    - <partA.h> header that links parts with general square script
+
+- PartA.h
+    If is not linux, the relation with the square general function will 
+    be including that statements:
+
+	#ifdef _WIN32
+		#include <windows.h>
+		/*A1*/
+		extern DWORD *threads_ids;
+	extern int keep_running;	
+	extern unsigned long int *invocation_count;
+	extern int n_threads;
+	extern unsigned long int square(unsigned long int n);
+
+    - threads_ids is for getting the list of all IDs in square function
+    - The explanation of others is above
+
+Square.c
+
+- Check with MACROS if _WIN32 is defined, then:
+
+- include <windows.h>
+- unsigned long int square(unsigned long int n)
+- if not keep_running return curreny n value
+- Get thread ID by using GetCurrentThreadId(); and with a for checks 
+each item from threads_ids[index] that store all the IDs. If in a index 
+is equal to GetCurrentThreadId(), index will be used to access the 
+invocation_count[index] and increments in 1.
+- if n == 0; return 0
+  else return square(n-1) + n + n - 1;
+	
+# Part A.2
+
+In this section, Pthreads of UBC Threads will be used. Actually, the 
+key differences between Win32 and Linux versions is the syntax for 
+thread creation and the communication processes. Here we can also 
+print the statistics for threads that have not finished when 
+deadline is reached.
+
+Example of differences between windows and linux:
+- Creation: Create()
+- Termination: Kill()
+- Measure time: gettimeofday()
+- Here we are not creating a shared flag for the whole program. 
+The parent 
+will terminate thread that didn't do so by deadline.
+
+Landing:
+
+- Libraries:
+	- <unistd.h> Access to various system calls and POSIX 	
+	(Portable Operating System Interface)
+	- <sys/time.h> Provides structures and functions for 
+	manipulating time and timers.
+	- <standards.h> and <os.h> for UBC elements.
+	
+New Functions and functions that change:
+
+- time_passed. Takes 2 struct timeval args from gettimeofday() 
+function to calculate the elapsed time. 
+That's why we use: #include <sys/time.h>
+
+- compute_squares:
+    - calls square general function from n=1 to size.
+    - get theread ID using MyPid() and a for checks each item from 
+    threads_ids[index] that store all the threads IDs. If in and index, 
+    equal to MyPid(). Index will be saved
+    - gGet time using gettimeofday(ptr, NULL); and calculates elapsed 
+    time using our function 
+    time_passed(&begin_times[index], &end_times[i]);
+    - prints elapsed time and invocation_count[index] as all squares 
+    were calulated
+
+
+- timer_thread is the thread created for counting the deadline. 
+
+    - When reached, will kill other threads 
+    - (n_threads) that didn't finish before deadline and print statistics.
+    - It is responsible of reset and start timer and Sleep deadline.
+    - In a for loop until n_threads, check threads that have not finished, 
+    calculate their elapsed time, mark them as finished, print elapsed 
+    time and invocation_count[index] and kill the thread.
+    - stop the timer
+
+- PROCESS proc_thread is the process handler.
+
+    - If in the creation is sent 1 to arg, it will create the time thread. 
+    If 2, calls compute_squares.
+    - When returning, set to one thread_finished[index] because the compute 
+    square thread has finished. Index is found with a for that matches the 
+    threads_ids[j] with j an int between 1 and n_threads-1 with current 
+    value of MyPid();
+    - If is a compute squarte thread (value 2), just exit the thread 
+    with Pexit(); other wise is the timerthread and can exit the whole 
+    process with exit(0);
+
+
+Main Function, Compared to main of partA1:
+ 
+ - Is a mainp implementation of UBC
+ - Set global variable part to 2 so that square.c knows that was called 
+ by partA2
+ - Allocates memory with Malloc
+ - Creates timer thread and compute square threads accordign to UBC 
+ signatures. 
+
+
+- Changes in Scripts:
+
+partA.h addition in:
+
+ - extern int *threads_ids_int; for passing the existing PIDS in int 
+ format to square general at square.c
+ - required variables are outside the condition that checks _WIN32.
+
+
+square.c:
+
+- There will be a condition for __linux__
+- In this it matches and check global variable part to identify if it 
+is from partA2 (2) or partA3(3)
+- if part == 2
+    - Get index of the thread by iteration with a for and check if 
+    MyPid() matches threads_ids_ints[idex] where index goes from 0 to 
+    n_threads-1
+    - invocation_count[index] increments by one
+    - if n==0, return 0. Otherwise, return square(n-1) + n + n - 1;
+
+	
+# Part A3
+
+The last section asks to implement the program with POSIX (stands for 
+Portable Operating System Interface) Thread, that means that I could 
+exit the threads in any way. So, as I am not expected to use 
+pthread_join() for waiting threads termination, then I would exit 
+the threads during the running, when required.
+
+- Creation: pthread_create()
+- Termination: pthrread_cancel()
+- Measure time: gettimeofday()
+
+In other words, instead of joining them, there would 2 options. 
+1. Threads terminate by themselves
+2. The parent thread terminates children
+
+Required option is the first one keeping flag keep_running.
+
+
+Libraries:
+	-<pthread.h> for pthreads of POSIX.
+
+New Functions or functions that change:
+
+compute_squares: Function called by child threads
+
+ - If keep_running
+    - Calls square for each n from 1 to size
+- Otherwise
+    - Get index of the thread by iteration with a for and check if 
+    pthread_self();	matches threads[idex] where index goes from 0 to 
+    n_threads-1
+    - Calcualates elapsed time with previous 
+    time_passed(&begin_times[index], &final_time) function. Final 
+    time is retrieved with gettimeofday(&final_time, NULL);
+    - Prints elpased time and invocation_count[index]
+    - Increments count of threads_finished++;
+
+Main Function:
+
+ - Set global variable part to 2 so that square.c knows that was called 
+ by partA2
+ - Set thread_finished to 0
+ - Create compue square threads:
+    - Set invocation_count in incremental index in 0
+    - gettimeofday(&begin_times[index], NULL);
+    - Thread creation pthread_create(&threads[k], NULL, compute_squares, 
+		&size)
+- Sleep until deadline
+- Set keep_running to 0
+- While loop that checks if thread_finished count has not arrived n_thread 
+yet, the it waits them by sleeping one second.
+This is possible because threads check if they are allowed to keep running 
+with keep_running=1
+
+Scripts:
+
+partA.h;
+ - Includes this statements to support logic of partA3 in square.c
+    #include <pthread.h>
+    extern pthread_t *threads;
+
+square.c
+- Check if keep_running, otherwise, return n;
+- Get index of the thread by iteration with a for and check if pthread_self();
+matches threads[idex] where index goes from 0 to n_threads-1
+- Increments invocation_count[index] by one
+- If n=0, return 0. Otherwise follow the algorithm square(n-1) + n + n - 1;
+
+
+
+# Part A.4 (Bonus)
+
+In this section, is asked to use signals.
+
+Function killThreads(int) would be used to terminate threads by 
+the signal handler.
+
+At the end, new changes are going to be the followinf:
+- Thread Exit: Now will be used with pthread_exit() when work is 
+completed. Thus, it won't be needed to join threads in the 
+parent thread.
+-Like the previous part, the parent thread set an alarm() on 
+deadline. Then SIGALRM invokes killThreads(). This methods would 
+terminate active threads using pthread_cancel(). Note that we will 
+use this function when deadline is exceeded too.
+
+Main changes:
+- Threads will be terminated using pthread_cancel(). The time 
+management will be with the parent process setting an alarm with 
+alarm() at the time of the deadline. 
+
+- Signal handler (killThreads()) is invoked, cancelling all threads 
+that over-passed deadline.
+
+- Now each thread has an invocation counter, earliest invocation_count.
+	
+- Finally, SIGALRM will be used to activate the deadline.  When the 
+signal occurs, the function killthreads() will cancel all the threads. 
+It prints those who were terminated.

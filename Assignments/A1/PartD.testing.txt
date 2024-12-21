@@ -1,0 +1,34 @@
+#NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+#NSID: elr490, sjb956
+#Student Number: 11411898, 11300210
+
+Test Plan for Part D:
+
+To check that the code was well implemented, we are going to send in the 
+terminal the following commands:
+
+make qemu
+pingpong
+
+Output should be be:
+4: received ping
+3: received pong
+
+
+*Real Test:*
+
+make qemu
+
+[...]
+
+xv6 kernel is booting
+
+hart 2 starting
+hart 1 starting
+init: starting sh
+$ pingpong
+4: received ping
+3: received pong
+$ 
+
+This execution 

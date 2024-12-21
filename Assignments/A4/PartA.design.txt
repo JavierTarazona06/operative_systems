@@ -1,0 +1,315 @@
+/*
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+*/
+
+# Requirements
+
+- **Monitor:** We will take the one used for lab 4.
+    - This will allow us to perform synchronization between threads that want
+     to acces the memory at the same time.
+- **MemoryAccess Module**: That performs the page replacement of the simulated
+ RAM using second chance algorithm or clock algorithm
+- **Random Zipf generator:** To mimic realistic behaviour of the program
+- **Simulation:** We are using RTT Threads, as we have done or Lab 4, Reader
+Writer problem. Here we will simulate multiple threads running at the same
+time with their own references.
+
+# Overview
+
+The goal is to simulate page references.
+
+Page references means to access a page in virtual memory.
+
+## Key Concepts
+
+- Address: Starting memory location that the program access
+- Size: The units of memory being written or read. Standard size: **4 Bytes**
+
+This we need to create 3 components:
+
+## Components
+
+1. **The physical Memory:**
+    1. Where the data is actually stored. It has a size 256 KB (256 000),
+    can be a parameter or definition
+    2. It is going to be divided in equally size frames defined at Page and
+    Frame Management section.
+2. **The virtual memory and our pages:**
+    1. **VIRTUAL MEMORY:** This memory is the virtual address space that we
+     want to simulate.
+        1. The **VIRTUAL MEMORY SIZE**, as standard 1MB (1 000 000B), can
+        be a parameter or definition
+        2. **PAGES**: Division of VIRTUAL MEMORY in fixed-sized block. As a
+         standard it is 4KB=4096 Bytes
+        3. Define **number of pages** that we are using as: Virtual Memory
+         Size / Page Size
+        4. It is divided in segments, so each address will belong to one
+        of Code, Segment, Heap or Stack.
+        5. The structure of our memory is:
+            1. Lowest space for Code Segment
+            2. Next Space for Data Segment
+            3. Next Space for Heap Segment
+    2. **PAGE TABLES:** Map our virtual memory to the physical memory (RAM)
+3. **The Page Reference:**
+    1. P**AGE REFERENCE**: This is the process to access the data.
+        1. In this page we answer and take action upon the question: Is data
+         loaded in the RAM (Physical Memory) or do I have to swap? Execute page
+          replacement or direct access?
+4. **Page Fault: When the reference is not a physical memory, it can not
+find the page**
+    1. Find a free slot or execute the page replacement, the swapping
+
+## Operations
+
+## Conversions
+
+**va2pn(virtual adress, *page number)**
+
+- From virtual address to page numbers.
+- Find page number by virtual adress // page size
+
+### Read/Write operation
+
+- read(virtual address, size)
+
+    Read an amount of *size* words from the given virtual address
+
+    - **MonEnter, to the critical section**
+    - print(Reading size words at virtual address)
+    - Call virtual address to frame number
+
+        va2fn(unsigned int virtual address, int *frame_number);
+
+    - **MonExit, of the critical section**
+- write(address, size)
+
+    Write an amount of *size* words from the given address
+
+    - **MonEnter, to the critical section**
+    - print(Writing size words at virtual address)
+    - Call virtual address to frame number
+
+        va2fn(unsigned int virtual address, int *frame_number);
+
+    - Set dirty bit of memory[*frame_number].dirty = 1
+    - **MonExit, of the critical section**
+
+# Modules
+
+## Random Zipf generator
+
+- With this distribution, we emulate the behaviour of real memory access.
+ This is done by accessing to some pages more than others in a non uniform way.
+ Some pages are accessed sporadically.
+- The formula:
+
+normalization_constant(N, s) = ( 1 /  pow(N, s) ) +
+normalization_constant(N- -,  s)
+
+P(x) = (1 / (pow(x, s) ) ) / normalization_constant
+
+We will take zipf exponent arround 1.1 and 1.5 as is common for this kind of
+simulations and means a dominance by high-ranked items, which in this case
+ are the lower numbers over Great numbers. This because at the first positions
+ we are going to place the most frequent segments of memory access (code →
+ data → heap).
+
+- The zipf_random_number() function uses a formula that iteratively accumulates
+values and compares the sum to a randomly generated number between 0 and 1.
+This process leverages the Zipf distribution property, where lower values occur
+more frequently. Once the cumulative sum exceeds the random number, the function
+returns the corresponding value.
+- With that number we can easily build a random start address relates to the
+real world behaviour. This by using the page size and number of pages that
+we defined on the definitions file.
+- This implementation give us the priority for code, data and then heap as
+the zipf distribution is giving us lower values over great values. And
+those values are those that we are using to get the addresses.
+
+# Page and Frame Management
+
+- The physical address is a list called ***memory*** as big as the number
+of physical frames, and each element is a frame structure
+    - Frame stucture:
+        - ProcessId, which is RttThreadID
+        - Reference: If the page has been accessed recently
+        - Dirty: If the page was written recently
+
+- Each process is going to have the ***page_table***, a list as big
+as the number of virtual pages, where each element is a frame number, int.
+
+- **Flow of access a virtual address:**
+
+    **va2fn(unsigned int va, int *frame_number)**
+
+    **[CRITICAL SECTION: As it is modifying the shared resource *memory*]**
+
+    - Translate virtual address to page number by dividing by the by
+    pagesize.
+    - Go to the process page table at the page number position and get
+    the frame number.
+
+        frame_number = page_tables[processID][page_number]
+
+    - If frame number is -1, find frame() in physical memory, and set
+    that new frame as the frame number
+        - new_frame_number = find frame()
+        - At the new frame_number,
+            - current_f = memory[new_frame_number]
+            - current_f.processId = processID
+            - current_f.reference = true
+
+        Else:
+
+        - Go to the memory list at the position frame number.
+
+            current_f = memory[frame_number]
+
+        - If processId is different to current process id: Page Fault,
+        the page is not there.
+            - new_frame_number = Find frame() in physical memory, and set that
+            new frame as the frame number
+            - At the new frame_number,
+                - current_f = memory[new_frame_number]
+                - current_f.processId = processID
+                - current_f.reference = true
+    - Change frame number to new frame number at the process page table
+        - page_tables[processID][page_number] = new_frame_number
+
+# Replacement Algorithms
+
+They are going to return a frame ready to write or read.
+
+They are going to be called as find_victim_frame()
+
+Get free slot or execute replacement algorithm)
+
+- Declare a global variable ***frames_assigned***. When this number is
+equal to ***num_physical_frame***, then there are no more free slots at
+***memory***.
+- Declare a global variable ***frame_num*** keep track of the current
+potential frame at the memory to be replaced. Initialized on 0.
+
+## Clock Algorithm
+
+- Declare a global list **clock_frame_numbers** that will serves as the
+queue for the clock algorithm
+
+Steps
+
+- Set need_flag = True and flag to true
+- Declare current_f
+- If frames_assigned < num_physical_frames
+    - need_flag = False
+    - current_f = memory[frames_assigned]
+    - clock_frame_numbers.append(frames_assigned)
+    - frames_assigned++
+- While flag and need_flag
+    - Set current_f to be the frame of the first frame number of
+    clock_frame_numbers, and pop it
+        - frame_num = clock_frame_numbers.pop()
+        - current_f =memory[frame_num]
+    - If current_f.reference is true:
+        - Set current_f.reference to false
+
+        Else:
+
+        - Set flag to false
+    - Queue frame_num to clock_frame_numbers
+- Return current_f
+
+## Second Chance Algorithm
+
+Steps
+
+- Set need_flag = True and flag to true
+- Declare current_f
+- If frames_assigned < num_physical_frames
+    - need_flag = False
+    - current_f = memory[frames_assigned]
+    - frames_assigned++
+- While Flag and need_flag
+    - current_f = memory[frame_num]
+    - If current_f.reference is true
+        - set current_f.reference to false
+
+        Else:
+
+        - If current_f.dirty is true
+            - Set current_f.dirty to false
+        - Else
+            - flag is false
+
+    - If frame_num is the num_physical_frames-1,
+        - frame_num = 0
+
+        Else:
+
+        - frame_num++
+- return current_f
+
+# Main and User Section
+
+- Define Global stacksize for threads of 1024 Bytes, a reasonable variable
+for threads in this scope
+- Define Global virtual address normalization constant (virtual_norm_cte)
+for the ZIPF distribution
+
+- Ask to user if they want to use clock algorithm or second chance algorithm
+    - 0 is for clock algorithm
+        - Malloc, initialize **clock_frame_numbers** numbers as a list of ints
+    - 1 is for second chance algorithm
+- Ask to the user the number of threads: N
+
+- Initialize ***frames_assigned=0 and frame_num=0***
+
+- Give to the random numbers a seed
+- Set value of virtual_norm_cte for the ZIPF distribution by calling
+get_virtual_normalization_constant()
+- Initialize memory
+    - Create as global variable the ***memory*** a list of size
+    physical_size and data type frame
+    - Initialize the monitor RttMonInit(numConditionVariables: 0);
+    - Create virtual memory for all threads
+        - Create as global ***page_tables*** list, by malloc a list of
+        size N threads, and each element is a list of size num_virtual_pages
+        of size int, which are the frame numbers.
+
+## MultiThreads
+
+- Create the attribute time for zerotime, normal priority and nodeadline
+- Malloc a list of RttThreadId of size N: threadID
+- Create N threads in a for loop using the attributes of time specified
+    - For all frame numbers at **page_tables[i]**
+        - Initialize all values to -1 of the
+    - On thread creation
+        - Save the RttId of the ith thread at threadID[i]
+        - Call the simulate function: (void (*)()) simulate
+        - Pass i as the argument of simulate, to be taken as ID
+        - Assign the attribute of time
+        - Assign user level
+
+## Simulate Function: RTTTHREAD simulate(void *arg)
+
+It is going to perform the access to the memory for read or write
+
+- Get myID from (long) arg
+- while(true)
+    - Choose if it is going to read or write randomly
+
+        to_write = rand() % 2
+
+    - If to_write, then it is going to write over a page number.
+    - Get random page address
+
+        page_address = zipf_virtual_address(global double virtual_norm_cte)
+
+    - Perform the related operation based on: if ( to_write)
+
+        write(page_address, size);
+
+        else, read(page_address, size);
+
+    - Sleep thread for a random time

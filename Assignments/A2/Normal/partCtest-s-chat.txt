@@ -1,0 +1,519 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 2
+*/
+
+#------------------------------------------------#
+#--------------- TEST PLAN ----------------------#
+#------------------------------------------------#
+
+For testing we will have 12 executions:
+
+- Linux to Linux from PC1
+- Linux to Linux from PC2
+- PPC to PPC from PC1
+- PPC to PPC from PC2
+- ARM to ARM from PC1
+- ARM to ARM from PC2
+- Linux to ARM
+- ARM to Linux
+- Linux to PPC
+- PPC to Linux
+- ARM to PPC
+- PPC to ARM
+
+Each of those are the prove that show that porgram was well
+done. They can establish a successfull connection and also
+each version of the program (arm, PPC and linux) was well compiled.
+
+*Note. For the step by step testing, we actually has
+printers wrapping each communication among the 
+threads (send, receive, reply) and the manage of each thread.
+Illustrating, SEND has a print of the message received from the
+thread and the sent confirmation after usinf snedto() network function.
+RECEIVE has prints of the bytes that were read from the port and
+the message that would be sent to the server. KEYBOARD had
+prints of the bytes captured from the input fd and the actual message 
+that woulb de sent to the thread. PRINT, is very straight froward, 
+as the message received from the server was would be directly printed.
+
+#------------------------------------------------#
+#--------------- TEST LINUX-LINUX PC1------------#
+#------------------------------------------------#
+
+Script started on 2024-10-28 20:52:29-06:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="173" LINES="32"]
+[?2004helr490@s360-drone32:~/Desktop/cmpt332-2024-group63> exitmakeclearmake clean[Kcd cmpt332-2024-group63[13PDesktop[6Pexitssh cmpt332-arm[3P-arm[8Pmakessh cmpt-arm332-armexit[Kcd Desktopcmpt332-2024-group63make[K clean[5Pclear[1Pmakeexit[Kexit[K^[[200~./s-chat-linux 30001 s360-drone31 39001~[2P[1P[1P[C[1P[1P[1P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[?2004l
+S-Chat Started
+Hello \ 
+Origin: s360-drone32 | Time Sent from origin: 1730170435 s, 886321 us
+	Hello
+
+
+Im a the sender test
+Origin: s360-drone31 | Time Sent from origin: 1730170440 s, 87955 us
+	testin
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730170442 s, 946090 us
+	Im the sender test
+
+
+Origin: s360-drone31 | Time Sent from origin: 1730170447 s, 137957 us
+	one two three
+
+
+It seems to be working pretty good on Linux, Origin: s360-drone31 | Time Sent from origin: 1730170466 s, 308020 us
+	how do you do?
+
+
+isn't it?
+Origin: s360-drone32 | Time Sent from origin: 1730170474 s, 236103 us
+	It seems to be working pretty good on Linux, isn't it?
+
+
+I: ; 'm fine thank you
+Origin: s360-drone32 | Time Sent from origin: 1730170486 s, 346102 us
+	I'm fine thank you
+
+
+Origin: s360-drone31 | Time Sent from origin: 1730170485 s, 498028 us
+	its working
+
+
+Yre  ei!!!!!
+Origin: s360-drone32 | Time Sent from origin: 1730170497 s, 446093 us
+	Yei!!!!!
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+[?2004helr490@s360-drone32:~/Desktop/cmpt332-2024-group63> [?2004l
+
+exit
+
+Script done on 2024-10-28 20:55:23-06:00 [COMMAND_EXIT_CODE="0"]
+
+
+
+#------------------------------------------------#
+#--------------- TEST LINUX-LINUX PC2------------#
+#------------------------------------------------#
+
+
+Script started on 2024-10-28 20:53:16-06:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="237" LINES="52"]
+[?2004hsjb956@s360-drone31:~/Desktop/gitjavi/cmpt332-2024-group63> exitmake cleanls[Kmake clean[K cleanls[Kcd cmpt332-2024-group63/ls[Kcd gitjavi/ls[Kcd cmpt332-2024-group63/ls[Kmake cleanls[Kcd cmpt332-2024-group63/ls[Kcd gitjavi/ls[Kcd Desktop/[7Pexitcd Desktop/ls[Kcd gitjavi/ls[Kcd cmpt332-2024-group63/ls[Kmake clean[Kexit[Kexitmake cleanls[Kcd cmpt332-2024-group63/ls[Kcd gitjavi/ls[Kcd Desktop/[7Pexit./s-chat 39001 elr490@cmpt332-arm 30001 ls[K./s-chat 39001 elr490@cmpt332-arm 30001 [C[C[C[C[C[C[C[C[C[C[C[C[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1@s[1@3[1@6[1@0[1@-[1@d[1@r[1@o[1@n[1@e[1@3[1@2[C[C[C[C[C[C[C[C[1@-[1@l[1@i[1@n[1@u[1@x[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l
+S-Chat Started
+testin  Origin: s360-drone32 | Time Sent from origin: 1730170435 s, 886321 us
+	Hello
+
+
+
+Origin: s360-drone31 | Time Sent from origin: 1730170440 s, 87955 us
+	testin
+
+
+one Origin: s360-drone32 | Time Sent from origin: 1730170442 s, 946090 us
+	Im the sender test
+
+
+two three
+Origin: s360-drone31 | Time Sent from origin: 1730170447 s, 137957 us
+	one two three
+
+
+how do you do?
+Origin: s360-drone31 | Time Sent from origin: 1730170466 s, 308020 us
+	how do you do?
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730170474 s, 236103 us
+	It seems to be working pretty good on Linux, isn't it?
+
+
+its working
+Origin: s360-drone31 | Time Sent from origin: 1730170485 s, 498028 us
+	its working
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730170486 s, 346102 us
+	I'm fine thank you
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730170497 s, 446093 us
+	Yei!!!!!
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+[?2004hsjb956@s360-drone31:~/Desktop/gitjavi/cmpt332-2024-group63> stop
+[?2004l
+bash: stop: command not found
+[?2004hsjb956@s360-drone31:~/Desktop/gitjavi/cmpt332-2024-group63> [?2004l
+
+exit
+
+Script done on 2024-10-28 20:55:28-06:00 [COMMAND_EXIT_CODE="127"]
+
+
+
+#------------------------------------------------#
+#--------------- TEST PPC-PPC PC1----------------#
+#------------------------------------------------#
+
+elr490@cmpt332-ppc:~/Desktop/cmpt332-2024-group63> ./s-chat-ppc 30555 cmpt332-ppc 39001
+S-Chat Started
+init free lists
+Hi Steven.
+Origin: cmpt332-ppc | Time Sent from origin: 1730171685 s, 972160 us
+	Hi Steven.
+
+
+This is ppc to ppc chat. Is incredible!!!!
+Origin: cmpt332-ppc | Time Sent from origin: 1730171699 s, 91811 us
+	This is ppc to ppc chat. Is incredible!!!!
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1730171699 s, 679466 us
+	it appears to withstand the tests
+
+
+Everything is perfect :)
+Origin: cmpt332-ppc | Time Sent from origin: 1730171718 s, 281659 us
+	Everything is perfect :)
+
+
+Oh yeahhhOrigin: cmpt332-ppc | Time Sent from origin: 1730171724 s, 929645 us
+	wow!
+
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Origin: cmpt332-ppc | Time Sent from origin: 1730171732 s, 411800 us
+	Oh yeahhhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+
+#------------------------------------------------#
+#--------------- TEST PPC-PPC PC2----------------#
+#------------------------------------------------#
+
+
+sjb956@cmpt332-ppc:~/Desktop/gitjavi/cmpt332-2024-group63> ./s-chat-ppc 39001 cmpt332-ppc 30555
+S-Chat Started
+init free lists
+Origin: cmpt332-ppc | Time Sent from origin: 1730171685 s, 972160 us
+	Hi Steven.
+
+
+it appears to withstand the tests
+Origin: cmpt332-ppc | Time Sent from origin: 1730171699 s, 91811 us
+	This is ppc to ppc chat. Is incredible!!!!
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1730171699 s, 679466 us
+	it appears to withstand the tests
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1730171718 s, 281659 us
+	Everything is perfect :)
+
+
+wow!
+Origin: cmpt332-ppc | Time Sent from origin: 1730171724 s, 929645 us
+	wow!
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1730171732 s, 411800 us
+	Oh yeahhhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+
+
+#------------------------------------------------#
+#------------------- TEST ARM-ARM PC1------------#
+#------------------------------------------------#
+
+lr490@cmpt332-arm:~/Desktop/cmpt332-2024-group63> ./s-chat-arm 30555 cmpt332-arm 39001
+S-Chat Started
+init free lists
+Let's goooooooooooooo
+Origin: cmpt332-arm | Time Sent from origin: 1730172115 s, 582837 us
+	Let's goooooooooooooo
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1730172132 s, 684273 us
+	arm to arm test
+
+
+Okey. Now it seems to be working!!!!!!!!!!!!!!!!!
+Origin: cmpt332-arm | Time Sent from origin: 1730172142 s, 831415 us
+	Okey. Now it seems to be working!!!!!!!!!!!!!!!!!
+
+
+12345679++++++
+Origin: cmpt332-arm | Time Sent from origin: 1730172150 s, 844156 us
+	test with numbers 1234
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1730172150 s, 911286 us
+	12345679++++++
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+#------------------------------------------------#
+#------------------- TEST ARM-ARM PC2------------#
+#------------------------------------------------#
+
+
+sjb956@cmpt332-arm:~/Desktop/gitjavi/cmpt332-2024-group63> ./s-chat-arm 39001 cmpt332-arm 30555
+S-Chat Started
+init free lists
+arm to arm test
+Origin: cmpt332-arm | Time Sent from origin: 1730172132 s, 684273 us
+	arm to arm test
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1730172142 s, 831415 us
+	Okey. Now it seems to be working!!!!!!!!!!!!!!!!!
+
+
+test with numbers 1234
+Origin: cmpt332-arm | Time Sent from origin: 1730172150 s, 844156 us
+	test with numbers 1234
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1730172150 s, 911286 us
+	12345679++++++
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+
+#------------------------------------------------#
+#------------------- TEST LINUX-ARM -------------#
+#------------------------------------------------#
+
+sjb956@s360-drone31:~/Desktop/gitjavi/cmpt332-2024-group63> ./s-chat-linux 39001 cmpt332-arm 30555
+S-Chat Started
+LooksOrigin: cmpt332-arm | Time Sent from origin: 414440304432538 s, 0 us
+	Last test. This will be amazing!!!!!!!!!!!
+
+
+ good
+Origin: s360-drone31 | Time Sent from origin: 1730172318 s, 720848 us
+	Looks good
+
+
+:)
+Origin: s360-drone31 | Time Sent from origin: 1730172325 s, 780848 us
+	:)
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1401483918595505 s, 0 us
+	Oh yeahhhhh. We have done it very very wwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllllllll 9999999999999
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+
+#------------------------------------------------#
+#------------------- TEST ARM-LINUX -------------#
+#------------------------------------------------#
+
+elr490@cmpt332-arm:~/Desktop/cmpt332-2024-group63> ./s-chat-arm 30555 s360-drone31 39001
+S-Chat Started
+init free lists
+Last test. This will be amazing!!!!!!!!!!!
+Origin: cmpt332-arm | Time Sent from origin: 1730172314 s, 96494 us
+	Last test. This will be amazing!!!!!!!!!!!
+
+
+Origin: s360-drone31 | Time Sent from origin: 1730172318 s, 0 us
+	Looks good
+
+
+Oh yeahhhhh. We have doneOrigin: s360-drone31 | Time Sent from origin: 1730172325 s, 0 us
+	:)
+
+
+ it very very wwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllllllll 9999999999999
+Origin: cmpt332-arm | Time Sent from origin: 1730172337 s, 326308 us
+	Oh yeahhhhh. We have done it very very wwwwwwwwwwwwwwwwweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllllllll 9999999999999
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+#------------------------------------------------#
+#------------------- TEST LINUX-PPC -------------#
+#------------------------------------------------#
+
+sjb956@s360-drone31:~/Desktop/gitjavi/cmpt332-2024-group63> ./s-chat-linux 39001 cmpt332-ppc 30555
+S-Chat Started
+Origin: cmpt332-ppc | Time Sent from origin: 2640235285728927847 s, 0 us
+	Hiiiiii
+
+
+wowzers
+Origin: s360-drone31 | Time Sent from origin: 1730171908 s, 743061 us
+	wowzers
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 5964456955661787239 s, 0 us
+	PPC to linux is running. it is incredible!!!!!!!!!!!!!!!!!!!!
+
+
+Can you see meOrigin: cmpt332-ppc | Time Sent from origin: -1347697790136606617 s, 0 us
+	well,. Bye let's continue
+
+
+ ).)
+Origin: s360-drone31 | Time Sent from origin: 1730171926 s, 913035 us
+	Can you see me ).)
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+#------------------------------------------------#
+#------------------- TEST PPC-LINUX -------------#
+#------------------------------------------------#
+
+elr490@cmpt332-ppc:~/Desktop/cmpt332-2024-group63> ./s-chat-ppc 30555 s360-drone31 39001
+S-Chat Started
+init free lists
+Hiiiiii
+Origin: cmpt332-ppc | Time Sent from origin: 1730171897 s, 42020 us
+	Hiiiiii
+
+
+PPC to linux is running. it is incredible!!!!!!!!!!!!!!!!!!!!Origin: s360-drone31 | Time Sent from origin: 72622183 s, 0 us
+	wowzers
+
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1730171912 s, 181842 us
+	PPC to linux is running. it is incredible!!!!!!!!!!!!!!!!!!!!
+
+
+well,. Bye let's continue
+Origin: cmpt332-ppc | Time Sent from origin: 1730171922 s, 281837 us
+	well,. Bye let's continue
+
+
+Origin: s360-drone31 | Time Sent from origin: 374612071 s, 0 us
+	Can you see me ).)
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+#------------------------------------------------#
+#------------------- TEST ARM-PPC ---------------#
+#------------------------------------------------#
+
+sjb956@cmpt332-arm:~/Desktop/gitjavi/cmpt332-2024-group63> ./s-chat-arm 39001 cmpt332-ppc 30555
+S-Chat Started
+init free lists
+Origin: cmpt332-ppc | Time Sent from origin: 1012015207 s, -639236608 us
+	Hi Steven. I am Javier testing
+
+
+message recieved
+Origin: cmpt332-arm | Time Sent from origin: 1730171468 s, 542853 us
+	message recieved
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1481777255 s, 992742144 us
+	Perfect. How have you been?
+
+
+Well let me tell you all about it... It all started
+Origin: cmpt332-arm | Time Sent from origin: 1730171501 s, 872400 us
+	Well let me tell you all about it... It all started
+
+
+Origin: cmpt332-ppc | Time Sent from origin: 1901207655 s, 2044005888 us
+	Nice story
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+sjb956@cmpt332-arm:~/Desktop/gitjavi/cmpt332-2024-group63> exit
+
+#------------------------------------------------#
+#------------------- TEST PPC-ARM ---------------#
+#------------------------------------------------#
+
+elr490@cmpt332-ppc:~/Desktop/cmpt332-2024-group63> ./s-chat-ppc 30555 cmpt332-arm 39001
+S-Chat Started
+init free lists
+hiiiiiiiiii
+Origin: cmpt332-ppc | Time Sent from origin: 1730171114 s, 795193 us
+	hiiiiiiiiii
+
+
+Origin: cmpt332-arm | Time Sent from origin: -330293145 s, 1226375936 us
+	hola
+
+elr490@cmpt332-ppc:~/Desktop/cmpt332-2024-group63> ./s-chat-ppc 30555 cmpt332-arm 39001
+S-Chat Started
+init free lists
+Hi Steven. I am Javier testing
+Origin: cmpt332-ppc | Time Sent from origin: 1730171452 s, 452313 us
+	Hi Steven. I am Javier testing
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1280450663 s, -2058876928 us
+	message recieved
+
+
+Perfect. How have you been?
+Origin: cmpt332-ppc | Time Sent from origin: 1730171480 s, 732219 us
+	Perfect. How have you been?
+
+
+Origin: cmpt332-arm | Time Sent from origin: 1834098791 s, -800125696 us
+	Well let me tell you all about it... It all started
+
+
+Nice story
+Origin: cmpt332-ppc | Time Sent from origin: 1730171505 s, 972153 us
+	Nice story
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard

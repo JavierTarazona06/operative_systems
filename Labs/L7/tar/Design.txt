@@ -1,0 +1,60 @@
+/*
+Identification:
+
+Modified by students:  Javier Tarazona
+		elr490
+		11411898
+ */
+
+# Design
+
+- The second chance algorithm is used to select the page to be replaced on a
+frame. The decision is made based on the
+reference and dirty number.
+- Reference bit is for giving the second chance, teh page will not be taken
+out immediately.
+- The dirty bit is to know if the page has been written or no. We prever
+moving to disk, replacing a page, that does
+not have information over a page taht has content.
+
+# Table of the changes to be performed
+
+- On each frame, my algorithm wil check:
+
+| Reference Bit | Dirty Bit | New Reference Bit | New dirty bit |
+| --- | --- | --- | --- |
+| 0 | 0 | VICTIM → 1 | VICTIM → If w, 1. Else 0 |
+| 0 | 1 | 0 | 0* |
+| 1 | 0 | 0 | 0 |
+| 1 | 1 | 0 | 1 |
+| 0 | 0* | VICTIM → 1 | VICTIM → If w, 1. Else 0 |
+| 1 | 0* | No Possible | No possible |
+
+# Variable
+
+- slots is the array of frames. Each frame is a struct called page
+- Struct page has the number of the page, if -1, means unused
+- npages is the number of pages that the system will have
+- nslots is the number of frames
+- next_slot starts at 0
+
+# Algorithm
+
+When there is a page fault:
+
+- Iterate each frame, moving each time that we need to find a place to replace.
+Otherwise, wait.
+- If the frame has a page:
+    - If the reference bit on the page is 1:
+        - Set reference bit of the page to 0
+    - Else:
+        - If dirty bit is 1:
+            - Set page dirty bit to 0*
+        - If dirty bit is 0 or 0*:
+            - The page is a victim, so perform the replacement with the new page.
+                - If the birty bit is 0*, perform copy of information to disk
+                - Otehrwise, just perform replacement
+            - Set the reference bit of the new page in 1
+            - If the new page has a write instruction,
+                - The dirty bit will be 0, other wise will be 1.
+            - Move the iterator

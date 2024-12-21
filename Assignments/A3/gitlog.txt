@@ -1,0 +1,711 @@
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+
+commit 0a34f836bfe3d32fee1d279b9aa2dcd2df908f22
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Tue Nov 19 23:32:19 2024 -0600
+
+    Output for copy on write
+
+commit 3e0c4025c03396498e0fe2921a7ff3154edfece5
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:29:10 2024 -0600
+
+    Outp put file
+
+commit 1c39267c0e10ab5bd93496fb61abec90d829bee0
+Merge: 916dbf6 4db18cf
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:27:04 2024 -0600
+
+    Merge remote-tracking branch 'origin/A3S2' into A3Javi
+
+commit 916dbf682ff434b1aa17903f65d61ff524b662d2
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:25:07 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 6
+
+commit 73ea24681fcb759a9f1d013cfc4f7f6b99682f31
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:24:10 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 5
+
+commit 81a5b0c357f1f03cde2a5721b8a1c6100025129b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:21:27 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 4
+
+commit 849fd02688dc83ece861a6336cd8d5444b0dd8a3
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:18:56 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 3
+
+commit 1e1366dbee84ec6cb815a3d1377e7a95c5851fde
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:17:30 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 2
+
+commit cf7c806b9a862ba254ebe8453755f17e68722b4d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 23:02:17 2024 -0600
+
+    Change in Copy When Write Trap. Test fix 1
+
+commit 4db18cfe4b42a0c8a358120e439dcfda018fcc5f
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 19 22:52:34 2024 -0600
+
+    Part b design additions, part 3,4,6
+
+commit 8b5544fdd565aa8d9d12a81f9e5c9bc25d832d96
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 19 21:47:54 2024 -0600
+
+    removed print
+
+commit fbe8f1ef32ada6dc898434f86b6d0a12b9c64a25
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 19 21:45:28 2024 -0600
+
+    new page reference count now properly set, redundent remappings removed
+
+commit e812935776dc5abf869e3b0c6c922d772038ff27
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 20:41:01 2024 -0600
+
+    Q5 Part 1 uvmcopy_real, handle_cow_page_fault. Fix error remap 2
+
+commit d909e45c10ed3ae93527b24999b8e46126cdfcd2
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 20:22:42 2024 -0600
+
+    Q5 Part 1 uvmcopy_real, handle_cow_page_fault. Fix error remap 1
+
+commit 20107f7ba07f71d33426fb048f0a65becec2ba50
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 20:02:51 2024 -0600
+
+    Q5 Part 1 uvmcopy_real, handle_cow_page_fault 1
+
+commit 3f741e71a218fe4c1693161d92af76004778b0e5
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 19:39:15 2024 -0600
+
+    Q5 Part 1 uvmcopy_real, handle_cow_page_fault
+
+commit 878e1cc9e278e7078bf8df6238a6bbf47f7d3aca
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:43:13 2024 -0600
+
+    PartB design until Q4
+
+commit 6c72cb5e22d7382a56b447703e861edc097a401f
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:35:49 2024 -0600
+
+    q4 Function created to handle page faults
+
+commit 597c4fa4f931bbb7ea239542e6688370512ddd15
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:30:27 2024 -0600
+
+    Just comments
+
+commit 9f72dd21343fc4fb383707c6d9c1ec76a6442a67
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:26:22 2024 -0600
+
+    Cowtest addition in uprogs
+
+commit a8336486f55189da31b8cec976f31c874040852f
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:21:13 2024 -0600
+
+    Modifying uvmcopy4 null problem
+
+commit 0665ceaf29f2ad0b75b3bf0ef17aaf56c49b01d3
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:20:44 2024 -0600
+
+    Modifying uvmcopy3 null problem
+
+commit 04b238c143c5376a9e840b095a3ff9b4bf07332d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 18:19:58 2024 -0600
+
+    Modifying uvmcopy2
+
+commit 3a747508c40c69733d1a86cd6ac44ed750fa1f27
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 17:44:28 2024 -0600
+
+    Modifying uvmcopy1
+
+commit c9d1a1a43bc4f1bff76592736c6732323873198d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 17:37:33 2024 -0600
+
+    Make list of references to pages global 1
+
+commit 7d6a789c777bfcb705f98055ab3cafd80c4ea7d2
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 17:36:28 2024 -0600
+
+    Make list of references to pages global
+
+commit 3d5f87102aa4f3107ee8eb8dac8917a44c880584
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 17:34:12 2024 -0600
+
+    Delete lo's for debug
+
+commit 73aae6cbadccdb9c128360bef91f7fa03b726a63
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 17:34:00 2024 -0600
+
+    Delete lo's
+
+commit 09e148b91489c934731985f9e4d12b37dfb4994d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 00:10:15 2024 -0600
+
+    Part A Design Test
+
+commit 5e9ea6954c4ba6aae994592e8c014eac4546aff7
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 19 00:02:40 2024 -0600
+
+    Part B Design Q2-Q6
+
+commit 75a9ba46989594c0654882933ab78eb6d3db16dc
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 23:57:56 2024 -0600
+
+    Part B Q3 in fork 1
+
+commit d3b94531e84fe92b66336b200ab9a690ee688cdc
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 23:54:04 2024 -0600
+
+    Part B Q3 in fork
+
+commit 2a16389ff1836282d9bb7c96c0cc279fcac87837
+Author: Javier Andres Tarazona Jimenez <elr490@usask.ca>
+Date:   Mon Nov 18 21:37:25 2024 -0600
+
+    Testing the merge
+
+commit c809ccef68ff713636abc744d913a1028efe57ce
+Merge: 1382f01 b77834e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 21:33:04 2024 -0600
+
+    Merge remote-tracking branch 'origin/A3Steven' into A3Javier
+    
+    # Conflicts:
+    #       PartA.Design.txt
+
+commit 1382f011d3ff362fa68ba95c386f4e16686be973
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 21:29:58 2024 -0600
+
+    Part B details of PTE
+
+commit b77834ea0e787d8a033ee3c57fa509e61eefde32
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Mon Nov 18 21:09:06 2024 -0600
+
+    two, fixed reference count array
+
+commit 2de956ccb0064ceadbd587acff9cf8c6631f7afa
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:38:20 2024 -0600
+
+    Part A Done
+
+commit db8763d0469e8b1e718b98db76a7c3e0c5c567ef
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:25:48 2024 -0600
+
+    Test scheduler 3 With better output 16
+
+commit 38cf4ed41f07fe15e88d6ccab25a168df04b8417
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:24:52 2024 -0600
+
+    Test scheduler 3 With better output 15
+
+commit 897058326f706ab981a34af361f5ab007c563f5a
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:24:01 2024 -0600
+
+    Test scheduler 3 With better output 14
+
+commit 4c8c894773fa5baf1facff893506467971b847e6
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:23:48 2024 -0600
+
+    Test scheduler 3 With better output 13
+
+commit fb9fe7e4babc92a2d7c2b4248dba42d3f9832d9c
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:22:49 2024 -0600
+
+    Test scheduler 3 With better output 12
+
+commit 90149e3ef11fab61754b3251ef10741b21f5ccf4
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:21:13 2024 -0600
+
+    Test scheduler 3 With better output 11
+
+commit c6140aeb07dedb45895b72dea70382c54fa6e056
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:18:06 2024 -0600
+
+    Test scheduler 3 With better output 10
+
+commit 6adad13ad1d407e3a6b5bd3fbd0f8edc9cd36ff2
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:17:45 2024 -0600
+
+    Test scheduler 3 With better output 10
+
+commit 72880e6d633976fb7ff1edb32bc0fac60db783f4
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:14:35 2024 -0600
+
+    Test scheduler 3 With better output 9
+
+commit 19a72db853eb87da36fed8a293f4f2ad6ac6882c
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:13:17 2024 -0600
+
+    Test scheduler 3 With better output 8
+
+commit a50e8c96b85bad32d98ad008938d92408102ff25
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:11:38 2024 -0600
+
+    Test scheduler 3 With better output 7
+
+commit 7a0fe38337726a25cfb5471674c5dbed51ad3b41
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:05:03 2024 -0600
+
+    Test scheduler 3 With better output 6
+
+commit 44b9bc6f1c3dc041ce2deae548361d85750b5494
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 15:03:36 2024 -0600
+
+    Test scheduler 3 With better output 5
+
+commit 9afba0898186aecdac44361c69d30d7766f2243a
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:59:58 2024 -0600
+
+    Test scheduler 3 With better output 1
+
+commit 9441ae0ab3ac9318d1e9d49de644070bf9d7141b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:59:01 2024 -0600
+
+    Test scheduler 3 With better output
+
+commit e2b8b2c81cfe37fe2db19a28c4cc96873c8d0805
+Merge: b97eb63 dde3634
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Mon Nov 18 14:43:29 2024 -0600
+
+    Merge branch 'A3Javier' of git.cs.usask.ca:cmpt332-fall2024/cmpt332-2024-group63 into A3Steven
+
+commit dde363406988904831639d7177347cdb00745e6d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:43:14 2024 -0600
+
+    Test scheduler 3
+
+commit e6ee57f5f5b91cda34d07baf865f25451c9e12ed
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:38:16 2024 -0600
+
+    Test scheduler 2
+
+commit 9594df470509ed5b275e22d70a8e8218f7acd025
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:35:23 2024 -0600
+
+    Test scehduler 1
+
+commit 3f08382ef4aa374882cc9935026579b8e4b2275e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Mon Nov 18 14:31:28 2024 -0600
+
+    Test scehduler other
+
+commit b97eb638a3a0822500e8a4e400e576c70ba5e723
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sun Nov 17 22:43:29 2024 -0600
+
+    big part a design doc changes
+
+commit b12523561a5437a9f73ad3f3dcb41f1202fec161
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 15:26:31 2024 -0600
+
+    Append in str
+
+commit 968068d4a3ef664b0e127c17e0b241ddc258824e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:57:18 2024 -0600
+
+    Wirte in file for the test 1
+
+commit c7fa794ac05a339909a3191928633cc5c776df97
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:48:02 2024 -0600
+
+    Wirte in file for the test
+
+commit fda9260619cdf60778e584602a1594fee0533b47
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:09:34 2024 -0600
+
+    Mutex implementation and addition in test. Change to user space only 4
+
+commit 6b1ae18d2f4d43301031e99c2534382c07ba3936
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:09:12 2024 -0600
+
+    Mutex implementation and addition in test. Change to user space only 3
+
+commit a225a054ee8d53769f7eea10ecb9027cf017e6af
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:08:25 2024 -0600
+
+    Mutex implementation and addition in test. Change to user space only 2
+
+commit 9c3a16dc20c88b02702154471650e2f3ba6b1fc3
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:06:04 2024 -0600
+
+    Mutex implementation and addition in test. Change to user space only 1
+
+commit 9201620440d578878481f75f885ddccfac00b315
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 14:02:31 2024 -0600
+
+    Mutex implementation and addition in test. Makefile change 4
+
+commit 0325bf0113e467775ff9ed5b8da26828a8474392
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 13:59:29 2024 -0600
+
+    Mutex implementation and addition in test. Makefile change 3
+
+commit ff22f66777ddcea35f1a337c89a29f11a9b1f1ce
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 13:57:27 2024 -0600
+
+    Mutex implementation and addition in test. Makefile change 2
+
+commit ab70c6194ac344ba3e04076e56e2b6ab520fe55f
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 13:56:08 2024 -0600
+
+    Mutex implementation and addition in test. Makefile change 1
+
+commit abff120ece465fb2fccc58b524e1989434594583
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 13:49:31 2024 -0600
+
+    Mutex implementation and addition in test. Makefile change
+
+commit cc96c60a58bef2275e9fdadb1226bd51ee836bf1
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 12:38:22 2024 -0600
+
+    Mutex implementation and addition in test
+
+commit f345f7363b084ab7a7be17aff0c5827afb5dd40d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sun Nov 17 12:28:50 2024 -0600
+
+    Mutex creation in header spinlock
+
+commit 5f2e87685f4e4cba31c023dd2614a904baa224cf
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:54:45 2024 -0600
+
+    Running test file
+
+commit 6c7d19c3c50d98a8b4d79caeacb9ebda02e1bb9e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:51:11 2024 -0600
+
+    Fix rand call creating a new file of utils.c 13
+
+commit 747ddaa2739d7d00fcf05f8373b394bb9bb2998b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:50:19 2024 -0600
+
+    Fix rand call creating a new file of utils.c 12
+
+commit e6399b26ade16e4581b3341e97d1c86c8c4ba31c
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:49:51 2024 -0600
+
+    Fix rand call creating a new file of utils.c 11
+
+commit 1939dfcdf5f14d7929f9a335104f26a829419933
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:46:43 2024 -0600
+
+    Fix rand call creating a new file of utils.c 10
+
+commit 8b5e74eadb5df3b9fa510dd835cdcedf1dd9778e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:45:39 2024 -0600
+
+    Fix rand call creating a new file of utils.c 10
+
+commit 6fbfb4e4439a99f5e507994f0c8faefd17e423e8
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:36:31 2024 -0600
+
+    Fix rand call creating a new file of utils.c 9
+
+commit f362672267b7c60151ac0ccbe3921bd8dfe87770
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:34:59 2024 -0600
+
+    Fix rand call creating a new file of utils.c 8
+
+commit 1e5ce22e10d8056b8f47004cd6d2da156cb07638
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:31:23 2024 -0600
+
+    Fix rand call creating a new file of utils.c 7
+
+commit 2e68a25e39883a0ca5ff600de27b0d29631155e3
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:30:03 2024 -0600
+
+    Fix rand call creating a new file of utils.c 6
+
+commit 4c4c872dcb784b075b933e32eacfdf02d5f1ea58
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:26:45 2024 -0600
+
+    Fix rand call creating a new file of utils.c 5
+
+commit 5bbf9376c91bcc4526c6cc00ecaa84f425ee9a4d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:25:42 2024 -0600
+
+    Fix rand call creating a new file of utils.c 4
+
+commit b85c326a74ec44b3188f3cdc0289578536bae104
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:24:12 2024 -0600
+
+    Fix rand call creating a new file of utils.c 3
+
+commit 7558798a161dbbbdcd94f2655ff2ea87dc82d518
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:19:54 2024 -0600
+
+    Fix rand call creating a new file of utils.c 2
+
+commit 3eaef2ca93e9ed60c5ba4071b6d66d43bbc0083c
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:16:41 2024 -0600
+
+    Fix rand call creating a new file of utils.c
+
+commit b17c08a1132b0163250706cc32efa600a4710fe5
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:13:54 2024 -0600
+
+    Paste fix rand in file
+
+commit aa175faeffcaf52fad87a3902f78efb699348c1b
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:11:31 2024 -0600
+
+    Fix in imports 3
+
+commit 37ea2feb179eaefa424c2065c158645d238932fe
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 23:05:46 2024 -0600
+
+    Fix in imports 2
+
+commit 58a6532ea9fc0a2fa162e210ae3dd91b7f5ad3ac
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 22:50:45 2024 -0600
+
+    My changes tag
+
+commit f69b97c290056808d9745e461365fb102efdebcd
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 22:34:50 2024 -0600
+
+    Fix in syscall declarations
+
+commit 984bd27eb974acecc196ff3c2480f970b74615a9
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 22:19:28 2024 -0600
+
+    Fix typo in scheduler
+
+commit dec5df3ec98662dc05ffe90a156e19a4b4d9bed8
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 22:17:24 2024 -0600
+
+    Fix wrong declaration in rand in user.h
+
+commit 809a8245b2c217c92fddd56c6bfeab8d2e8fc934
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 22:13:54 2024 -0600
+
+    Create test file for scheduler part A. Create children that sleep random time and compute square random. Each have a share and group related
+
+commit d5d07344d6e116df8c347a0eb45abc47c2d6b1dd
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 18:55:02 2024 -0600
+
+    Create test file for scheduler and ad din make file
+
+commit c34a583a03d7872dea345a1c728f34c420efdc00
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Sat Nov 16 18:11:53 2024 -0600
+
+    Files for our organization
+
+commit f9e4835b52b24e697d87026afbb89feb80aac658
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Fri Nov 15 02:20:18 2024 -0600
+
+    added scheduler testfile stub
+
+commit 5e40d50b1b680a3ae046f76bc54e07bb5f2685b0
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Fri Nov 15 02:19:00 2024 -0600
+
+    added syscalls to set share and group values
+
+commit e070d4a8a1b2ad291d4b169ec60e67edcb1a8646
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Fri Nov 15 01:08:54 2024 -0600
+
+    scheduler should be working now! Run time is normalized. Processes are weighted by shares and groups
+
+commit d43ebcb1482513fc2af5c93b3e79f3e46243cd43
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Fri Nov 15 00:49:45 2024 -0600
+
+    fixed nasty multi-hart bug
+
+commit 8ef7158fb1cbb4564871c8518a920041d9e48486
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Thu Nov 14 00:14:35 2024 -0600
+
+    adding scheduler proc data
+
+commit 0274766deab5fdc7fd45f6094bc0138459d78120
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Wed Nov 13 23:17:34 2024 -0600
+
+    Starting part a design doc
+
+commit 048c888ecb1818e6f3467ff795250c4b01f0c7e4
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 12 22:33:35 2024 -0600
+
+    part b-2, design doc written
+
+commit 5c08cc071401dd365fcbe09639cf9a23337bc7e9
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 12 22:12:08 2024 -0600
+
+    kalloc fixed to add to reference count, reference count should be working
+
+commit 032abbd222e268c203d24d8822a77ed0507a3545
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Tue Nov 12 21:59:48 2024 -0600
+
+    reference count array size hardcoded for now
+
+commit a7b97d7181b2f42a09b7b14de0fca1de4add6625
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Mon Nov 11 19:40:26 2024 -0600
+
+    added cow testfile
+
+commit 1a82e1b3e3ee14852d9e5764ffc3095e69332138
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Mon Nov 11 19:40:07 2024 -0600
+
+    first implementation of refrence count data structure
+
+commit 5814cdedf9cafbbf16447e1f57c8056e4a1ed738
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Wed Nov 6 20:36:05 2024 -0600
+
+    part b, subpart 1 design doc specs
+
+commit 94d30d56a630ac514492e0956690b3f698a191f5
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Wed Nov 6 15:13:12 2024 -0600
+
+    getNumPages syscall now formatted correctly, as seems to work
+
+commit 330952e2eb4baa4a8447073ae879b577be702b04
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Wed Nov 6 14:59:44 2024 -0600
+
+    testfile for getnumpages seems to be working
+
+commit 3884c293320f88f2a5578c9febb73a041294b7c5
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Wed Nov 6 14:54:01 2024 -0600
+
+    added pageNum variable in kalloc to keep track of number free pages
+
+commit 53adc19f41f5f2000c6fb2ff43ea7da74d742bfd
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sat Nov 2 23:30:30 2024 -0600
+
+    testfile for pages syscall
+
+commit ce4513457a1a320e9bb9c076fa465d4022454060
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sat Nov 2 23:18:24 2024 -0600
+
+    pages syscall stub
+
+commit cdc2db095a9452835f405c449ce3c6f93da87061
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sat Nov 2 21:36:37 2024 -0600
+
+    imported xv6
+
+commit bc2d825d81d5ffa7516b2721f78d1e73ae9bc6e0
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sat Nov 2 21:30:04 2024 -0600
+
+    set upstream branch
+
+commit 34d654ad7606386c4e5cf3e75180a5ac907aa560
+Author: Steven Baldwin <sjb956@mail.usask.ca>
+Date:   Sat Nov 2 21:23:31 2024 -0600
+
+    A3 Stevens init

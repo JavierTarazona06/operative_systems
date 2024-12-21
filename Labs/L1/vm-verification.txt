@@ -1,0 +1,1 @@
+Linux elr490lab1 5.4.0-195-generic #215-Ubuntu SMP Fri Aug 2 18:28:05 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux

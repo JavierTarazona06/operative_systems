@@ -1,0 +1,174 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+*/
+
+Part E Design.
+
+Secion index:
+- Info
+- Trace Set Up
+- Trace Program
+
+# Info
+
+In general terms, the goal of this part is to create a program in order 
+to trace the execution of the available commands of sys_call. Then, a new 
+command trace will be added sys_call so that the trace could be enabled in 
+cascade for the current process and all the children created. Besides, 
+a trace.c script will be created so that the executable will be available 
+to trace any program provided in console line.
+
+# Trace Set Up
+
+The first step is to create a working syscall stub so that the new 
+prototype is defined for the user side. 
+
+At user/user.h:
+int trace(int mask); /* A1: Signature for the system call */:
+
+Now, is necessary to provide a number for the trace sys_call. Following 
+the count, the next one will be 22 for SYS_trace.
+
+At kernel/syscall.h:
+#define SYS_trace  22 /* As all syscalls are represneted by a number, 
+we have to add a new one here */
+
+Now it is timne to make the trace sys_call at user level modifying the 
+Pearl file.
+
+At user/usys.pl:
+entry("trace");  #By adding to the stub new user programs can call it. 
+A new stub for trace will be included in usys.S (assembly-level stbs 
+for user program calls)
+
+
+Here it is important to add the mask value to the process structure. 
+This data contains the metadata of the current thread.
+
+At kernel/proc.h:
+Variable int argument included to struct proc to handle trace args.
+int argument_mask; /*For the trace implementation*/
+
+Now to include the tracefunctionality is mandatory to pre-define sys_trace 
+as an extern function.
+
+At kernel/syscall.c:
+extern uint64 sys_trace(void); /* Signature that create the presence of 
+sys_trace (don't allocate) for the kernel-syscall*/
+
+[SYS_trace]   sys_trace, /*Virtual-Real mapping */
+
+
+And as well, is useful to define trace for the whole Kernel at:
+
+At kernel/defs.h
+int             trace(int); /* trace definition for the whole kernel */
+
+
+Here we would be ready to implement the trace functionality:
+
+At kernel/sysproc.c:
+
+We will define the signature as the pattern of other functions.
+int sys_trace(void)
+
+Variables:
+- int args_mask where given mask will be stored
+
+Body:
+- The argument of the mask will be passed from user space to kernel 
+space using: argint(0, &args_mask); This function will ensure to pass data 
+safely between spaces.
+- Then we will get the process with myproc() and as it is a struct proc 
+data type we can set the value of the already defined argument_mask 
+attribute to the args_mask value given to the program through command line:
+myproc() -> argument_mask = args_mask;
+
+
+Another important thing to do is to set the mask for all the children 
+threads that would be executed by a parent thread that has a trace mask.
+At kenrl/proc.c:
+np -> argument_mask = p -> argument_mask;
+
+
+Finally is time to enable trace if a trace mask sent at the general call 
+of sys_calls.
+
+At kernel/syscall.c at void syscall at the int syscall(void) function, 
+we will create a const char *syscallArray[23]; to create a kinf of 
+dictionary having 
+the sys_call numbers as index of the array which value is the name of 
+the sys_call purpose. That names will be used to print the trace execution 
+at the command line.
+
+
+And a condition will be included. It makes a bitwise and operation with the 
+given mask and the actual num passed shifted to 1, that means that the bit 
+in the num-th position will be set to 1.
+If so, it will be printed the statement:
+<pid>: syscall syscall_name -> syscall_result*
+
+*According to xv6 documentation
+- syscall number is stored in register a7
+- syscall_result is stored in register a0
+That data will be used for the required print statement of trace program.
+
+if (p->argument_mask & (1 << ((p->trapframe->a7)-1))) {
+printf("%d: syscall %s -> %lu\n", p->pid, syscallArray[p->trapframe->a7], 
+p->trapframe->a0);
+}
+
+# Trace Program
+
+At user/trace.c:
+
+New file needed to implement the trace code. It will get the given mask 
+to trace required Sys_calls and will execute the program given in the args 
+through the command line along with the arguments. Arguments will be sent 
+through command line too.
+
+
+Command line usage:
+$ trace trace_mask program_to_execute [args_for_program_to_execute]*
+
+$ trace 72 pingpong
+Will call pingpong program with no arguments with trace mask 72 (pipe and exec)
+
+Trace program will be as follows:
+
+Signature:
+
+int main(int argc, char *argv[]) {
+
+Variables:
+- int mask to receive trace mask
+- int proc_pid to get the PID of the process that will execute the 
+program_to_execute
+
+Body:
+
+- Get argv[1] to int that contains the mask of trace
+- Call trace(mask) to enable the syscall that we have already implemented
+- Set proc_pid to fork()
+- If current PID id 0, then is the child and will call 
+	exec(argv[2], &argv[2]); 
+	to execute the program_to_execute that is in argv[2] and the 
+	respective arguments in &argv[3]
+	- Else, parent process is running and will wait for the child with: 
+	wait(0);
+- Parent process finish execution with exit(0);
+
+Handle Errors:
+- Check if argc is less than 3 because at least trace trace_mask and 
+program_to_execute must be sent
+- Check if proc_pid is less that 0, the fok failed. Then, printf error 
+message with status 2 for XV6 standard error output. 
+- If exec fails, it returns a value. Then if the flows continues it 
+prints error message with status error 2 for the standard error output 
+of XV6. And exit(0) to finalize.
+

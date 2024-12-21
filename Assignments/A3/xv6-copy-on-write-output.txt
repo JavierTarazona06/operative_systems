@@ -1,0 +1,59 @@
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+
+emu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 
+128M -smp 3 -nographic -global virtio-mmio.force-legacy=false -drive 
+file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,
+bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+hart 2 starting
+hart 1 starting
+init: starting sh
+$ scheduler_test
+++++ Entered to the page fault of COW
+Parent process created
+Start time is: 54
+++++ Entered to the page fault of COW
+Process 0 started with share 6 and group 4.
+Process 0 to sleep 4 seconds.
+Process 0 has woken up
+Process 0 is going to compute square 12 times
+Runtime of process 0 is 4
+++++ Entered to the page fault of COW
+Process 1 started with share 13 and group 4.
+Process 1 to sleep 4 seconds.
+Process 1 has woken up
+Process 1 is going to compute square 2 times
+Runtime of process 1 is 4
+++++ Entered to the page fault of COW
+Process 2 started with share 20 and group 4.
+Process 2 to sleep 4 seconds.
+Process 2 has woken up
+Process 2 is going to compute square 12 times
+Runtime of process 2 is 4
+++++ Entered to the page fault of COW
+Process 3 started with share 6 and group 4.
+Process 3 to sleep 4 seconds.
+Process 3 has woken up
+Process 3 is going to compute square 2 times
+Runtime of process 3 is 4
+++++ Entered to the page fault of COW
+All processes have finished
+++++ Entered to the page fault of COW
+$ cowtest
+++++ Entered to the page fault of COW
+Test1
+simple: usertrap(): unexpected scause 0xc pid=8
+            sepc=0x2000 stval=0x2000
+++++ Entered to the page fault of COW
+$ pingpong
+++++ Entered to the page fault of COW
+usertrap(): unexpected scause 0xc pid=1
+            sepc=0x2000 stval=0x2000
+panic: init exiting
+
+
+

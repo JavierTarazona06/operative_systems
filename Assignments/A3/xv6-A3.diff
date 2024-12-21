@@ -1,0 +1,1342 @@
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+
+diff --git a/.gdbinit.tmpl-riscv b/.gdbinit.tmpl-riscv
+new file mode 100644
+index 0000000..e69de29
+diff --git a/Makefile b/Makefile
+index 7efc0b7..0e852c6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -56,10 +56,10 @@ LD = $(TOOLPREFIX)ld
+ OBJCOPY = $(TOOLPREFIX)objcopy
+ OBJDUMP = $(TOOLPREFIX)objdump
+ 
+-CFLAGS = -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2
++CFLAGS = -Wall -O -fno-omit-frame-pointer -ggdb -gdwarf-2
+ CFLAGS += -MD
+ CFLAGS += -mcmodel=medany
+-# CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
++CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
+ CFLAGS += -fno-common -nostdlib
+ CFLAGS += -fno-builtin-strncpy -fno-builtin-strncmp -fno-builtin-strlen -fno-builtin-memset
+ CFLAGS += -fno-builtin-memmove -fno-builtin-memcmp -fno-builtin-log -fno-builtin-bzero
+@@ -94,7 +94,8 @@ $U/initcode: $U/initcode.S
+ tags: $(OBJS) _init
+ 	etags *.S *.c
+ 
+-ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o
++#/* CMPT 332 GROUP 63 Change, Fall 2024 */
++ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o $U/utils.o
+ 
+ _%: %.o $(ULIB)
+ 	$(LD) $(LDFLAGS) -T $U/user.ld -o $@ $^
+@@ -142,6 +143,9 @@ UPROGS=\
+ 	$U/_trace\
+ 	$U/_trace_test\
+ 	$U/_pingpong\
++	$U/_scheduler_test\
++	$U/_testNumPages\
++	$U/_cowtest\
+ 
+ fs.img: mkfs/mkfs README $(UPROGS)
+ 	mkfs/mkfs fs.img README $(UPROGS)
+diff --git a/kernel/defs.h b/kernel/defs.h
+index 4a163c1..4b6b6b8 100644
+--- a/kernel/defs.h
++++ b/kernel/defs.h
+@@ -1,3 +1,6 @@
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++#include "memlayout.h"
++
+ struct buf;
+ struct context;
+ struct file;
+@@ -164,6 +167,7 @@ pagetable_t     uvmcreate(void);
+ void            uvmfirst(pagetable_t, uchar *, uint);
+ uint64          uvmalloc(pagetable_t, uint64, uint64, int);
+ uint64          uvmdealloc(pagetable_t, uint64, uint64);
++int             olduvmcopy(pagetable_t, pagetable_t, uint64);
+ int             uvmcopy(pagetable_t, pagetable_t, uint64);
+ void            uvmfree(pagetable_t, uint64);
+ void            uvmunmap(pagetable_t, uint64, uint64, int);
+@@ -173,6 +177,7 @@ uint64          walkaddr(pagetable_t, uint64);
+ int             copyout(pagetable_t, uint64, char *, uint64);
+ int             copyin(pagetable_t, char *, uint64, uint64);
+ int             copyinstr(pagetable_t, char *, uint64, uint64);
++int             uvmcopy_real(pagetable_t, uint64);
+ 
+ /* plic.c */
+ void            plicinit(void);
+@@ -189,3 +194,11 @@ int             trace(int); /* trace definition for the whole kernel */
+ 
+ /* number of elements in fixed-size array */
+ #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++#define TOTAL_NUM_PAGES ((PHYSTOP - KERNBASE) / PGSIZE)
++extern int page_ref_counts[TOTAL_NUM_PAGES];
++int         get_page_index(void *);
++int         get_page_index_uint(uint64);
++void        increase_cow_reference(uint64);
++void        decrease_cow_reference(uint64);
+diff --git a/kernel/kalloc.c b/kernel/kalloc.c
+index e9e70b9..1e94485 100644
+--- a/kernel/kalloc.c
++++ b/kernel/kalloc.c
+@@ -9,25 +9,97 @@
+ #include "riscv.h"
+ #include "defs.h"
+ 
+-void freerange(void *pa_start, void *pa_end);
+-
+ extern char end[]; /* first address after kernel. */
+                    /* defined by kernel.ld. */
+ 
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int page_ref_counts[TOTAL_NUM_PAGES];
++
++void freerange(void *pa_start, void *pa_end);
++
++
++
+ struct run {
+   struct run *next;
+ };
++struct spinlock refCountLock;
+ 
+ struct {
+   struct spinlock lock;
+   struct run *freelist;
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  int numFreePages;
+ } kmem;
+ 
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++/*int get_page_index(void *page_address) {
++  uint64 pa = (uint64)page_address;
++  uint64 base = (uint64)end;
++
++  if (pa < base || pa >= base + (TOTAL_NUM_PAGES * PGSIZE)) {
++    panic("Get_Page_Index: invalid page address given");
++  }
++
++  return pa / PGSIZE;
++}*/
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int get_page_index(void *page_address) {
++  int result = ((uint64)page_address - (uint64)end)/ PGSIZE;
++
++  return result;
++}
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int get_page_index_uint(uint64 page_address) {
++    int result = (page_address - (uint64)end)/ PGSIZE;
++    return result;
++}
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++void increase_cow_reference(uint64 page_address){
++    acquire(&refCountLock);
++    int refCountIndex;
++    refCountIndex = get_page_index_uint(page_address);
++    if (refCountIndex < 0 || refCountIndex >= TOTAL_NUM_PAGES) {
++        release(&refCountLock);
++        panic("refCountIndex out of bounds");
++    }
++    page_ref_counts[refCountIndex]++;
++    release(&refCountLock);
++}
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++void decrease_cow_reference(uint64 page_address){
++    
++    /*printf("page_address: %p\n", page_address);*/
++    
++    acquire(&refCountLock);
++    int refCountIndex;
++    refCountIndex = get_page_index_uint(page_address);
++    if (refCountIndex < 0 || refCountIndex >= TOTAL_NUM_PAGES) {
++        release(&refCountLock);
++        panic("refCountIndex out of bounds");
++    }
++    page_ref_counts[refCountIndex]--;
++    release(&refCountLock);
++}
++
++
+ void
+ kinit()
+ {
+   initlock(&kmem.lock, "kmem");
+-  freerange(end, (void*)PHYSTOP);
++  initlock(&refCountLock, "page_ref_counts");
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  kmem.numFreePages = 0;
++  
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  for (int i = 0; i < TOTAL_NUM_PAGES; i++) {
++    page_ref_counts[i] = 1;
++  }
++  
++  
++  freerange(end, (void*)PHYSTOP);  
+ }
+ 
+ void
+@@ -56,10 +128,30 @@ kfree(void *pa)
+ 
+   r = (struct run*)pa;
+ 
++
+   acquire(&kmem.lock);
+-  r->next = kmem.freelist;
+-  kmem.freelist = r;
++  acquire(&refCountLock);
++  
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  
++  int index = get_page_index(pa);
++
++  /* Is in user space  */
++  if (((uint64)pa >= KERNBASE) && ((uint64)pa <= PHYSTOP)){
++    if (page_ref_counts[index] <= 0) { panic("kfree: Page refrence count dropped below 0");}
++    if (--page_ref_counts[index] == 0) {
++      r->next = kmem.freelist;
++      kmem.freelist = r;
++      kmem.numFreePages++;
++    }
++  } else {
++      r->next = kmem.freelist;
++      kmem.freelist = r;
++  }
++
++  release(&refCountLock);
+   release(&kmem.lock);
++
+ }
+ 
+ /* Allocate one 4096-byte page of physical memory. */
+@@ -71,10 +163,19 @@ kalloc(void)
+   struct run *r;
+ 
+   acquire(&kmem.lock);
++  acquire(&refCountLock);
+   r = kmem.freelist;
+-  if(r)
++  if(r) {
++    /* CMPT 332 GROUP 63 Change, Fall 2024 */
++    kmem.numFreePages--;
++    int index = get_page_index(r);
++    page_ref_counts[index] = 1;
++  
+     kmem.freelist = r->next;
++  }
++  release(&refCountLock);
+   release(&kmem.lock);
++  
+ 
+   if(r)
+     memset((char*)r, 5, PGSIZE); /* fill with junk */
+diff --git a/kernel/proc.c b/kernel/proc.c
+index c31b5f2..e9ef755 100644
+--- a/kernel/proc.c
++++ b/kernel/proc.c
+@@ -5,6 +5,7 @@
+ #include "spinlock.h"
+ #include "proc.h"
+ #include "defs.h"
++#include <stddef.h>
+ 
+ struct cpu cpus[NCPU];
+ 
+@@ -20,6 +21,11 @@ static void freeproc(struct proc *p);
+ 
+ extern char trampoline[]; /* trampoline.S */
+ 
++
++extern int get_page_index(void*);
++extern int page_ref_counts[TOTAL_NUM_PAGES];
++
++
+ /* helps ensure that wakeups of wait()ing */
+ /* parents are not lost. helps obey the */
+ /* memory model when using p->parent. */
+@@ -146,6 +152,11 @@ found:
+   p->context.ra = (uint64)forkret;
+   p->context.sp = p->kstack + PGSIZE;
+ 
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  p->shares = 10;
++  p->group = 2;
++  p->weighted_time_ran = 0;
++
+   return p;
+ }
+ 
+@@ -251,6 +262,11 @@ userinit(void)
+ 
+   p->state = RUNNABLE;
+ 
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  p->shares = 10;
++  p->group = 2;
++  p->weighted_time_ran = 0;
++
+   release(&p->lock);
+ }
+ 
+@@ -276,6 +292,7 @@ growproc(int n)
+ 
+ /* Create a new process, copying the parent. */
+ /* Sets up child kernel stack to return as if from fork() system call. */
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
+ int
+ fork(void)
+ {
+@@ -289,12 +306,17 @@ fork(void)
+     return -1;
+   }
+ 
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
+   /* Copy user memory from parent to child. */
+   if(uvmcopy(p->pagetable, np->pagetable, p->sz) < 0){
+     freeproc(np);
+     release(&np->lock);
+     return -1;
+   }
++
++
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  /*np->pagetable = p->pagetable;*/
+   np->sz = p->sz;
+ 
+   /* copy saved user registers. */
+@@ -325,6 +347,11 @@ fork(void)
+ 
+   np -> argument_mask = p -> argument_mask;
+ 
++  /* CMPT 332 GROUP 63 Change, Fall 2024 */
++  np->shares = p->shares;
++  np->group = p->group;
++  np->weighted_time_ran = 0;
++
+   return pid;
+ }
+ 
+@@ -457,25 +484,61 @@ scheduler(void)
+     /* processes are waiting. */
+     intr_on();
+ 
+-    int found = 0;
++    /* CMPT 332 GROUP 63 Change, Fall 2024 */
++    int minimum_time_ran_found = 2147483647;
++    struct proc *b = NULL; /*best found process*/
++
+     for(p = proc; p < &proc[NPROC]; p++) {
+       acquire(&p->lock);
+       if(p->state == RUNNABLE) {
++
++        /* CMPT 332 GROUP 63 Change, Fall 2024 */
++        /*find most behind process, it is chosen as best*/
++        if (p->weighted_time_ran < minimum_time_ran_found) {
++          minimum_time_ran_found = p->weighted_time_ran;
++          b = p;
++        }
++      }
++      release(&p->lock);
++    }
++
++    /* CMPT 332 GROUP 63 Change, Fall 2024 */
++    for(p = proc; p < &proc[NPROC]; p++) {
++      acquire(&p->lock);
++      if(p->state == RUNNABLE) {
++        /*normalize after each best is chosen*/
++        if (p->weighted_time_ran >= minimum_time_ran_found) {
++          p->weighted_time_ran -= minimum_time_ran_found; 
++        }
++      }
++      release(&p->lock);
++    }
++
++
++    /* CMPT 332 GROUP 63 Change, Fall 2024 */
++    if (b != NULL) {
++      acquire(&b->lock);
++      if (b->state == RUNNABLE) {
+         /* Switch to chosen process.  It is the process's job */
+         /* to release its lock and then reacquire it */
+         /* before jumping back to us. */
+-        p->state = RUNNING;
+-        c->proc = p;
+-        swtch(&c->context, &p->context);
++        if (b->shares > 0 && b->group > 0) {
++          b->weighted_time_ran += 1000 / (b->shares * b->group);
++        }
++        else {
++          b->weighted_time_ran += 1000;
++        }
++        b->state = RUNNING;
++        c->proc = b;
++        swtch(&c->context, &b->context);
+ 
+         /* Process is done running for now. */
+         /* It should have changed its p->state before coming back. */
+         c->proc = 0;
+-        found = 1;
+       }
+-      release(&p->lock);
++      release(&b->lock);
+     }
+-    if(found == 0) {
++    else{
+       /* nothing to run; stop running on this core until an interrupt. */
+       intr_on();
+       asm volatile("wfi");
+diff --git a/kernel/proc.h b/kernel/proc.h
+index 0e92ca2..196e779 100644
+--- a/kernel/proc.h
++++ b/kernel/proc.h
+@@ -106,5 +106,11 @@ struct proc {
+   char name[16];               /* Process name (debugging) */
+ 
+ 
++  /* CMPT 332 GROUP XX Change, Fall 2024 */
++  int shares;
++  int group;
++  int weighted_time_ran;
++
++
+   int argument_mask; /*For the trace implementation*/
+ };
+diff --git a/kernel/riscv.h b/kernel/riscv.h
+index 53a3681..f4b4c01 100644
+--- a/kernel/riscv.h
++++ b/kernel/riscv.h
+@@ -358,9 +358,9 @@ typedef uint64 *pagetable_t; /* 512 PTEs */
+ #define PGROUNDDOWN(a) (((a)) & ~(PGSIZE-1))
+ 
+ #define PTE_V (1L << 0) /* valid */
+-#define PTE_R (1L << 1)
+-#define PTE_W (1L << 2)
+-#define PTE_X (1L << 3)
++#define PTE_R (1L << 1)/* read */
++#define PTE_W (1L << 2)/* write */
++#define PTE_X (1L << 3)/* execute */
+ #define PTE_U (1L << 4) /* user can access */
+ 
+ /* shift a physical address to the right place for a PTE. */
+diff --git a/kernel/spinlock.c b/kernel/spinlock.c
+index 6dabfc3..a916c9a 100644
+--- a/kernel/spinlock.c
++++ b/kernel/spinlock.c
+@@ -107,4 +107,4 @@ pop_off(void)
+   c->noff -= 1;
+   if(c->noff == 0 && c->intena)
+     intr_on();
+-}
++}
+\ No newline at end of file
+diff --git a/kernel/spinlock.h b/kernel/spinlock.h
+index 21701a0..a525805 100644
+--- a/kernel/spinlock.h
++++ b/kernel/spinlock.h
+@@ -5,5 +5,4 @@ struct spinlock {
+   /* For debugging: */
+   char *name;        /* Name of lock. */
+   struct cpu *cpu;   /* The cpu holding the lock. */
+-};
+-
++};
+\ No newline at end of file
+diff --git a/kernel/syscall.c b/kernel/syscall.c
+index e681b2e..eb73c4c 100644
+--- a/kernel/syscall.c
++++ b/kernel/syscall.c
+@@ -78,7 +78,7 @@ argstr(int n, char *buf, int max)
+   argaddr(n, &addr);
+   return fetchstr(addr, buf, max);
+ }
+-
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
+ /* Prototypes for the functions that handle system calls. */
+ extern uint64 sys_fork(void);
+ extern uint64 sys_exit(void);
+@@ -102,8 +102,10 @@ extern uint64 sys_link(void);
+ extern uint64 sys_mkdir(void);
+ extern uint64 sys_close(void);
+ extern uint64 sys_trace(void); 
+-/* Signature that create the presence of sys_trace (don't allocate)*/
+-
++extern uint64 sys_getNumFreePages(void);
++extern uint64 sys_setshare(void);
++extern uint64 sys_setgroup(void);
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
+ /* An array mapping syscall numbers from syscall.h */
+ /* to the function that handles the system call. */
+ static uint64 (*syscalls[])(void) = {
+@@ -128,14 +130,17 @@ static uint64 (*syscalls[])(void) = {
+ [SYS_link]    sys_link,
+ [SYS_mkdir]   sys_mkdir,
+ [SYS_close]   sys_close,
+-[SYS_trace]   sys_trace, /*Virtual-Real mapping */
++[SYS_trace]   sys_trace, 
++[SYS_getNumFreePages] sys_getNumFreePages,
++[SYS_setshare] sys_setshare,
++[SYS_setgroup] sys_setgroup,
+ };
+ 
+-
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
+ void
+ syscall(void)
+ {
+-	const char *syscallArray[23];
++	const char *syscallArray[26];
+ 	syscallArray[1] = "fork";
+ 	syscallArray[2] = "exit";
+ 	syscallArray[3] = "wait";
+@@ -158,6 +163,9 @@ syscall(void)
+ 	syscallArray[20] = "mkdir";
+ 	syscallArray[21] = "close";
+ 	syscallArray[22] = "trace";
++  syscallArray[23] = "getNumFreePages";
++  syscallArray[24] = "setshare";
++  syscallArray[25] = "setgroup";
+ 	
+   int num;
+   struct proc *p = myproc();
+diff --git a/kernel/syscall.h b/kernel/syscall.h
+index 9d6ae13..dfc3a67 100644
+--- a/kernel/syscall.h
++++ b/kernel/syscall.h
+@@ -20,5 +20,7 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
+-#define SYS_trace  22 /* As all syscalls are represneted by a number, 
+-we have to add a new one here */
++#define SYS_trace  22 
++#define SYS_getNumFreePages 23
++#define SYS_setshare 24
++#define SYS_setgroup 25
+diff --git a/kernel/sysproc.c b/kernel/sysproc.c
+index 8295adf..8c5637b 100644
+--- a/kernel/sysproc.c
++++ b/kernel/sysproc.c
+@@ -6,6 +6,13 @@
+ #include "spinlock.h"
+ #include "proc.h"
+ 
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++extern struct {
++  struct spinlock lock;
++  struct run *freelist;
++  int numFreePages;
++} kmem;
++
+ uint64
+ sys_exit(void)
+ {
+@@ -107,3 +114,38 @@ sys_trace(void) {
+ 
+   return 0;
+ }
++
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int
++sys_getNumFreePages(void) {
++  return kmem.numFreePages;
++}
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int
++sys_setshare(void) {
++  int s;
++  argint(0, &s);
++  if (s > 20 || s < 1) {
++    return -1;
++  }
++  else {
++    struct proc *p = myproc();
++    p->shares = s;
++  }
++  return 0;
++}
++
++int
++sys_setgroup(void) {
++  int g;
++  argint(0, &g);
++  if (g > 4 || g < 1) {
++    return -1;
++  }
++  else {
++    struct proc *p = myproc();
++    p->group = g;
++  }
++  return 0;
++}
+\ No newline at end of file
+diff --git a/kernel/trap.c b/kernel/trap.c
+index 4c791b1..0659214 100644
+--- a/kernel/trap.c
++++ b/kernel/trap.c
+@@ -8,6 +8,8 @@
+ 
+ struct spinlock tickslock;
+ uint ticks;
++struct spinlock CowWriteLock;
++int cow_trap_init = 0;
+ 
+ extern char trampoline[], uservec[], userret[];
+ 
+@@ -29,6 +31,44 @@ trapinithart(void)
+   w_stvec((uint64)kernelvec);
+ }
+ 
++int va_in_adressspace(uint64 va, uint64 sz){
++    if (va<sz){return 0;}
++    else {return -1;}
++}
++
++
++void init_cow_trap(){
++    if (cow_trap_init == 0){
++        initlock(&CowWriteLock, "copy_write_on_write");
++        cow_trap_init = 1;
++    }
++}
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++/*Handles the page vault by cow*/
++int handle_cow_page_fault(pagetable_t page_table, uint64 va, uint64 sz){
++    init_cow_trap();
++
++    acquire(&CowWriteLock);
++    printf("++++ Entered to the page fault of COW\n");
++
++    if (va_in_adressspace(va, sz) !=0){
++        printf("The virtual adress given in COW handler"
++               "is not in the space range. Killing process");
++        /*exit(-1);*/
++        release(&CowWriteLock);
++        return -1;
++    } else {
++        if (uvmcopy_real(page_table, sz) !=0 ){
++            release(&CowWriteLock);
++            return -1;
++        }
++    }
++
++    release(&CowWriteLock);
++    return 0;
++}
++
+ /* */
+ /* handle an interrupt, exception, or system call from user space. */
+ /* called from trampoline.S */
+@@ -68,9 +108,20 @@ usertrap(void)
+   } else if((which_dev = devintr()) != 0){
+     /* ok */
+   } else {
+-    printf("usertrap(): unexpected scause 0x%lx pid=%d\n", r_scause(), p->pid);
+-    printf("            sepc=0x%lx stval=0x%lx\n", r_sepc(), r_stval());
+-    setkilled(p);
++    /* CMPT 332 GROUP 63 Change, Fall 2024 */
++    if (r_scause() == 15){
++        if (handle_cow_page_fault(p->pagetable,r_stval(),
++                                  p->sz) != 0){
++            setkilled(p);
++        } else {
++            usertrapret();
++        }
++
++    } else {
++        printf("usertrap(): unexpected scause 0x%lx pid=%d\n", r_scause(), p->pid);
++        printf("            sepc=0x%lx stval=0x%lx\n", r_sepc(), r_stval());
++        setkilled(p);
++    }
+   }
+ 
+   if(killed(p))
+diff --git a/kernel/vm.c b/kernel/vm.c
+index 975261f..c5606c1 100644
+--- a/kernel/vm.c
++++ b/kernel/vm.c
+@@ -310,7 +310,7 @@ uvmfree(pagetable_t pagetable, uint64 sz)
+ /* returns 0 on success, -1 on failure. */
+ /* frees any allocated pages on failure. */
+ int
+-uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
++olduvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
+ {
+   pte_t *pte;
+   uint64 pa, i;
+@@ -338,6 +338,137 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
+   uvmunmap(new, 0, i / PGSIZE, 1);
+   return -1;
+ }
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int
++uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
++{
++    pte_t *pte;
++    uint64 pa, i;
++    uint flags;
++    char *mem;
++    /*pa is physical address*/
++
++    if((pte = walk(old, 0, 0)) == 0)
++        panic("uvmcopy: pte should exist");
++    if((*pte & PTE_V) == 0)
++        panic("uvmcopy: page not present");
++    pa = PTE2PA(*pte);
++    if (!((pa >= KERNBASE) && (pa < PHYSTOP))){
++        /*Kernel SPace*/
++        return olduvmcopy(old, new, sz);
++    }
++
++    for(i = 0; i < sz; i += PGSIZE){
++        if((pte = walk(old, i, 0)) == 0)
++        panic("uvmcopy: pte should exist");
++        if((*pte & PTE_V) == 0)
++        panic("uvmcopy: page not present");
++
++        /*This performs the copy*/
++        /*if((mem = kalloc()) == 0)
++        goto err;
++        memmove(mem, (char*)pa, PGSIZE);*/
++        /*- This performs the copy*/
++
++        if (pte == 0 || (*pte & PTE_V) == 0) {
++            panic("pte not valid in proc.c, fork");
++        }
++        pa = PTE2PA(*pte);
++        *pte &= ~PTE_W;
++        flags = PTE_FLAGS(*pte);
++
++        if ((pa >= KERNBASE) && (pa < PHYSTOP)){
++            increase_cow_reference(pa);
++        }
++
++        if(mappages(new, i, PGSIZE, pa, flags) != 0){
++        goto err;
++        }
++    }
++    sfence_vma();
++    return 0;
++
++    err:
++    uvmunmap(new, 0, i / PGSIZE, 1);
++    return -1;
++}
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++/*Used to handle the COW when attempting to copy*/
++int
++uvmcopy_real(pagetable_t page_table, uint64 sz)
++{
++    pte_t *pte;
++    uint64 pa, i;
++    uint flags;
++    char *mem;
++    int references_in_page;
++    /*pa is physical address*/
++
++    for(i = 0; i < sz; i += PGSIZE){
++        if((pte = walk(page_table, i, 0)) == 0)
++            panic("uvmcopy: pte should exist");
++        if((*pte & PTE_V) == 0)
++            panic("uvmcopy: page not present");
++
++        if ((*pte == 0) || (*pte & PTE_V) == 0) {
++            panic("pte not valid in proc.c, fork");
++        }
++        pa = PTE2PA(*pte);
++        if (!((pa >= KERNBASE) && (pa < PHYSTOP))){
++            printf("Not in User space\n");
++            panic("Not in User space\n");
++            goto err;
++        }
++        flags = PTE_FLAGS(*pte);
++
++        references_in_page = page_ref_counts[get_page_index_uint(pa)];
++
++        if (references_in_page > 1){
++            /*If more than 1 reference, perform the copy*/
++            /*This performs the copy*/
++            if((mem = kalloc()) == 0)
++                /*Kalloc increases the reference of the page*/
++            goto err;
++            memmove(mem, (char*)pa, PGSIZE);
++            /*- This performs the copy*/
++
++            
++            decrease_cow_reference(pa);
++
++            // Set reference count for the new page
++            page_ref_counts[get_page_index_uint((uint64)mem)] = 1;
++
++            /**pte |= PTE_W;*/
++
++            // Update the PTE to point to the new page
++            *pte = PA2PTE((uint64)mem) | flags | PTE_W | PTE_V;
++
++
++        } else if (references_in_page == 1) {
++            /*Just one reference. Enable write on pages*/
++            *pte |= PTE_W;
++            /*pa = PTE2PA(*pte);
++            flags = PTE_FLAGS(*pte);
++
++
++            /*if(mappages(page_table, i, PGSIZE,
++                        pa, flags) != 0){
++                goto err;
++            }*/
++        } else {
++            printf("Strange case in uvmcopy_real with"
++                   "the number of "
++                   "references in page %d\n",references_in_page);
++            goto err;
++        }
++    }
++    sfence_vma();
++    return 0;
++
++    err:
++    uvmunmap(page_table, 0, i / PGSIZE, 1);
++    return -1;
++}
+ 
+ /* mark a PTE invalid for user access. */
+ /* used by exec for the user stack guard page. */
+diff --git a/user/00scheduler_test.c b/user/00scheduler_test.c
+new file mode 100644
+index 0000000..78912b5
+--- /dev/null
++++ b/user/00scheduler_test.c
+@@ -0,0 +1,43 @@
++/* Anish Bhagat, Rudra Patel
++11337909, 11336356
++cyn482, cvb652 */
++
++#include "kernel/types.h"
++#include "user/user.h"
++#define NUM_CHILDRENS 10
++
++int square(int number){
++    if (number == 0){
++        return 0;
++    }
++    return square(number - 1) + number + number - 1;
++}
++
++int mainp(void){
++    int pid;
++    int index;
++    int random_sleeptime;
++    int random_number;
++    for(index=0;index<NUM_CHILDRENS;index++){
++        pid = fork();
++        if(pid < 0){
++            exit(1);
++        }
++        if(pid == 0){
++            printf("Process %d got created with CPU share %d\n",getpid(),get_share());
++            printf("Process %d started job with share %d \n",getpid(),get_share());
++            random_sleeptime = rand() % 100;
++            sleep(random_sleeptime);
++            random_number = rand() % 100;
++            square(random_number);
++            printf("Process %d finished the square execution with share %d\n",getpid(),get_share());
++            exit(0);
++        }
++        sleep(3);
++    }
++
++    while(wait(0) > 0)
++    printf("Fair share scheduler test completed \n");
++    exit(0);
++    return 0;
++}
+diff --git a/user/cowtest.c b/user/cowtest.c
+new file mode 100644
+index 0000000..1241ac2
+--- /dev/null
++++ b/user/cowtest.c
+@@ -0,0 +1,200 @@
++/* */
++/* tests for copy-on-write fork() assignment. */
++/* */
++
++#include "kernel/types.h"
++#include "kernel/memlayout.h"
++#include "user/user.h"
++
++/* allocate more than half of physical memory, */
++/* then fork. this will fail in the default */
++/* kernel, which does not support copy-on-write. */
++void
++simpletest()
++{
++  uint64 phys_size = PHYSTOP - KERNBASE;
++  int sz = (phys_size / 3) * 2;
++
++  printf("simple: ");
++  
++  char *p = sbrk(sz);
++  if(p == (char*)0xffffffffffffffffL){
++    printf("sbrk(%d) failed\n", sz);
++    exit(-1);
++  }
++
++  for(char *q = p; q < p + sz; q += 4096){
++    *(int*)q = getpid();
++  }
++
++  int pid = fork();
++  if(pid < 0){
++    printf("fork() failed\n");
++    exit(-1);
++  }
++
++  if(pid == 0)
++    exit(0);
++
++  wait(0);
++
++  if(sbrk(-sz) == (char*)0xffffffffffffffffL){
++    printf("sbrk(-%d) failed\n", sz);
++    exit(-1);
++  }
++
++  printf("ok\n");
++}
++
++/* three processes all write COW memory. */
++/* this causes more than half of physical memory */
++/* to be allocated, so it also checks whether */
++/* copied pages are freed. */
++void
++threetest()
++{
++  uint64 phys_size = PHYSTOP - KERNBASE;
++  int sz = phys_size / 4;
++  int pid1, pid2;
++
++  printf("three: ");
++  
++  char *p = sbrk(sz);
++  if(p == (char*)0xffffffffffffffffL){
++    printf("sbrk(%d) failed\n", sz);
++    exit(-1);
++  }
++
++  pid1 = fork();
++  if(pid1 < 0){
++    printf("fork failed\n");
++    exit(-1);
++  }
++  if(pid1 == 0){
++    pid2 = fork();
++    if(pid2 < 0){
++      printf("fork failed");
++      exit(-1);
++    }
++    if(pid2 == 0){
++      for(char *q = p; q < p + (sz/5)*4; q += 4096){
++        *(int*)q = getpid();
++      }
++      for(char *q = p; q < p + (sz/5)*4; q += 4096){
++        if(*(int*)q != getpid()){
++          printf("wrong content\n");
++          exit(-1);
++        }
++      }
++      exit(-1);
++    }
++    for(char *q = p; q < p + (sz/2); q += 4096){
++      *(int*)q = 9999;
++    }
++    exit(0);
++  }
++
++  for(char *q = p; q < p + sz; q += 4096){
++    *(int*)q = getpid();
++  }
++
++  wait(0);
++
++  sleep(1);
++
++  for(char *q = p; q < p + sz; q += 4096){
++    if(*(int*)q != getpid()){
++      printf("wrong content\n");
++      exit(-1);
++    }
++  }
++
++  if(sbrk(-sz) == (char*)0xffffffffffffffffL){
++    printf("sbrk(-%d) failed\n", sz);
++    exit(-1);
++  }
++
++  printf("ok\n");
++}
++
++char junk1[4096];
++int fds[2];
++char junk2[4096];
++char buf[4096];
++char junk3[4096];
++
++/* test whether copyout() simulates COW faults. */
++void
++filetest()
++{
++  printf("file: ");
++  
++  buf[0] = 99;
++
++  for(int i = 0; i < 4; i++){
++    if(pipe(fds) != 0){
++      printf("pipe() failed\n");
++      exit(-1);
++    }
++    int pid = fork();
++    if(pid < 0){
++      printf("fork failed\n");
++      exit(-1);
++    }
++    if(pid == 0){
++      sleep(1);
++      if(read(fds[0], buf, sizeof(i)) != sizeof(i)){
++        printf("error: read failed\n");
++        exit(1);
++      }
++      sleep(1);
++      int j = *(int*)buf;
++      if(j != i){
++        printf("error: read the wrong value\n");
++        exit(1);
++      }
++      exit(0);
++    }
++    if(write(fds[1], &i, sizeof(i)) != sizeof(i)){
++      printf("error: write failed\n");
++      exit(-1);
++    }
++  }
++
++  int xstatus = 0;
++  for(int i = 0; i < 4; i++) {
++    wait(&xstatus);
++    if(xstatus != 0) {
++      exit(1);
++    }
++  }
++
++  if(buf[0] != 99){
++    printf("error: child overwrote parent\n");
++    exit(1);
++  }
++
++  printf("ok\n");
++}
++
++int
++main(int argc, char *argv[])
++{
++    printf("Test1\n");
++  simpletest();
++    printf("Test2\n");
++  /* check that the first simpletest() freed the physical memory. */
++  simpletest();
++    printf("Tes3\n");
++  threetest();
++    printf("Test4\n");
++  threetest();
++    printf("Test5\n");
++  threetest();
++    printf("Test6\n");
++  filetest();
++    printf("Test7\n");
++  printf("ALL COW TESTS PASSED\n");
++
++  exit(0);
++}
+diff --git a/user/scheduler_test.c b/user/scheduler_test.c
+new file mode 100644
+index 0000000..b794f22
+--- /dev/null
++++ b/user/scheduler_test.c
+@@ -0,0 +1,113 @@
++/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
++   NSID: elr490, sjb956
++   Student Number: 11411898, 11300210
++   CMPT 332 Term 1 2024
++   Assignment 3
++*/
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++
++#include "kernel/types.h"
++#include "kernel/stat.h"
++#include "user.h"
++
++#define NUM_PROCESSES 4
++#define TIME_MAX 10
++#define SQUARE_COMP_MAX 20
++#define MAX_SHARE 20
++#define MAX_GROUP 4
++
++my_mutex mutex_print;
++int times[NUM_PROCESSES];
++int start_time;
++
++
++/* Time max is in seconds*/
++
++/* We have shares from 1 to 20 and groups from 1 to 4 */
++/* Share is 1 lowest priority, 10 is normal and 20 is high priority*/
++/* Group Default is 2. 1 is for background task. 3 and 4 are more priority */
++
++int square(int n, int i){
++    /*mutex_lock(&mutex_print);
++    printf("Process %d is computing square", i);
++    mutex_unlock(&mutex_print);*/
++
++    if (n==0){
++        return 0;
++    } else {
++        return square(n-1, i) + n + n - 1;
++    }
++}
++
++
++int main() {
++    int pid, i, j;
++    int time_sleep, this_share, this_group, compute_square;
++
++    mutex_init(&mutex_print);
++
++    printf("Parent process created\n");
++    start_time = uptime();
++    printf("Start time is: %d\n", start_time);
++
++    for (i = 0; i < NUM_PROCESSES; i++){
++        pid = fork();
++        if (pid < 0) {
++            printf("Fork failed\n");
++            exit(0);
++        }
++
++        /*This is for the children - Children execution*/
++        if (pid == 0) {
++            times[i] = uptime();
++
++            this_share = (user_rand(uptime())) % (MAX_SHARE+1);
++            this_group = (user_rand(uptime())) % (MAX_GROUP+1);
++
++            if (this_share == 0){this_share = 1;}
++            if (this_group == 0){this_group = 1;}
++            setshare(this_share);
++            setgroup(this_group);
++
++            mutex_lock(&mutex_print);
++            printf("Process %d started with share %d and group %d.\n",
++                   i, this_share, this_group);
++            mutex_unlock(&mutex_print);
++
++            time_sleep = (user_rand(uptime())) %TIME_MAX;
++
++            mutex_lock(&mutex_print);
++            printf("Process %d to sleep %d seconds.\n", i, time_sleep);
++            mutex_unlock(&mutex_print);
++
++            sleep(time_sleep);
++
++            mutex_lock(&mutex_print);
++            printf("Process %d has woken up\n", i);
++            mutex_unlock(&mutex_print);
++
++            compute_square = (user_rand(uptime())) % SQUARE_COMP_MAX;
++
++            mutex_lock(&mutex_print);
++            printf("Process %d is going to compute square %d times\n",
++                   i, compute_square);
++            mutex_unlock(&mutex_print);
++
++            for (j=0; j < compute_square; j++){
++                square(user_rand(uptime())%SQUARE_COMP_MAX, i);
++            }
++
++            times[i] = uptime()-times[i];
++            printf("Runtime of process %d is %d\n", i, times[i]);
++            exit(0);
++        }
++        sleep(10);
++    }
++
++    for (i = 0; i < NUM_PROCESSES; i++) {
++        wait(0);
++    }
++
++    printf("All processes have finished\n");
++    exit(0);
++}
+\ No newline at end of file
+diff --git a/user/testNumPages.c b/user/testNumPages.c
+new file mode 100644
+index 0000000..062bfc9
+--- /dev/null
++++ b/user/testNumPages.c
+@@ -0,0 +1,13 @@
++#include "kernel/types.h"
++#include "kernel/stat.h"
++#include "user/user.h"
++
++/* CMPT 332 GROUP XX Change, Fall 2024 */
++int
++main()
++{
++    int numPages;
++    numPages = getNumFreePages();
++    printf("numPages: %d\n", numPages);
++    exit(0);
++}
+\ No newline at end of file
+diff --git a/user/ulib.c b/user/ulib.c
+index e9fddb1..ca2ab77 100644
+--- a/user/ulib.c
++++ b/user/ulib.c
+@@ -25,6 +25,19 @@ strcpy(char *s, const char *t)
+   return os;
+ }
+ 
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++char*
++strappend(char *destiny, const char *toappend)
++{
++  char *original_destiny = destiny;
++  while (*destiny) {
++    destiny++;
++  }
++  while ((*destiny++ = *toappend++) != 0)
++    ;
++  return original_destiny;
++}
++
+ int
+ strcmp(const char *p, const char *q)
+ {
+diff --git a/user/user.h b/user/user.h
+index 0bb697d..ebe27a8 100644
+--- a/user/user.h
++++ b/user/user.h
+@@ -23,10 +23,15 @@ char* sbrk(int);
+ int sleep(int);
+ int uptime(void);
+ int trace(int argument_mask); /* A1: Signature for the system call */
++int getNumFreePages(void);
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++int setshare(int);
++int setgroup(int);
+ 
+ /* ulib.c */
+ int stat(const char*, struct stat*);
+ char* strcpy(char*, const char*);
++char* strappend(char *, const char *);
+ void *memmove(void*, const void*, int);
+ char* strchr(const char*, char c);
+ int strcmp(const char*, const char*);
+@@ -42,3 +47,15 @@ void *memcpy(void *, const void *, uint);
+ /* umalloc.c */
+ void* malloc(uint);
+ void free(void*);
++
++/* CMPT 332 GROUP 63 Change, Fall 2024 */
++/* utils.c */
++int user_rand(int);
++
++typedef struct my_mutex {
++    int locked;
++} my_mutex;
++
++void mutex_init(my_mutex *m);
++void mutex_lock(my_mutex *m);
++void mutex_unlock(my_mutex *m);
+diff --git a/user/usys.pl b/user/usys.pl
+old mode 100755
+new mode 100644
+index 852e5ce..8596af3
+--- a/user/usys.pl
++++ b/user/usys.pl
+@@ -37,3 +37,6 @@ entry("sbrk");
+ entry("sleep");
+ entry("uptime");
+ entry("trace");  #By adding to the stub new user programs can call it. A new stub for trace will be included in usys.S (assembly-level stbs for user program calls)
++entry("getNumFreePages");
++entry("setshare");
++entry("setgroup");
+\ No newline at end of file
+diff --git a/user/utils.c b/user/utils.c
+new file mode 100644
+index 0000000..1d51c8d
+--- /dev/null
++++ b/user/utils.c
+@@ -0,0 +1,51 @@
++#include "kernel/types.h"
++#include "kernel/stat.h"
++#include "user.h"
++#include "kernel/param.h"
++
++/* from FreeBSD. */
++int
++do_rand1(unsigned long *ctx)
++{
++/*
++ * Compute x = (7^5 * x) mod (2^31 - 1)
++ * without overflowing 31 bits:
++ *      (2^31 - 1) = 127773 * (7^5) + 2836
++ * From "Random number generators: good ones are hard to find",
++ * Park and Miller, Communications of the ACM, vol. 31, no. 10,
++ * October 1988, p. 1195.
++ */
++    long hi, lo, x;
++
++    /* Transform to [1, 0x7ffffffe] range. */
++    x = (*ctx % 0x7ffffffe) + 1;
++    hi = x / 127773;
++    lo = x % 127773;
++    x = 16807 * lo - 2836 * hi;
++    if (x < 0)
++        x += 0x7fffffff;
++    /* Transform to [0, 0x7ffffffd] range. */
++    x--;
++    *ctx = x;
++    return (x);
++}
++
++
++int
++user_rand(int seed)
++{
++    unsigned long rand_next = seed;
++    return (do_rand1(&rand_next));
++}
++
++void mutex_init(my_mutex *m){
++    m->locked = 0;
++}
++void mutex_lock(my_mutex *m){
++    while (__sync_lock_test_and_set(&m->locked, 1)) {
++        sleep(1);
++    }
++}
++void mutex_unlock(my_mutex *m){
++    __sync_lock_release(&m->locked);
++}
+\ No newline at end of file

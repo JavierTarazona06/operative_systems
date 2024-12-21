@@ -1,0 +1,58 @@
+/* NAME: Javier Andres Tarazona Jimenez
+   NSID: elr490
+   Student Number: 11411898
+
+   CMPT 332 Term 1 2024
+
+   Lab 3
+*/
+
+Kernel Config. options discarded
+
+In this documentation I am going to provided the list of 10 packages/options 
+that I have decided to delete from the kernel options configuration. This
+because they will be unnecessary for the course purpose.
+
+1. Device Drivers > USB support
+Is not need as the kernel usage won't require USB connection. Is just a
+virtual machine.
+
+2. Device Drivers > Sound card support
+Is not need as the kernel usage won't require USB connection. Is just a
+virtual machine that is in headless mode. There might not be audio 
+practices.
+
+3. Device Drivers > Block Devices
+This feature is used for reading and writing data in blocks and managing 
+the access. As this is just used for mass storage, mainly. I am going
+to discard it for purposes of this class.
+
+4. Device Drivers > Macintosh device drivers
+Are not needed as I am working in a UBUNTU virtual machine. Hardware 
+components of Apple's MACS won't be used, thus this drivers are useless.
+
+5. Device Drivers > Microsoft Surface Platform-Specific Device Drivers
+As this driver is used for hardware components of Microsoft, and I am using an
+N Ubuntu machine.
+
+6. Device Drivers > Real Time Clock
+As the fact of get the current time might not be so important for the 
+development of the course, I have decided to discard it.
+ 
+7. File Systems > Miscellaneous File Systems
+This is used to support systems that are bot as common as the generals ext4, 
+NTFS, or FAT. As I am going to work on linux Ubuntu, I will discard them.
+
+8. File Systems > Old kconfig name for kernel automounter support
+This option is usually used for managing dynamic mounts for external files 
+or network storage that is mounted by demand. As the vast majority of the 
+labs may not use this feature, I decide to discard it.
+
+9. File Systems > Kernel automounter support (supports v3, v4 and v5)
+For the same reason as the 8 option, I discard it as it has relation 
+with the mounter option that might not be used.
+
+10. File Systems > Quota format vfsv0 and vfsv1 support
+This option is used when consume of spaced and/or files want to be limited. 
+Thus, as the future practices might not require over exagerated 
+requirements, I decide to discard it.

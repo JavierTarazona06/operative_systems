@@ -1,0 +1,209 @@
+NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin
+NSIDs: elr490, sjb956
+Student Numbers: 11411898, 11300210
+
+* Here you can find the part A implementation.
+The testing implementation is at the end
+
+-For Part A I would like to do the bonus.
+This greatly informs the following plan:
+
+The scheduler will prioritize processes based on two attributes:
+shares and groups.
+
+For this scheduler, we chose to go with a static number of groups,
+and thought that 4 was a good number. This provides a level for default tasks,
+a level for unimportant background tasks, and two levels for high prio.
+Any further levels of prio would lose usefulness and probably starve default
+prio tasks too much.
+
+If each process has equal shares, the cpu split between groups is as follows:
+10%, 20%, 30%, 40%.
+
+Groups will range from 1 to 4, with 1 being de-prioritized tasks,
+2 being default, and 3-4 being escalated.
+
+Shares will also effect the cpu split on a process by process basis.
+Share values will range from 1 to 20, 10 being default.
+
+In order to facilitate this, three vars will be added to each process:
+Shares, Group, and Weighted_time_ran.
+
+Shares and group hold the associated prio data and,
+Weighted_time_ran will be our metric to determine which processes should
+be run next.
+
+Each process will be initialized to the default values: (10, 2, 0). This way
+users don't have to do anything. (If they are unaware of the prio system
+everything will work normally, as if it didn't exist.) The first user process
+is set up in userinit(), and the rest of them are set up in allocproc().
+Fork() also creates new processes. We will have to set our vars in all three.
+
+
+Each time the scheduler picks a process to run it will increment the
+Weighted_time_ran var in that process. Processes with higher priority,
+will be incremented by less than lower prio processes like this:
+Weighted_time_ran += 1000 / (p->shares * p->group);
+This achieves the desired goal of Weighting process run time by
+both shares and their group.
+
+Whenever the scheduler picks a process, it will pick one that is at least
+tied for the lowest Weighted_time_ran.
+
+The scheduler will also "normalize" the Weighted_time_ran values by
+subtracting the smallest Weighted_time_ran from each. If this step
+was skipped, newly added processes would take over the cpu as they would
+start at zero Weighted_time_ran and be way behind for a bit.
+
+We will implement, since we are supporting groups and shares;
+two syscalls, one to set each. This was chosen over a single syscall with
+two params to maintain clarity and reduced the knowledge overhead on the
+user. If the user only wants to set shares, they don't have to know the
+system supports groups values as well.
+
+
+
+# Testing Implementation
+
+* Output of the test is on the required file
+
+- Create the program scheduler_test.c in user folder
+- Add scheduler_test to UPROGS in the Makefile to create the executable
+- Use the square function of the Assignment 1 in the program:
+
+- This function will make the process to compute some
+tasks that will take some time
+int square(int n){
+    if (n==0){
+        return 0;
+    } else {
+        return square(n-1) + n + n - 1;
+    }
+}
+
+
+## Random Numbers
+
+- For generating random numbers we are going to add to user.h the rand() from
+grind.c, so that it can be imported in scheduler_test.c
+- But as grind.c serves for specific purposes, we are creating another file
+called utils.c with a implementation of the random numbers. This will be in
+users.h and used in scheduler_test.c program
+- It is important to include $U/utils.o in the libraries of the Makefile to
+use the file as a library
+
+
+ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o $U/utils.o
+
+
+- And then users.h will be:
+
+
+/* CMPT 332 GROUP 63 Change, Fall 2024 */
+/* utils.c */
+int user_rand(int);
+
+
+### Print Results
+
+- As the print is not a
+
+### Mutex
+
+- As we are going to print information to test the program, the console is a
+shared resource among processes. Therefore, the print function is a critical
+section.
+
+**user.h**
+
+- Create a structure called my_mutex with the lock
+- Add the calling functions
+
+
+void mutex_init(my_mutex *m);
+void mutex_lock(my_mutex *m);
+void mutex_unlock(my_mutex *m);
+
+
+**utils.c**
+
+- Here we will have the actual code of the calls
+- To create the mutex we are going to use XV6
+
+
+m->locked = 0;
+
+
+- To lock the mutex we are going to use XV6 acquire of kernel side
+
+
+while (__sync_lock_test_and_set(&m->locked, 1)) {
+    sleep(1);
+}
+
+
+- To unlock the mutex we are going to use XV6 release of kernel side
+
+
+__sync_lock_release(&m->locked);
+
+
+## Logic of the program
+
+### Considerations
+
+- The prints are a critical sections and are going to be enclosed by a Mutex
+lock and unclock
+
+### Global Variables
+
+
+#define NUM_PROCESSES 4
+#define TIME_MAX 10
+#define SQUARE_COMP_MAX 20
+#define MAX_SHARE 20
+#define MAX_GROUP 4
+#define SEED 1
+
+
+That global variables are transparent with the name that they have. They are
+going to be used to set a maximum for the random numbers that we are going to
+create. In addition we have the seed for random numbers and the number of
+processes to be created in the parent.
+
+### Main
+
+- Initialize the mutex for the prints
+- The children will be created with fork the times of NUM_PROCESSES
+
+**Children Scope**
+
+- If pid is equal to 0 is children, then:
+- Set the share number and group number randomly according to the maximum value
+- The process sleep a random time. This time, taken as seconds, must be divided
+by 100 to be treated as ticks of XV6
+- Compute the square function random times according to the maximum value to
+compute. This will be done similar to assignment 1
+- Once finished, exit
+
+**Parent Scope**
+
+- Wait for each children to exit and then it exits
+
+## Logic of the test
+
+- We will add prints each time that the process are created, the share and
+group is assigned, are sent to sleep, are woken.
+- We will also add prints at the end of each children execution to show the
+running time of each process, this will allow us to check if the scheduler
+have been programmed in the right way.
+- We confirm that the scheduler was well implemented
+as each process has been executed according to the amount
+of the computations of square that it should have performed
+and the share and group values are respected. With higher number
+of them, more priority. This means that they have more use
+of the CPU.
+- Another way to proof that it was well implemented is that the programs
+performs the change between processes. As it is the only schedule
+mechanism working, and the processes are actually being scheduled and
+replaced, it works.

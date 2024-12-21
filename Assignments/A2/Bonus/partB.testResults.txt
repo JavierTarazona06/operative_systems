@@ -1,0 +1,246 @@
+  NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+  NSID: elr490, sjb956
+  Student Number: 11411898, 11300210
+
+
+init free lists
+Reader and Writer processes created
+1000 start read
+starting value of numReaders = 1
+1000 Reading
+500 start write
+1001 start read
+starting value of numReaders = 2
+1001 Reading
+1002 start read
+starting value of numReaders = 3
+1002 Reading
+501 start write
+stopping value of numReaders = 2
+1000 stop read
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+500 writing
+1001 stop read
+1001 start read
+1000 start read
+1002 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1002 Reading
+500 stop write
+500 start write
+1001 Reading
+1000 Reading
+stopping value of numReaders = 2
+1002 stop read
+stopping value of numReaders = 1
+1000 stop read
+1000 start read
+starting value of numReaders = 2
+1000 Reading
+1002 start read
+starting value of numReaders = 3
+1002 Reading
+stopping value of numReaders = 2
+1000 stop read
+stopping value of numReaders = 1
+1001 stop read
+1001 start read
+starting value of numReaders = 2
+1001 Reading
+1000 start read
+starting value of numReaders = 3
+1000 Reading
+stopping value of numReaders = 2
+1002 stop read
+stopping value of numReaders = 1
+1001 stop read
+stopping value of numReaders = 0
+501 writing
+1000 stop read
+1000 start read
+1002 start read
+1001 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1001 Reading
+501 stop write
+1002 Reading
+1000 Reading
+stopping value of numReaders = 2
+1000 stop read
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+500 writing
+1001 stop read
+1000 start read
+1002 start read
+1001 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1001 Reading
+500 stop write
+1002 Reading
+1000 Reading
+501 start write
+stopping value of numReaders = 2
+1002 stop read
+1002 start read
+starting value of numReaders = 3
+1002 Reading
+stopping value of numReaders = 2
+1001 stop read
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+501 writing
+1000 stop read
+1000 start read
+500 start write
+1001 start read
+1002 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1002 Reading
+501 stop write
+1001 Reading
+1000 Reading
+stopping value of numReaders = 2
+1001 stop read
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+500 writing
+1000 stop read
+1001 start read
+1002 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+1002 Reading
+500 stop write
+1001 Reading
+stopping value of numReaders = 1
+1002 stop read
+1002 start read
+starting value of numReaders = 2
+1002 Reading
+stopping value of numReaders = 1
+1001 stop read
+stopping value of numReaders = 0
+1002 stop read
+1000 start read
+starting value of numReaders = 1
+1000 Reading
+1002 start read
+starting value of numReaders = 2
+1002 Reading
+stopping value of numReaders = 1
+1000 stop read
+1001 start read
+starting value of numReaders = 2
+1001 Reading
+stopping value of numReaders = 1
+1002 stop read
+501 start write
+1000 start read
+starting value of numReaders = 2
+1000 Reading
+stopping value of numReaders = 1
+1000 stop read
+1002 start read
+starting value of numReaders = 2
+1002 Reading
+stopping value of numReaders = 1
+1001 stop read
+1001 start read
+starting value of numReaders = 2
+1001 Reading
+1000 start read
+starting value of numReaders = 3
+1000 Reading
+stopping value of numReaders = 2
+1002 stop read
+stopping value of numReaders = 1
+1000 stop read
+500 start write
+1002 start read
+starting value of numReaders = 2
+1002 Reading
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+501 writing
+1001 stop read
+1000 start read
+1002 start read
+1001 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1001 Reading
+501 stop write
+1002 Reading
+1000 Reading
+stopping value of numReaders = 2
+1000 stop read
+1000 start read
+starting value of numReaders = 3
+1000 Reading
+stopping value of numReaders = 2
+1000 stop read
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+500 writing
+1001 stop read
+1000 start read
+1002 start read
+1001 start read
+starting value of numReaders = 1
+starting value of numReaders = 2
+starting value of numReaders = 3
+1001 Reading
+500 stop write
+1002 Reading
+1000 Reading
+501 start write
+stopping value of numReaders = 2
+1002 stop read
+1002 start read
+starting value of numReaders = 3
+1002 Reading
+stopping value of numReaders = 2
+1001 stop read
+stopping value of numReaders = 1
+1000 stop read
+1000 start read
+starting value of numReaders = 2
+1000 Reading
+stopping value of numReaders = 1
+1002 stop read
+1002 start read
+starting value of numReaders = 2
+1002 Reading
+stopping value of numReaders = 1
+1000 stop read
+1001 start read
+starting value of numReaders = 2
+1001 Reading
+stopping value of numReaders = 1
+1002 stop read
+stopping value of numReaders = 0
+501 writing
+1001 stop read
+1000 start read
+1002 start read
+1001 start read
+500 start write
+^Z
+[3]+  Stopped  

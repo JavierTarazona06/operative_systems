@@ -1,0 +1,150 @@
+   NAMEs: Javier Andres Tarazona Jimenez, Steven Baldwin 
+   NSIDs: elr490, sjb956
+   Student Numbers: 11411898, 11300210
+
+
+GetNumFreePages syscall:
+
+    A syscall will be created to monitor free pages in the system.
+
+    Xv6 uses a global struct called kmem thats used to keep track of a 
+    freelist that points to every free page in the system. I will alter it
+    to also keep an int that is the length of that free list. (The number of
+    free pages in the system.)
+
+    Kalloc is the file that governs the free page allocation and freeing.
+    Inside this file i will have to change kinit(), kfree(), and kalloc().
+
+    Init() will set our new int to 0.
+    Free() will increment the count.
+    Alloc() will decrement the count.
+
+    Then our syscall getNumFreePages() will simply access this int and return
+    it.
+
+
+Page Reference Count data structure:
+
+    For this data structure I will simply use an array. For each page,
+    I will store an int that corresponds to that page and keeps its 
+    reference count.
+
+    In order to access this array, I will create a function that converts
+    a pages address to a unique index in the array. This function will be
+    used by kalloc(), and kfree() which both need to alter the 
+    reference counts.
+
+    Kalloc will increment the reference count, and kfree will decrement it.
+    Importantly, kfree should not actually free the page if it is still
+    referenced one or more times.
+
+    I have determined that xv6 uses a total of 32,768 pages in its
+    memory space. The array, for simplicity, will be that length.
+
+
+
+
+# Part 3
+
+- Initially the fork uses uvmcopy to copy the old page table to the page
+table of the new process
+    - We are going to use this functionality later when the page fault occurs
+- Each page table has a memory layout with
+
+    Text (code): Read-only, executable.
+    Data: Global variables.
+    Heap: Grows upwards, used for dynamic memory allocation.
+    Stack: Grows downwards, used for function calls and local variables.
+    User space: Starts at address 0 and ends just before the kernel space.
+
+    So we are going to take advantage of this to change the text for 
+    permissions.
+
+
+First to know is that the permisison and address are assigned in a PTE.
+
+- The PTE is a 64 bit value where: PTE_permission + PPN
+
+Where PPN is the physical page number.
+
+Inside the function uvmcopy, of kalloc.c:
+
+- Both page tables pointers (of the process) are going to point to the same
+page table.
+- When fork, we need to set PTE of the page tables in this way
+    - Bit 1 for PTE_R is turned on: This is already done
+    - Bit 2 for PTE_W is turned off: We are going to perform a bitwise and
+    operation by using the negation of the bit PTE_W
+
+    This will be performed for each pages in the page table using walk().
+
+    - va is the offset to look for the oage
+    - We check that the page is actually found checking the bit of 
+    PTE_V (valid bit)
+- The next step is to flush the table TLB using
+
+
+sfence_vma()
+
+
+- Then we increment the reference count for the kernel page to add that
+new physical address that we have created for the children. This will be done
+for each page
+    - For this we get the physical address of the page table entry, which is
+    the page in which we will be at the current moment.
+    - From that address we can get the index and then perform
+    page_ref_counts[refCountIndex]++; to increment the number of references
+    to the page
+
+# Part 4
+
+- As in the previous step we marked the page to read only, when the parent
+or the children are going to write on the page, it is going to throw a
+page fault
+    - When this action is attempted the program will have an invalid
+    operation and will switch to kernel mode
+    - The registers, program counter and all information related is
+    saved in trap frame
+- Add the page fault exception handler in the traps of XV6
+    - The code that will handle this situations is going to be in 
+    kernel/trap.c
+    - In the function that traps:
+        - Call the Page Fault Handler (cow())
+
+-The Cow Fault Handler function should access are reference count stucture 
+from earlier in order to tell if the memory should be copied or not.
+
+-If the reference count is 2 or more we need to make a copy.
+
+-If the count is 1, we can just set the pages to writable, flush the TLB,
+and continue on.
+
+- All this will be done in usertrap() detecting if r_cause() is 15.
+This code is assigned to page faults while writing.
+
+# Part 5
+
+The page fault handler isn cow()
+
+- The page fault handler is going to call the function that makes a
+copy of user memory.
+- To copy from user to kernel (virtual address srcva to a given page table),
+we are going to use copyin from vm.c
+
+    
+    int
+    copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len)
+    
+
+- We need to return to user space using usertrapret function from kernel/trap.c
+restoring the saved state from the trap frame.
+
+
+void
+usertrapret(void)
+
+
+# Part 6
+
+- Add cowtest file to user files to integrate it.
+- Add cowtest to the makefile uprogs so that it can be compiled and executed.

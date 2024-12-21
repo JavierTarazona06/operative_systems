@@ -1,0 +1,146 @@
+/* Tianze Kuang wde364 11352826
+ * Javier Tarazona elr490 11411898
+ * Steven Baldwin sjb956 11300210
+ * Thomas Brown vwg123 11332966
+ * Lab 5 - CMPT332
+ */
+
+Script started on 2024-10-15 13:30:11-06:00 [TERM="alacritty" TTY="/dev/pts/1" COLUMNS="192" LINES="52"]
+[?2004hwde364@s311-penguin4:~/cmpt332> ./sim 4 4
+[?2004l
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is start block.
+process_0 is running. (priority 3)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_0 is start block.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_1 is running. (priority 1)
+process_0 is done blocking.
+process_0 is start block.
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_3 is start block.
+process_1 is running. (priority 1)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is start block.
+process_3 is running. (priority 0)
+process_0 is running. (priority 3)
+process_3 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is done blocking.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is running. (priority 1)
+process_3 is done blocking.
+process_3 is start block.
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is start block.
+process_0 is running. (priority 3)
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_2 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_0 is running. (priority 3)
+process_3 is start block.
+process_1 is start block.
+process_2 is done blocking.
+process_2 is start block.
+process_3 is done blocking.
+process_3 is start block.
+process_1 is done blocking.
+process_1 is start block.
+process_0 is running. (priority 3)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is done blocking.
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_0 is start block.
+process_3 is start block.
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is running. (priority 3)
+process_3 is done blocking.
+process_3 is start block.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_3 is done blocking.
+process_3 is running. (priority 0)
+process_2 is running. (priority 2)
+process_0 is running. (priority 3)
+process_3 is running. (priority 0)
+process_1 is running. (priority 1)
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is running. (priority 2)
+process_0 is start block.
+process_3 is running. (priority 0)
+process_1 is done blocking.
+process_1 is start block.
+process_2 is running. (priority 2)
+process_3 is running. (priority 0)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_1 is done blocking.
+process_1 is running. (priority 1)
+process_2 is running. (priority 2)
+process_0 is done blocking.
+process_0 is start block.
+process_3 is running. (priority 0)
+process_1 is start block.
+process_2 is start block.
+process_0 is done blocking.
+process_0 is running. (priority 3)
+^C
+[?2004hwde364@s311-penguin4:~/cmpt332> [?2004l
+
+exit
+
+Script done on 2024-10-15 13:30:27-06:00 [COMMAND_EXIT_CODE="130"]

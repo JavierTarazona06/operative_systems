@@ -1,0 +1,71 @@
+#NAME: Javier Andres Tarazona Jimenez, Nahian Sajid 
+#NSID: elr490, Zas742
+#Student Number: 11411898, 11309563
+
+332-style-guidelines-team63
+
+New guidelines grouped by section will be provided.
+
+- Comments
+	- If a function is complex, it will be commented above the
+	method statement.
+	- Common words will be shortened using dot at the end.
+	- In line documentation when required,if there are too much 
+	characters, it will be written down the code statement 
+	- Any complex function description will be done under the function 
+	with one line per argument explanation as following:
+		threads[i] CreateThread(NULL, 0, compute_squares, 
+		&thread_parameters[i], 0, NULL);
+		/*Windows API function thread creation with:
+		 * NULL for security alerts
+		 * 0 default for stack size
+		 * function name
+		 * pointer to the parameter passed to the function,
+		 * 		in this case the index
+		 * 0 for flags, it will run immediately
+		 * NULL Not used. But it's a pointer to receive 
+		 * 		the identifier*/
+	
+- Errors
+	- Prevent common errors with pre-verifications
+	- Try-except to handle errors
+	
+- GIT
+	- Commits will refer the section of the assignment 
+	that is related
+	- Commits will start with the section that is being 
+	worked on and then a description
+	
+- Names
+	- Using snake_case for variable names
+	- Using CamelCase for classes names
+	- Use suffix _ for private variables
+	- Names will describe the purpose or functionality
+	
+- Format
+	- Indentation will be 1 tab
+	- General guidelines of each language will be respected
+	- Imports will be at the beginning. And first 
+	environment imports, then third-party and finally local.
+	- The order of files will be: Personal info, imports, 
+	global variables declarations, functions declarations, 
+	functions bodies, main function and general comments
+	
+- Coding
+	- Functions will be kept precise. If one is too large, 
+	making it difficult to read or debug it will be separated.
+	- Methods will have a single purpose: Specialization.
+	- We will try to avoid a function to modify a global feature.
+	- Catch specific exceptions
+	- We will try to minimize external dependencies. 
+	Just using what is required.
+	- Code will be made from general to specifics. For example,
+	if having a function to calculate square and its handler, then
+	square functions will appear first and then its handler.
+	- Between equals there must be one space.
+	
+- Working
+	- Geany will be used in order to edit files
+	- Always perform git status before git add .
+	Then git commit with message and push origin 
+	- Always use git fetch origin before coding

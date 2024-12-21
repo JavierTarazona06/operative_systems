@@ -1,0 +1,122 @@
+/*
+Identification:
+
+Modified by students:  Javier Tarazona
+		elr490
+		11411898
+ */
+
+commit 7f355173df4a6914ddae74f8436c845851f7bc45
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 19:09:07 2024 -0600
+
+    organization
+
+commit f2ac14d7a9882af26de3125c64404c15acb5cbc8
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 19:07:33 2024 -0600
+
+    Output.txt
+
+commit 309286e503b34b9d1d901726f2258b34ba528647
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:59:12 2024 -0600
+
+    Debug 4. Well code confirmed
+
+commit 833f85252aa3de754ad8cb5b794e7fb4a7845e5e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:46:03 2024 -0600
+
+    Debug 3
+
+commit a458f6cde9ebabacec7adc02844a09813fbdff1a
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:40:54 2024 -0600
+
+    Debug 2
+
+commit 2a9340428ea832408736bab87bda4fac90f462dd
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:40:20 2024 -0600
+
+    Debug 1
+
+commit f25073d256d310a446eb324f069c4094e3e5ee85
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:36:47 2024 -0600
+
+    Debug
+
+commit 75c88f179c8945e7cf856e18da5cc164c4db1f15
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:30:30 2024 -0600
+
+    Make File fix. Add math library
+
+commit 348fff5cd3783b795290323bd0927038a96aad60
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:25:44 2024 -0600
+
+    Make File creation
+
+commit 95f35e1b0be81a5b013ea4e222e8b824e974512e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:22:36 2024 -0600
+
+    My Design, What I use to get the solution
+
+commit 8233a773b14596f5e0e1c0b19ec6c69bb8b21342
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 18:21:12 2024 -0600
+
+    Code of the second chance
+
+commit 565a42513f8910afdbea682a83dcce13e20f822d
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 13:08:46 2024 -0600
+
+    solved conflicts
+
+commit 24ebf328c2e910e2d40aa11fb8ed808033896340
+Merge: cd6af3a b9c0072
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 13:08:31 2024 -0600
+
+    prove connection with git
+
+commit cd6af3a0846ecd59b9fe733a8d26373042f18708
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 13:07:04 2024 -0600
+
+    prove connection with git
+
+commit bbe0cde1c8ea518f4da64451906059f72655e600
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 13:06:48 2024 -0600
+
+    prove
+
+commit b9c0072ff17924fb6b51289152b3d500564eb61b
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Nov 5 13:06:18 2024 -0600
+
+    Identification
+
+commit e706688861f2349ed2aad59682d9d905544707b2
+Author: Javier Tarazona Jimenez (elr490) <elr490@mail.usask.ca>
+Date:   Tue Nov 5 13:03:35 2024 -0600
+
+    Sim.c file added
+
+commit 73a1b69771feec120ea9d318083c675c77bc75e1
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 12:59:44 2024 -0600
+
+    Add .c file
+
+commit 4a77cb6b441eb659515c09d1d7f345be8a7a5d4e
+Author: Javier Tarazona <elr490@usask.ca>
+Date:   Tue Nov 5 12:54:31 2024 -0600
+
+    Created branch

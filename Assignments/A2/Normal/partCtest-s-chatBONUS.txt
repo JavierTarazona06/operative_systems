@@ -1,0 +1,150 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 2
+*/
+
+#------------------------------------------------#
+#--------------- TEST PLAN ----------------------#
+#------------------------------------------------#
+
+In this test we run the program in 3 machines of Spinks.
+
+
+#------------------------------------------------#
+#--------- TEST LINUX-LINUX-Linux PC1------------#
+#------------------------------------------------#
+
+
+elr490@s360-drone32:~/Desktop/cmpt332-2024-group63> ./s-chatbonus 30555 
+2 s360-peon1 30555 s360-peon2 30555
+Received peer 1
+Received peer 2
+S-Chat Started
+Hello. We are 3 participants in the chat
+Origin: s360-drone32 | Time Sent from origin: 1730193105 s, 623728 us
+	Hello. We are 3 participants in the chat
+
+
+Origin: s360-peon1 | Time Sent from origin: 1730193117 s, 698294 us
+	YEahhhh. That is increible....
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193151 s, 833889 us
+	In fact, a multiperson chat!!!!!!!
+
+
+Origin: s360-peon1 | Time Sent from origin: 1730193163 s, 128294 us
+	oh yeah!!
+
+
+The froup 63 have done it very very well
+Origin: s360-drone32 | Time Sent from origin: 1730193178 s, 293603 us
+	The froup 63 have done it very very well
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193187 s, 153852 us
+	grou*, and yes I confirm so
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193194 s, 223856 us
+	group* hahaha
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+
+#------------------------------------------------#
+#--------- TEST LINUX-LINUX-Linux PC2------------#
+#------------------------------------------------#
+
+elr490@s360-peon1:~/Desktop/cmpt332-2024-group63> ./s-chatbonus 30555 
+2 s360-drone32 30555 s360-peon2 30555
+Received peer 1
+Received peer 2
+S-Chat Started
+Origin: s360-drone32 | Time Sent from origin: 1730193105 s, 623728 us
+	Hello. We are 3 participants in the chat
+
+
+YEahhhh. That is increible....   
+Origin: s360-peon1 | Time Sent from origin: 1730193117 s, 698294 us
+	YEahhhh. That is increible....
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193151 s, 833889 us
+	In fact, a multiperson chat!!!!!!!
+
+
+oh yeah!!
+Origin: s360-peon1 | Time Sent from origin: 1730193163 s, 128294 us
+	oh yeah!!
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730193178 s, 293603 us
+	The froup 63 have done it very very well
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193187 s, 153852 us
+	grou*, and yes I confirm so
+
+
+Origin: s360-peon2 | Time Sent from origin: 1730193194 s, 223856 us
+	group* hahaha
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+
+
+#------------------------------------------------#
+#--------- TEST LINUX-LINUX-Linux PC3------------#
+#------------------------------------------------#
+
+elr490@s360-peon2:~/Desktop/cmpt332-2024-group63> ./s-chatbonus 30555 
+2 s360-drone32 30555 s360-peon1 30555
+Received peer 1
+Received peer 2
+S-Chat Started
+Origin: s360-drone32 | Time Sent from origin: 1730193105 s, 623728 us
+	Hello. We are 3 participants in the chat
+
+
+Origin: s360-peon1 | Time Sent from origin: 1730193117 s, 698294 us
+	YEahhhh. That is increible....
+
+
+In fact, a multiperson chat!!!!!!!
+Origin: s360-peon2 | Time Sent from origin: 1730193151 s, 833889 us
+	In fact, a multiperson chat!!!!!!!
+
+
+Origin: s360-peon1 | Time Sent from origin: 1730193163 s, 128294 us
+	oh yeah!!
+
+
+Origin: s360-drone32 | Time Sent from origin: 1730193178 s, 293603 us
+	The froup 63 have done it very very well
+
+
+grou*, and yes I confirm so
+Origin: s360-peon2 | Time Sent from origin: 1730193187 s, 153852 us
+	grou*, and yes I confirm so
+
+
+group* hahaha
+Origin: s360-peon2 | Time Sent from origin: 1730193194 s, 223856 us
+	group* hahaha
+
+
+exit+5
+Server finish by keyboard
+S-chat finished by typing exit instruction on keyboard
+

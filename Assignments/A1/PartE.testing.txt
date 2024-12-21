@@ -1,0 +1,340 @@
+#NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+#NSID: elr490, sjb956
+#Student Number: 11411898, 11300210
+
+# Test Plan for Part E:
+
+Section Index: 
+- Info
+- How to use the test?
+- trace_test.c Design
+- Actual test execution
+
+# Info
+
+To check that the trace funcitonality was well implemented, we will create 
+a script called trace_test.c
+
+The idea of this script is enable trace and call the script giving a 
+number of test and number of times to execute te test.
+
+# How to use the test?
+
+1. In the XV6 terminal the command should be as follows:
+$ trace mask trace_test test_number times_repeat_test
+
+2. In order to see test performed go to Actual test execution section.
+There you will see all the test cases performed if you want to repeat them.
+
+Test relation (test_number):
+<0: Not allowed
+0: pingpong program is called
+1: "fork" execution
+2: "exit" execution
+3: "wait" execution
+4: "pipe" execution
+5: "read" execution (requires open and clos, thus are executed)
+6: "kill" execution
+7: "exec" execution (call test 0 as it uses exec sys_call)
+8: "fstat" execution
+9: "chdir" execution
+10: "dup" execution
+11: "getpid" execution
+12: "sbrk" execution
+13: "sleep" execution
+14: "uptime" execution
+15: "open" execution
+16: "write" execution (requires open and closes, thus are executed)
+17: "mknod" execution
+18: "unlink" execution (requires mknod, thus is executed)
+19: "link" execution
+20: "mkdir" execution
+21: "close" execution (requires open, thus is executed)
+22: "trace" bus as the whole program is for its purpose, it doesn't do anything.
+>22: Not allowed
+
+# trace_test.c Design
+
+- Kernel types and user libraries will be included to have 
+access to Xv6 functionalities and stats data.
+#include "kernel/types.h"
+#include "user.h"
+#include "kernel/stat.h"
+
+- main function will receive 2 arguments:
+* test_number is the number of test. Allowing the integer range from 0 to 22.
+* times_repeat_test is the time that the test will be running
+
+Variables:
+- *syscallArray[23];
+Array that has the correspondence index as sys_call number to sys_call name
+- int test_number;
+test_number given as an arg
+- int times = 1;
+times to repeat a test. Given as args
+- char *args_0[1];
+Use for test 0 for not sending args to the pingpong program
+- int p[2];
+For pipe execution we need the in and out files having p[2] array
+- int i, fd;
+Iterator i for loops and fd for the file descriptors required
+- char buf[100], buf1[];
+Buffers for tests required
+struct stat st;
+- st data from 
+
+
+Body:
+
+- Get test_number from args
+	test_number = atoi(argv[1]);
+
+- If another args was sent, it will be the times to repeat the test.
+If not given it will be 1.
+	if (args == 3){
+		times = atoi(argv[2]);
+	}	
+
+
+Error Handling:
+
+- Check that there were sent at least 2 arguments. Program name and 
+test number.
+    if (args < 2){
+        printf("It must be send trace_test test_numer times_optional\n");
+        exit(1);
+    }
+
+- If test_number is lower that 0 there is no available test
+	if (test_number < 0) || (test_number > 22){
+		printf("Test Unavailable\n");
+		exit(1);
+	}
+
+
+
+# Actual test Execution:
+
+- There must be a file called testfile.txt for sys_call commands like read.
+
+- Whole mask: 2097151
+This mask will be used for the majority of the tests. This is in order 
+to see that the trace implementation is fully working.
+
+xv6 kernel is booting
+
+hart 1 starting
+hart 2 starting
+init: starting sh
+
+- /*The first test execution will be actually executing pingpong porgram 
+with trace enabled*/
+We gave the mask 127 that is for the first 7 sys_calls.
+
+$ trace 127 pingpong
+4: syscall exec -> 1
+4: syscall pipe -> 0
+4: syscall pipe -> 0
+4: syscall fork -> 5
+5: syscall read -> 1
+5: received ping
+4: syscall read -> 1
+4: received pong
+3: syscall wait -> 4
+
+	- /*trace_test program supports test pingpong program with the 
+	test_number 0*/
+	Mask of 72 traces pipe and exec
+
+$ trace 72 trace_test 0
+63: syscall exec -> 2
+Pingpong Program Traced
+64: syscall exec -> 0
+64: syscall pipe -> 0
+64: syscall pipe -> 0
+65: received ping
+64: received pong
+
+
+- /*Test fork command 2 times*/
+
+$ trace 2097151 trace_test 1 2 
+4: syscall exec -> 3
+4: syscall fork -> 5
+4: syscall fork -> 6
+5: syscall fork -> 7
+3: syscall wait -> 4
+
+- /*Test exit command 2 times*/
+Just show one wait because the other one is the parent thread exit.
+
+$ trace 2097151 trace_test 2 2
+9: syscall exec -> 3
+8: syscall wait -> 9
+
+- /*Test wait command 2 times*/
+
+$ trace 2097151 trace_test 3 2
+11: syscall exec -> 3
+11: syscall wait -> l6744073709551615
+11: syscall wait -> l6744073709551615
+10: syscall wait -> 11
+
+- /*Test pipe command 2 times*/
+
+$ trace 2097151 trace_test 4 2
+13: syscall exec -> 3
+13: syscall pipe -> 0
+13: syscall pipe -> 0
+12: syscall wait -> 13
+
+- /*Test read command 2 times*/
+
+$ trace 2097151 trace_test  5 2
+15: syscall exec -> 3
+15: syscall open -> l6744073709551615
+15: syscall read -> l6744073709551615
+15: syscall read -> l6744073709551615
+15: syscall close -> l6744073709551615
+14: syscall wait -> 15
+
+- /*Test kill command 2 times*/
+Just performs once and then throws error because is killing parent thread.
+
+$ trace 2097151 trace_test 6 2
+17: syscall exec -> 3
+17: syscall kill -> 0
+panic: 17: sysicnit exiatilngl kill -> 0
+...
+
+- /*Test wait command 2 times*/
+Executes with mask for exec and fork. But as this case is using the exec 
+that use the pingpong test. Then program says that execute test 0 instead.
+* Remember that test 0 is the trace test over pingpong program.
+
+$ trace 65 trace_test 7 2
+4: syscall exec -> 3
+Execute test 0 to view exec performance.
+Execute test 0 to view exec performance.
+
+- /*Test fstat command 2 times*/
+
+$ trace 2097151 trace_test 8 2
+8: syscall exec -> 3
+8: syscall fstat -> 0
+8: syscall fstat -> 0
+7: syscall wait -> 8
+
+- /*Test chdir command 2 times*/
+
+$ trace 2097151 trace_test 9 2
+10: syscall exec -> 3
+10: syscall chdir -> 0
+10: syscall chdir -> 0
+9: syscall wait -> 10
+
+- /*Test dup command 2 times*/
+
+$ trace 2097151 trace_test 10 2
+12: syscall exec -> 3
+12: syscall dup -> 3
+12: syscall dup -> 4
+11: syscall wait -> 12
+
+- /*Test getpid command 2 times*/
+
+$ trace 2097151 trace_test 11 2
+14: syscall exec -> 3
+14: syscall getpid -> 14
+14: syscall getpid -> 14
+13: syscall wait -> 14
+
+- /*Test sbrk command 2 times*/
+
+$ trace 2097151 trace_test 12 2
+16: syscall exec -> 3
+16: syscall sbrk -> 20480
+16: syscall sbrk -> 24576
+15: syscall wait -> 16
+
+- /*Test sleep command 2 times*/
+
+$ trace 2097151 trace_test 13 2
+18: syscall exec -> 3
+18: syscall sleep -> 0
+18: syscall sleep -> 0
+17: syscall wait -> 18
+
+- /*Test uptime command 2 times*/
+
+$ trace 2097151 trace_test 14 2
+20: syscall exec -> 3
+20: syscall uptime -> 904
+20: syscall uptime -> 904
+19: syscall wait -> 20
+
+- /*Test open command 2 times*/
+
+$ trace 2097151 trace_test 15 2
+22: syscall exec -> 3
+22: syscall open -> l6744073709551615
+22: syscall open -> l6744073709551615
+21: syscall wait -> 22
+
+- /*Test write command 2 times*/
+Open and close are also required to write in a file descriptor.
+
+$ trace 2097151 trace_test 16 2
+24: syscall exec -> 3
+24: syscall open -> l6744073709551615
+24: syscall write -> l6744073709551615
+24: syscall open -> l6744073709551615
+24: syscall write -> l6744073709551615
+24: syscall close -> l6744073709551615
+23: syscall wait -> 24
+
+- /*Test mknod command 2 times*/
+
+$ trace 2097151 trace_test 17 2
+26: syscall exec -> 3
+26: syscall mknod -> 0
+26: syscall mknod -> l6744073709551615
+25: syscall wait -> 26
+
+- /*Test unlink command 2 times*/
+mknod is also called to take advantage of the file creation for unlink
+
+$ trace 2097151 trace_test 18 2
+28: syscall exec -> 3
+28: syscall mknod -> l6744073709551615
+28: syscall unlink -> 0
+28: syscall mknod -> 0
+28: syscall unlink -> 0
+27: syscall wait -> 28
+
+- /*Test link command 2 times*/
+
+$ trace 2097151 trace_test 19 2
+30: syscall exec -> 3
+30: syscall link -> l6744073709551615
+30: syscall link -> l6744073709551615
+29: syscall wait -> 30
+
+- /*Test mkdir command 2 times*/
+
+$ trace 2097151 trace_test 20 2
+32: syscall exec -> 3
+32: syscall mkdir -> 0
+32: syscall mkdir -> l6744073709551615
+31: syscall wait -> 32
+
+- /*Test close command 2 times*/
+It requires a sys_call to open before to view its performance.
+
+$ trace 2097151 trace_test 21 2
+34: syscall exec -> 3
+34: syscall open -> l6744073709551615
+34: syscall close -> l6744073709551615
+34: syscall open -> l6744073709551615
+34: syscall close -> l6744073709551615
+33: syscall wait -> 34

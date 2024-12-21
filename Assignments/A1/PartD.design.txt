@@ -1,0 +1,62 @@
+/* NAME: Javier Andres Tarazona Jimenez, Steven Baldwin
+   NSID: elr490, sjb956
+   Student Number: 11411898, 11300210
+
+   CMPT 332 Term 1 2024
+
+   Assignment 1
+*/
+
+Part D Design.
+
+This section requires using XV6 which is a Unix operative systems for 
+teaching purposes. A version of it system was downloaded in the GitLab 
+repo assigned in the CMPT332 class. The goal is to implement a 
+nter-process communication (IPC) between a parent process and its child. 
+In order to accomplish this, pipes will be used taking advantage of 
+having the pair of file descriptors (end and write).
+
+Our program flow will be:
+- Parent process is created
+- Parent process created the child
+- Parent sends to the child ping
+- The child prints "<pid>: received ping"
+- Child sends to the parent pong
+- The parent prints "<pid>: received pong"
+
+Useful commands that are going to be implemented:
+- pipe for pipe creation
+- fork created a child
+- read(int fd, char *buf, int n) from the pipe
+	- reads from the file descriptor fd into the buffer buf of memory 
+	he number nbytes of bytes.
+	- returns number of bytes read
+- write(int fd, char *buf, int n) to the pipe
+	- writes into file descriptor fd, buf contains the pointer to the 
+	buffer and nbytes are the number of bytes that 
+	will be written
+	- returns the real number of bytes that were written
+- getpid to get the PID of the process in call
+
+Variables that we will need:
+- 2 pipes of [2] for reading and writting
+	- Parent-child communication will be pipe1
+	- Child-parent communication will be pipe2
+	
+Our program detailed flow will be as folows:
+	- pipe1 and pipe2 will be created as pipe(int [2]) by the parent
+	- parent:
+		- Pipe1 needs to be closed for reading and pipe2 closed for 
+		writting*
+		- will write a byte a the "ping" in pipe1 for child. 
+		- parent reads "pong" from pipe2 and will print "pong"
+		- closes pipe1 for writting and pipe2 for reading*
+	- child: 
+		- pipe1 closed for writting and pipe2 closed for reading*
+		- then it reads from pipe1 and will print "ping" and writes 
+		"pong" in pipe2 for the parent
+		- closes pipe1 for reading and pipe2 for writting*
+	* we closed the files to make them free when not needed to prevent 
+	errors or leaks
+
+

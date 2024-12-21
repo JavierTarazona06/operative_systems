@@ -1,0 +1,18 @@
+b721dbc - Javier Tarazona Jimenez (elr490), 3 minutes ago : Avoid Warnings
+8605d89 - Javier Tarazona Jimenez (elr490), 70 minutes ago : Save readlines as int, not pointer
+5fd3e65 - Javier Tarazona Jimenez (elr490), 76 minutes ago : Make nlines a value and initializing linenum
+8722a9b - Javier Tarazona Jimenez (elr490), 79 minutes ago : Input errors in type of readlines and truth value rules
+f1340e2 - Javier Tarazona Jimenez (elr490), 80 minutes ago : Input errors in type of readlines and truth value rules
+7939e6a - Javier Tarazona Jimenez (elr490), 80 minutes ago : Input errors in type of readlines and truth value rules
+e61620a - Javier Tarazona Jimenez (elr490), 89 minutes ago : Readline from pointer to in
+aab541e - Javier Tarazona Jimenez (elr490), 2 hours ago : Input functions and myQsort in header
+de6f6ee - Javier Tarazona Jimenez (elr490), 2 hours ago : Header file completed, math library added
+074a6e4 - Javier Tarazona Jimenez (elr490), 2 hours ago : Swap included in qsort.h
+b3a4b1e - Javier Tarazona Jimenez (elr490), 2 hours ago : strtod changed to strtol in complex comp
+b83bd38 - Javier Tarazona Jimenez (elr490), 3 hours ago : qsort.h added on make file
+33919bd - Javier Tarazona Jimenez (elr490), 3 hours ago : Clean qsort.h and delete input.h
+73e0109 - Javier Tarazona Jimenez (elr490), 4 hours ago : Makefile improvement and qsort.h creation
+6cf0b9f - Javier Tarazona Jimenez (elr490), 4 hours ago : Makefile
+32ce464 - Javier Tarazona Jimenez (elr490), 5 hours ago : Delete directory
+0a41506 - Javier Tarazona Jimenez (elr490), 5 hours ago : Base files from tar provided
+6c0b017 - Javier Tarazona Jimenez (elr490), 5 hours ago : Initial commit

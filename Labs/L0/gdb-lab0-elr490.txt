@@ -1,0 +1,50 @@
+elr490@s360-peon21:~/Desktop/lab0_332> make
+gcc -o main.o -c -Wall -Wextra -pedantic -std=gnu90 sortMain.c -I.
+sortMain.c: In function ‘main’:
+sortMain.c:41:37: warning: assignment to ‘int (*)(void *, void *)’ from incompatible pointer type ‘int (*)(const void *, const void *)’ [-Wincompatible-pointer-types]
+   41 |   if (sortType == STRING) comparing = (Comparator) strcmp;
+      |                                     ^
+sortMain.c:42:40: error: ‘compareInt’ undeclared (first use in this function); did you mean ‘comparing’?
+   42 |   if (sortType == INTEGER) comparing = compareInt;
+      |                                        ^~~~~~~~~~
+      |                                        comparing
+sortMain.c:42:40: note: each undeclared identifier is reported only once for each function it appears in
+sortMain.c:43:39: error: ‘compareDouble’ undeclared (first use in this function)
+   43 |   if (sortType == DOUBLE) comparing = compareDouble;
+      |                                       ^~~~~~~~~~~~~
+sortMain.c:44:40: error: ‘compareComplex’ undeclared (first use in this function)
+   44 |   if (sortType == COMPLEX) comparing = compareComplex;
+      |                                        ^~~~~~~~~~~~~~
+      
+      
+
+complexComp.c: In function ‘compareComplex’:
+complexComp.c:30:18: error: too many arguments to function ‘strtod’
+   30 |   cFirst->real = strtod(first, &index, 10);
+   
+swap problem. Not in qsort.h
+
+
+elr490@s360-peon21:~/Desktop/lab0_332> make
+gcc -o myQsort main.o complex.o double.o input.o int.o qsort.o swap.o
+/usr/bin/ld: complex.o: in function `compareComplex':
+complexComp.c:(.text+0xeb): undefined reference to `sqrt'
+/usr/bin/ld: complexComp.c:(.text+0x12f): undefined reference to `sqrt'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:6: myQsort] Error 1
+elr490@s360-peon21:~/Desktop/lab0_332> 
+
+
+input-routines.c: In function ‘myGetline’:
+input-routines.c:18:7: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+   18 |   if (c = '\n')
+
+input-routines.c: In function ‘readlines’:
+input-routines.c:42:19: error: invalid type argument of unary ‘*’ (have ‘int’)
+   42 |           lineptr[*nlines++] = p;
+
+
+input-routines.c: In function ‘writelines’:
+input-routines.c:51:7: warning: unused variable ‘linenum’ [-Wunused-variable]
+   51 |   int linenum;
+
